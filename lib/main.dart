@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -41,7 +43,7 @@ class _HomePageState extends State<HomePage> {
 
   //Children screen of app
   static const List<Widget> _appScreenPages = <Widget>[
-    MainPage(), //TODO: here put homepage widget
+    MainPage(),
     Text("profile") // TODO: here put profile widget
   ];
 
@@ -163,7 +165,6 @@ class _MainPage extends State<MainPage> {
 
 class CustomListView extends StatefulWidget {
   final InfoType dataType;
-
   const CustomListView({Key? key, required this.dataType}) : super(key: key);
 
   @override
@@ -180,17 +181,29 @@ class _CustomListView extends State<CustomListView> {
         padding: const EdgeInsets.all(8),
         itemCount: entries.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            margin: const EdgeInsets.all(5),
-            height: 85,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              color: Color.fromARGB(250, 235, 235, 235),
-            ),
-            child: Center(
-                child: Text('${entries[index]} ${widget.dataType.name}')),
-          );
+          return RowItem(itemId: entries[index], type: widget.dataType);
         });
+  }
+}
+
+class RowItem extends StatelessWidget {
+  final String itemId;
+  final InfoType type;
+
+  const RowItem({Key? key, required this.itemId, required this.type})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(5),
+      height: 85,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+        color: Color.fromARGB(250, 235, 235, 235),
+      ),
+      child: Center(child: Text('${this.itemId} ${this.type}')),
+    );
   }
 }
 
@@ -198,22 +211,26 @@ class DataManager {
   ///static function to get trees or Projects items scanned byt user to be showed
   ///in listview.
   static List<String> getDataOf(InfoType dataType) {
-    return <String>[
-      'G',
-      'B',
-      'C',
-      'd',
-      'e',
-      'f',
-      'd',
-      'e',
-      'f',
-      'd',
-      'e',
-      'f',
-      'd',
-      'e',
-      'f'
-    ];
+    if (dataType == InfoType.PROJECT) {
+      return <String>[
+        'G',
+        'B',
+        'C',
+        'd',
+        'e',
+        'f',
+        'd',
+        'e',
+        'f',
+        'd',
+        'e',
+        'f',
+        'd',
+        'e',
+        'f'
+      ];
+    } else {
+      return <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+    }
   }
 }
