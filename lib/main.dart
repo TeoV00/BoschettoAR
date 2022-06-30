@@ -1,12 +1,16 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 const mainColor = Color(0xFF96BB7C);
+const secondColor = Color(0xFFD6EFC7);
 
-enum infoType { TREE, PROJECT }
+enum InfoType { TREE, PROJECT }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -92,9 +96,9 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  infoType _selectedType = infoType.TREE;
+  InfoType _selectedType = InfoType.TREE;
 
-  void _onTapTab(infoType typeSelected) {
+  void _onTapTab(InfoType typeSelected) {
     setState(() {
       _selectedType = typeSelected;
     });
@@ -111,14 +115,47 @@ class _MainPage extends State<MainPage> {
             padding: const EdgeInsets.all(5),
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
-                color: Color(0xFFD6EFC7)),
-            height: 52,
+                color: secondColor),
+            height: 50,
+            width: 200,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text("Porgetti"), Text("Alberi")],
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ChoiceChip(
+                  label: const SizedBox(
+                    width: 50,
+                    child: Text(
+                      "Alberi",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  selected: _selectedType == InfoType.TREE,
+                  onSelected: (_) => _onTapTab(InfoType.TREE),
+                  selectedColor: Colors.white,
+                ),
+                ChoiceChip(
+                  label: const SizedBox(
+                    width: 50,
+                    child: Text(
+                      "Progetti",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  selected: _selectedType == InfoType.PROJECT,
+                  onSelected: (_) => _onTapTab(InfoType.PROJECT),
+                  selectedColor: Colors.white,
+                )
+              ],
             ),
           ),
-          const Text("Ciaoooo"),
+          Row(
+            children: [
+              Text(_selectedType == InfoType.PROJECT
+                  ? "Progetto"
+                  : "Alberi"), //TODO: remove it and put listview
+            ],
+          ),
+
           //ListView(), list all project or tree
         ],
       ),
