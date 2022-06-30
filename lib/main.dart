@@ -1,7 +1,4 @@
 // ignore_for_file: unnecessary_this
-
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -11,6 +8,7 @@ void main() {
 
 const mainColor = Color(0xFF96BB7C);
 const secondColor = Color(0xFFD6EFC7);
+const grayColor = Color.fromARGB(250, 235, 235, 235);
 
 enum InfoType { TREE, PROJECT }
 
@@ -109,9 +107,10 @@ class _MainPage extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      body: Stack(
+        //mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          Expanded(child: CustomListView(dataType: _selectedType)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -156,7 +155,6 @@ class _MainPage extends State<MainPage> {
               ),
             ],
           ),
-          Expanded(child: CustomListView(dataType: _selectedType))
         ],
       ),
     );
@@ -178,7 +176,7 @@ class _CustomListView extends State<CustomListView> {
     final List<String> entries = DataManager.getDataOf(widget.dataType);
     return ListView.builder(
         scrollDirection: Axis.vertical,
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
         itemCount: entries.length,
         itemBuilder: (BuildContext context, int index) {
           return RowItem(itemId: entries[index], type: widget.dataType);
@@ -202,7 +200,7 @@ class RowItem extends StatelessWidget {
       height: 85,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(15)),
-        color: Color.fromARGB(250, 235, 235, 235),
+        color: grayColor,
       ),
       child: Row(children: [
         Column(
@@ -223,7 +221,7 @@ class RowItem extends StatelessWidget {
             Padding(
               padding: margin5H,
               child: Text(
-                "$itemId - Place Name",
+                "$itemId - Place Name", //TODO: get name by id and type
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
               ),
@@ -231,7 +229,7 @@ class RowItem extends StatelessWidget {
             Padding(
               padding: margin5H,
               child: Text(
-                type.name,
+                type.name, //TODO: get details-description by id and type
                 style: const TextStyle(fontSize: 16),
               ),
             ),
