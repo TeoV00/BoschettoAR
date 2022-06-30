@@ -190,6 +190,8 @@ class RowItem extends StatelessWidget {
   final String itemId;
   final InfoType type;
 
+  static const margin5H = EdgeInsets.symmetric(horizontal: 5);
+
   const RowItem({Key? key, required this.itemId, required this.type})
       : super(key: key);
 
@@ -202,7 +204,40 @@ class RowItem extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(15)),
         color: Color.fromARGB(250, 235, 235, 235),
       ),
-      child: Center(child: Text('${this.itemId} ${this.type}')),
+      child: Row(children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 19),
+              height: 57,
+              width: 57,
+              color: Colors.black,
+            )
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: margin5H,
+              child: Text(
+                "$itemId - Place Name",
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              ),
+            ),
+            Padding(
+              padding: margin5H,
+              child: Text(
+                type.name,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+          ],
+        ),
+      ]),
     );
   }
 }
@@ -212,23 +247,7 @@ class DataManager {
   ///in listview.
   static List<String> getDataOf(InfoType dataType) {
     if (dataType == InfoType.PROJECT) {
-      return <String>[
-        'G',
-        'B',
-        'C',
-        'd',
-        'e',
-        'f',
-        'd',
-        'e',
-        'f',
-        'd',
-        'e',
-        'f',
-        'd',
-        'e',
-        'f'
-      ];
+      return <String>['G', 'e', 'f', 'd', 'e', 'f', 'd'];
     } else {
       return <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
     }
