@@ -108,57 +108,112 @@ class _MainPage extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(5),
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                color: secondColor),
-            height: 50,
-            width: 200,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ChoiceChip(
-                  label: const SizedBox(
-                    width: 50,
-                    child: Text(
-                      "Alberi",
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  selected: _selectedType == InfoType.TREE,
-                  onSelected: (_) => _onTapTab(InfoType.TREE),
-                  selectedColor: Colors.white,
-                ),
-                ChoiceChip(
-                  label: const SizedBox(
-                    width: 50,
-                    child: Text(
-                      "Progetti",
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  selected: _selectedType == InfoType.PROJECT,
-                  onSelected: (_) => _onTapTab(InfoType.PROJECT),
-                  selectedColor: Colors.white,
-                )
-              ],
-            ),
-          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(_selectedType == InfoType.PROJECT
-                  ? "Progetto"
-                  : "Alberi"), //TODO: remove it and put listview
+              Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    color: secondColor),
+                height: 50,
+                width: 200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ChoiceChip(
+                      label: const SizedBox(
+                        width: 50,
+                        child: Text(
+                          "Alberi",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      selected: _selectedType == InfoType.TREE,
+                      onSelected: (_) => _onTapTab(InfoType.TREE),
+                      selectedColor: Colors.white,
+                    ),
+                    ChoiceChip(
+                      label: const SizedBox(
+                        width: 50,
+                        child: Text(
+                          "Progetti",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      selected: _selectedType == InfoType.PROJECT,
+                      onSelected: (_) => _onTapTab(InfoType.PROJECT),
+                      selectedColor: Colors.white,
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
-
-          //ListView(), list all project or tree
+          Expanded(child: CustomListView(dataType: _selectedType))
         ],
       ),
     );
+  }
+}
+
+class CustomListView extends StatefulWidget {
+  final InfoType dataType;
+
+  const CustomListView({Key? key, required this.dataType}) : super(key: key);
+
+  @override
+  _CustomListView createState() => _CustomListView();
+}
+
+class _CustomListView extends State<CustomListView> {
+  @override
+  Widget build(BuildContext context) {
+    //get data to show in list of category InfoType
+    final List<String> entries = DataManager.getDataOf(widget.dataType);
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.all(8),
+        itemCount: entries.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            margin: const EdgeInsets.all(5),
+            height: 85,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Color.fromARGB(250, 235, 235, 235),
+            ),
+            child: Center(
+                child: Text('${entries[index]} ${widget.dataType.name}')),
+          );
+        });
+  }
+}
+
+class DataManager {
+  ///static function to get trees or Projects items scanned byt user to be showed
+  ///in listview.
+  static List<String> getDataOf(InfoType dataType) {
+    return <String>[
+      'G',
+      'B',
+      'C',
+      'd',
+      'e',
+      'f',
+      'd',
+      'e',
+      'f',
+      'd',
+      'e',
+      'f',
+      'd',
+      'e',
+      'f'
+    ];
   }
 }
