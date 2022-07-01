@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: mainColor,
       ),
-      home: const HomePage(),
+      home: const SafeArea(child: HomePage()),
     );
   }
 }
