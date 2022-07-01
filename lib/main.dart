@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_this
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,6 +8,7 @@ void main() {
 const mainColor = Color(0xFF96BB7C);
 const secondColor = Color(0xFFD6EFC7);
 const grayColor = Color.fromARGB(250, 235, 235, 235);
+const topSectionTabWidth = 250.0;
 
 enum InfoType { TREE, PROJECT }
 
@@ -75,13 +75,13 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: mainColor,
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFFD6EFC7),
+        backgroundColor: secondColor,
+        onPressed: _openAr,
         child: const ImageIcon(
-          AssetImage("ScanTreeIcon.png"),
+          AssetImage('ScanTreeIcon.png'),
           color: Colors.black,
           size: 32,
         ),
-        onPressed: _openAr,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
@@ -106,6 +106,7 @@ class _MainPage extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    const tabButtonWidth = (topSectionTabWidth / 2) - 45;
     return Scaffold(
       body: Stack(
         //mainAxisAlignment: MainAxisAlignment.start,
@@ -122,13 +123,13 @@ class _MainPage extends State<MainPage> {
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                     color: secondColor),
                 height: 50,
-                width: 200,
+                width: topSectionTabWidth,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ChoiceChip(
                       label: const SizedBox(
-                        width: 50,
+                        width: tabButtonWidth,
                         child: Text(
                           "Alberi",
                           textAlign: TextAlign.center,
@@ -140,7 +141,7 @@ class _MainPage extends State<MainPage> {
                     ),
                     ChoiceChip(
                       label: const SizedBox(
-                        width: 50,
+                        width: tabButtonWidth,
                         child: Text(
                           "Progetti",
                           textAlign: TextAlign.center,
