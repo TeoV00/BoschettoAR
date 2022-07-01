@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: secondColor,
         onPressed: _openAr,
         child: const ImageIcon(
-          AssetImage('ScanTreeIcon.png'),
+          AssetImage('icons/ScanTreeIcon.png'),
           color: Colors.black,
           size: 32,
         ),
@@ -211,6 +211,7 @@ class RowItem extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 19),
               height: 57,
               width: 57,
+              //TODO: remove black square and put an image of tree or project logo
               color: Colors.black,
             )
           ],
