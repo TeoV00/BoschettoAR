@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      backgroundColor: Colors.white,
     );
   }
 }
@@ -273,7 +274,7 @@ class _UserPage extends State<UserPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: const [
               UserStatisticCounter(type: "Co2", amount: 011313, unit: "Kg"),
-              TreeProgessBar(progress: 0.5),
+              TreeProgessBar(progress: 0.5), //TODO: here puut the correct value
               UserStatisticCounter(type: "Carta", amount: 230, unit: "Fogli"),
             ],
           ),
