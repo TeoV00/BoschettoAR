@@ -37,13 +37,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 //selected page index
-  int _selectionIndex = 0;
+  int _selectionIndex = 1; //deafultpage
 
   //Children screen of app
-  static const List<Widget> _appScreenPages = <Widget>[
-    MainPage(),
-    Text("profile") // TODO: here put profile widget
-  ];
+  static const List<Widget> _appScreenPages = <Widget>[MainPage(), UserPage()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -251,5 +248,116 @@ class DataManager {
     } else {
       return <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
     }
+  }
+}
+
+/* -------------PROFILE PAGE--------------- */
+
+class UserPage extends StatefulWidget {
+  const UserPage({Key? key}) : super(key: key);
+
+  @override
+  _UserPage createState() => _UserPage();
+}
+
+class _UserPage extends State<UserPage> {
+  //TODO: observer when datamodel change in order to update user info
+  //in this state i keep percentage and all the value to show then when model change i update
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10, left: 5, right: 8),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const [
+              UserStatisticCounter(type: "Co2", amount: 011313, unit: "Kg"),
+              TreeProgessBar(progress: 0.5),
+              UserStatisticCounter(type: "Carta", amount: 230, unit: "Fogli"),
+            ],
+          ),
+          const Text("Badges unlocked")
+        ],
+      ),
+    );
+  }
+}
+
+class UserStatisticCounter extends StatelessWidget {
+  final String type;
+  final int amount;
+  final String unit;
+
+  const UserStatisticCounter(
+      {Key? key, required this.type, required this.amount, required this.unit})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          type,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Text(
+            amount.toString(),
+            style: const TextStyle(fontSize: 22),
+          ),
+        ),
+        Text(
+          unit,
+          style: const TextStyle(fontSize: 16),
+        )
+      ],
+    );
+  }
+}
+
+class TreeProgessBar extends StatefulWidget {
+  final double progress;
+  const TreeProgessBar({Key? key, required this.progress}) : super(key: key);
+
+  @override
+  State<TreeProgessBar> createState() => _TreeProgressBar();
+}
+
+class _TreeProgressBar extends State<TreeProgessBar> {
+  final double treeHeight = 130;
+  final double treeWidth = 120;
+
+  @override
+  Widget build(BuildContext context) {
+    final double percValue = (widget.progress / 100) * treeHeight;
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          alignment: Alignment.bottomCenter,
+          height: treeHeight,
+          width: treeWidth,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: const [mainColor, Colors.transparent],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              stops: [percValue, percValue],
+            ),
+          ),
+        ),
+        Text("${widget.progress} %",
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+        Image.asset(
+          'images/progressBarTree.png',
+          alignment: Alignment.bottomCenter,
+          height: this.treeHeight,
+        ),
+      ],
+    );
   }
 }
