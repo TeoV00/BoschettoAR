@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_this
 import 'package:flutter/material.dart';
+import 'user_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -397,27 +398,6 @@ class BadgeContainer extends StatelessWidget {
           BadgeCircle(badgeImage: "dsds", isActive: true),
         ],
       ),
-    );
-  }
-}
-
-class BadgeCircle extends StatelessWidget {
-  final String badgeImage;
-  final bool isActive;
-
-  const BadgeCircle(
-      {Key? key, required this.badgeImage, required this.isActive})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: isActive ? secondColor : disableBadge,
-      ),
-      child: Text(isActive.toString()), //TODO: put badge img
     );
   }
 }
