@@ -28,7 +28,12 @@ class _MainPage extends State<MainPage> {
       body: Stack(
         //mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Expanded(child: CustomListView(dataType: _selectedType)),
+          Flex(
+            direction: Axis.vertical,
+            children: [
+              Expanded(child: CustomListView(dataType: _selectedType))
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
