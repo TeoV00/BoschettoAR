@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tree_ar/constant_vars.dart';
-import 'main.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -113,7 +112,7 @@ class _TreeProgressBar extends State<TreeProgessBar> {
         Image.asset(
           'images/progressBarTree.png',
           alignment: Alignment.bottomCenter,
-          height: this.treeHeight,
+          height: treeHeight,
         ),
       ],
     );

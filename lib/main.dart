@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'constant_vars.dart';
 import 'home_page.dart';
 import 'user_page.dart';
+import 'scan_tree_page.dart';
 
 void main() {
   runApp(const MyApp());
