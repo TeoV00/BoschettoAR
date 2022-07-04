@@ -1,4 +1,3 @@
-// ignore_for_file: unnecessary_this
 import 'package:flutter/material.dart';
 import 'constant_vars.dart';
 import 'home_page.dart';
@@ -20,7 +19,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: mainColor,
       ),
-      home: const SafeArea(child: TabView()),
+      home: const SafeArea(
+        child: TabView(),
+      ),
     );
   }
 }
@@ -71,7 +72,12 @@ class _TabViewState extends State<TabView> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: secondColor,
-        onPressed: _openAr,
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ScanTreePage()),
+          )
+        },
         child: const ImageIcon(
           AssetImage('icons/ScanTreeIcon.png'),
           color: Colors.black,

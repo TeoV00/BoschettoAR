@@ -5,5 +5,6 @@ const secondColor = Color(0xFFD6EFC7);
 const grayColor = Color.fromARGB(250, 235, 235, 235);
 const disableBadge = Colors.grey;
 const topSectionTabWidth = 250.0;
+const pagePadding = EdgeInsets.only(top: 10, left: 10, right: 10);
 
 enum InfoType { TREE, PROJECT }
