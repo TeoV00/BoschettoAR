@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'constant_vars.dart';
-import 'main.dart';
+import 'data_manager.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
