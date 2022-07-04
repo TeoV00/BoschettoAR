@@ -32,9 +32,11 @@ class TabView extends StatefulWidget {
   State<TabView> createState() => _TabViewState();
 }
 
+/// State of TabView widget, manages gui and logic of bottom nav bar
+/// when tap on button it change selected view and show it
 class _TabViewState extends State<TabView> {
 //selected page index
-  int _selectionIndex = 1; //deafultpage
+  int _selectionIndex = 0; //deafultpage
 
   //Children screen of app
   static const List<Widget> _appScreenPages = <Widget>[MainPage(), UserPage()];
@@ -47,7 +49,6 @@ class _TabViewState extends State<TabView> {
   }
 
   void _openAr() {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
