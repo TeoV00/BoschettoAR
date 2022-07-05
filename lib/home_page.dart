@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  InfoType _selectedType = InfoType.TREE;
+  InfoType _selectedType = InfoType.tree;
 
   void _onTapTab(InfoType typeSelected) {
     setState(() {
@@ -57,8 +57,8 @@ class _MainPage extends State<MainPage> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      selected: _selectedType == InfoType.TREE,
-                      onSelected: (_) => _onTapTab(InfoType.TREE),
+                      selected: _selectedType == InfoType.tree,
+                      onSelected: (_) => _onTapTab(InfoType.tree),
                       selectedColor: Colors.white,
                     ),
                     ChoiceChip(
@@ -69,8 +69,8 @@ class _MainPage extends State<MainPage> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      selected: _selectedType == InfoType.PROJECT,
-                      onSelected: (_) => _onTapTab(InfoType.PROJECT),
+                      selected: _selectedType == InfoType.project,
+                      onSelected: (_) => _onTapTab(InfoType.project),
                       selectedColor: Colors.white,
                     )
                   ],

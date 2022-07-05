@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'constant_vars.dart';
 import 'home_page.dart';
@@ -65,7 +62,7 @@ class _TabViewState extends State<TabView> {
             var parentWidth = constraints.maxWidth;
             return SizedBox(
               width: parentWidth,
-              height: 48,
+              height: grassBottomBarHeight,
               child: SvgPicture.asset(
                 'images/grass.svg',
                 color: mainColor,
@@ -74,12 +71,6 @@ class _TabViewState extends State<TabView> {
               ),
             );
           }))
-
-          // Image.asset(
-          //   'images/grass.png',
-          //   height: 50,
-          //   excludeFromSemantics: true,
-          // )
         ],
       )),
       bottomNavigationBar: BottomNavigationBar(

@@ -6,5 +6,6 @@ const grayColor = Color.fromARGB(250, 235, 235, 235);
 const disableBadge = Colors.grey;
 const topSectionTabWidth = 250.0;
 const pagePadding = EdgeInsets.only(top: 10, left: 10, right: 10);
+const double grassBottomBarHeight = 48;
 
-enum InfoType { TREE, PROJECT }
+enum InfoType { tree, project }
