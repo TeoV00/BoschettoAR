@@ -12,6 +12,7 @@ class ScanTreePage extends StatelessWidget {
       child: Padding(
         padding: pagePadding,
         child: Stack(children: [
+          ARView(),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -19,12 +20,29 @@ class ScanTreePage extends StatelessWidget {
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(100)),
                     color: mainColor),
-                child: const BackButton(),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => {Navigator.pop(context)},
+                ),
               )
             ],
           )
         ]),
       ),
     ));
+  }
+}
+
+class ARView extends StatefulWidget {
+  const ARView({Key? key}) : super(key: key);
+
+  @override
+  State<ARView> createState() => _ARViewState();
+}
+
+class _ARViewState extends State<ARView> {
+  @override
+  Widget build(BuildContext context) {
+    return Text("data");
   }
 }

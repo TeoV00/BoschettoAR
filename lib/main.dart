@@ -74,6 +74,7 @@ class _TabViewState extends State<TabView> {
         ],
       )),
       bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: selectedFontSize_bottomNav,
         elevation: 0, //To remove shadow between grass image and bottomBar
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
