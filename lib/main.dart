@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/svg.dart';
 import 'constant_vars.dart';
 import 'home_page.dart';
 import 'user_page.dart';
@@ -49,14 +53,37 @@ class _TabViewState extends State<TabView> {
     });
   }
 
-  void _openAr() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _appScreenPages[_selectionIndex],
-      ),
+          child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          _appScreenPages[_selectionIndex],
+          LayoutBuilder(builder: ((context, constraints) {
+            var parentWidth = constraints.maxWidth;
+            return SizedBox(
+              width: parentWidth,
+              height: 48,
+              child: SvgPicture.asset(
+                'images/grass.svg',
+                color: mainColor,
+                excludeFromSemantics: true,
+                fit: BoxFit.fill,
+              ),
+            );
+          }))
+
+          // Image.asset(
+          //   'images/grass.png',
+          //   height: 50,
+          //   excludeFromSemantics: true,
+          // )
+        ],
+      )),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 0, //To remove shadow between grass image and bottomBar
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home, size: 30), label: 'Home'),
@@ -75,7 +102,7 @@ class _TabViewState extends State<TabView> {
         onPressed: () => {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ScanTreePage()),
+            MaterialPageRoute(builder: (context) => const ScanTreePage()),
           )
         },
         child: const ImageIcon(
