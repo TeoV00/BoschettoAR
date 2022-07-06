@@ -15,11 +15,11 @@ class ScanTreePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: Padding(
-        padding: pagePadding,
-        child: Stack(children: [
-          const ARWidget(),
-          Row(
+      child: Stack(children: [
+        const ARWidget(),
+        Padding(
+          padding: pagePadding,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
@@ -32,9 +32,9 @@ class ScanTreePage extends StatelessWidget {
                 ),
               )
             ],
-          )
-        ]),
-      ),
+          ),
+        )
+      ]),
     ));
   }
 }

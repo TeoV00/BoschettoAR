@@ -20,9 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: mainColor,
       ),
-      home: const SafeArea(
-        child: TabView(),
-      ),
+      home: const TabView(),
     );
   }
 }

@@ -25,60 +25,62 @@ class _MainPage extends State<MainPage> {
   Widget build(BuildContext context) {
     const tabButtonWidth = (topSectionTabWidth / 2) - 45;
     return Scaffold(
-      body: Stack(
-        //mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Flex(
-            direction: Axis.vertical,
-            children: [
-              Expanded(child: CustomListView(dataType: _selectedType))
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    color: secondColor),
-                height: 50,
-                width: topSectionTabWidth,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ChoiceChip(
-                      label: const SizedBox(
-                        width: tabButtonWidth,
-                        child: Text(
-                          "Alberi",
-                          textAlign: TextAlign.center,
+      body: SafeArea(
+        child: Stack(
+          //mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Flex(
+              direction: Axis.vertical,
+              children: [
+                Expanded(child: CustomListView(dataType: _selectedType))
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(5),
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: secondColor),
+                  height: 50,
+                  width: topSectionTabWidth,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ChoiceChip(
+                        label: const SizedBox(
+                          width: tabButtonWidth,
+                          child: Text(
+                            "Alberi",
+                            textAlign: TextAlign.center,
+                          ),
                         ),
+                        selected: _selectedType == InfoType.tree,
+                        onSelected: (_) => _onTapTab(InfoType.tree),
+                        selectedColor: Colors.white,
                       ),
-                      selected: _selectedType == InfoType.tree,
-                      onSelected: (_) => _onTapTab(InfoType.tree),
-                      selectedColor: Colors.white,
-                    ),
-                    ChoiceChip(
-                      label: const SizedBox(
-                        width: tabButtonWidth,
-                        child: Text(
-                          "Progetti",
-                          textAlign: TextAlign.center,
+                      ChoiceChip(
+                        label: const SizedBox(
+                          width: tabButtonWidth,
+                          child: Text(
+                            "Progetti",
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ),
-                      selected: _selectedType == InfoType.project,
-                      onSelected: (_) => _onTapTab(InfoType.project),
-                      selectedColor: Colors.white,
-                    )
-                  ],
+                        selected: _selectedType == InfoType.project,
+                        onSelected: (_) => _onTapTab(InfoType.project),
+                        selectedColor: Colors.white,
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -13,7 +13,8 @@ class _UserPage extends State<UserPage> {
   //in this state i keep percentage and all the value to show then when model change i update
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SafeArea(
+        child: Padding(
       padding: pagePadding,
       child: Column(
         children: [
@@ -37,7 +38,7 @@ class _UserPage extends State<UserPage> {
           const BadgeContainer()
         ],
       ),
-    );
+    ));
   }
 }
 
