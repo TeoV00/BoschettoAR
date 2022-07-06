@@ -61,7 +61,7 @@ class _ARWidgetState extends State<ARWidget> {
     return ARView(
         onARViewCreated: onARViewCreated,
         planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
-        showPlatformType: true);
+        showPlatformType: false);
   }
 
   void onARViewCreated(
