@@ -73,7 +73,11 @@ class _ARWidgetState extends State<ARWidget> {
     this.arObjectManager = arObjectManager;
 
     this.arSessionManager.onInitialize(
-        showFeaturePoints: true, showPlanes: true, showWorldOrigin: true);
+        showAnimatedGuide: true,
+        handleTaps: true,
+        showFeaturePoints: true,
+        showPlanes: false,
+        showWorldOrigin: false);
     this.arObjectManager.onInitialize();
   }
 }
