@@ -25,70 +25,17 @@ class ScanTreePage extends StatefulWidget {
 }
 
 class _ScanTreePageState extends State<ScanTreePage> {
-  ScanQRView scanPage = const ScanQRView();
-  ARWidget arPage = const ARWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-      child: Stack(children: [
-        const ScanQRView(),
-        Padding(
-          padding: pagePadding,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    color: mainColor),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => {Navigator.pop(context)},
-                ),
-              )
-            ],
-          ),
-        )
-      ]),
-    ));
-  }
-}
-
-class ScanQRView extends StatefulWidget {
-  const ScanQRView({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _ScanQRViewState();
-}
-
-class _ScanQRViewState extends State<ScanQRView> {
-  Barcode? result;
-  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  bool stopScanning = false;
-
-  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    }
-    controller!.resumeCamera();
-  }
+  Barcode? result;
+  late QRView qrViewPage;
+  QRViewController? controller;
+  bool qrCodeFound = false;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildQrView(context),
-    );
-  }
+  void initState() {
+    super.initState();
 
-  Widget _buildQrView(BuildContext context) {
-    return QRView(
+    qrViewPage = QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
@@ -100,6 +47,54 @@ class _ScanQRViewState extends State<ScanQRView> {
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SafeArea(
+      child: Stack(children: [
+        !qrCodeFound ? qrViewPage : Text("AR View"),
+        Padding(
+          padding: pagePadding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    color: mainColor),
+                child: IconButton(
+                  tooltip: "Torna in Home",
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => {Navigator.pop(context)},
+                ),
+              ),
+              qrCodeFound
+                  ? Container(
+                      margin: const EdgeInsets.only(left: 20),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          color: mainColor),
+                      child: IconButton(
+                        icon: const Icon(Icons.qr_code_scanner),
+                        tooltip: "Nuova scansione",
+                        onPressed: () => {_resetView()},
+                      ),
+                    )
+                  : const Text("")
+            ],
+          ),
+        )
+      ]),
+    ));
+  }
+
+  void _resetView() {
+    setState(() {
+      qrCodeFound = false;
+      result = null;
+    });
+  }
+
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
@@ -107,13 +102,22 @@ class _ScanQRViewState extends State<ScanQRView> {
 
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        if (true) {
+        if (!qrCodeFound) {
           controller.pauseCamera();
-          //then show ar view and bottom banner info
           result = scanData;
+          qrCodeFound = true;
         }
       });
     });
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    // if (Platform.isAndroid) {
+    //   controller!.pauseCamera();
+    // }
+    // controller!.resumeCamera();
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
