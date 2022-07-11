@@ -26,6 +26,8 @@ class ScanTreePage extends StatefulWidget {
 
 class _ScanTreePageState extends State<ScanTreePage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  //TODO: it must contain id (tree/project) in order to get all info
   Barcode? result;
   late QRView qrViewPage;
   QRViewController? controller;
@@ -52,7 +54,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
     return Scaffold(
         body: SafeArea(
       child: Stack(children: [
-        !qrCodeFound ? qrViewPage : Text("AR View"),
+        getViewToShow(),
         Padding(
           padding: pagePadding,
           child: Row(
@@ -88,6 +90,33 @@ class _ScanTreePageState extends State<ScanTreePage> {
     ));
   }
 
+  Widget getViewToShow() {
+    //TODO: from scan result get id then get all info to show from data manager or db
+
+    if (qrCodeFound && result != null) {
+      return Stack(
+        children: [
+          const ARWidget(), //AR view widget
+          DraggableScrollableSheet(
+            //Bottom Sheet that show scanned tree info
+            minChildSize: 0.10,
+            initialChildSize: 0.15,
+            maxChildSize: 0.6,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return Container(
+                color: secondColor,
+                //TODO: put here all tree infos view, and link to its page
+                child: Text("ssss"),
+              );
+            },
+          )
+        ],
+      );
+    } else {
+      return qrViewPage;
+    }
+  }
+
   void _resetView() {
     setState(() {
       qrCodeFound = false;
@@ -114,10 +143,10 @@ class _ScanTreePageState extends State<ScanTreePage> {
   @override
   void reassemble() {
     super.reassemble();
-    // if (Platform.isAndroid) {
-    //   controller!.pauseCamera();
-    // }
-    // controller!.resumeCamera();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    }
+    controller!.resumeCamera();
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
@@ -177,12 +206,11 @@ class _ARWidgetState extends State<ARWidget> {
 
     this.arSessionManager.onInitialize(
         showAnimatedGuide: false,
-        handlePans: true,
+        handlePans: false,
         showFeaturePoints: true,
-        handleRotation: true,
+        handleRotation: false,
         showWorldOrigin: false);
     this.arObjectManager.onInitialize();
-    this.arSessionManager.onPlaneOrPointTap = onPlaneOrPointTapped;
   }
 
   void onPlaneOrPointTapped(List<ARHitTestResult> hitTestResults) {
