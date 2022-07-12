@@ -10,4 +10,8 @@ class DataManager {
       return <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
     }
   }
+
+  static String getTreeNameById(int treeId) {
+    return "Gingobiloba africano - Nord Africa";
+  }
 }
