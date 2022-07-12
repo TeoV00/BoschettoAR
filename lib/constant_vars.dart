@@ -10,3 +10,12 @@ const double grassBottomBarHeight = 40;
 const double selectedFontSizeBottomNav = 15;
 
 enum InfoType { tree, project }
+
+enum StatsType {
+  co2(0),
+  paper(1),
+  leafs(2);
+
+  const StatsType(this.value);
+  final num value;
+}
