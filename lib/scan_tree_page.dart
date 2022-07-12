@@ -130,6 +130,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
     });
 
     controller.scannedDataStream.listen((scanData) {
+      //TODO: check if value of qr is valid, if it isn't show a toast message
       setState(() {
         if (!qrCodeFound) {
           controller.pauseCamera();
@@ -165,7 +166,6 @@ class _ScanTreePageState extends State<ScanTreePage> {
 }
 
 class TreeInfoSheet extends StatelessWidget {
-  final DataManager dataManager = DataManager();
   final ScrollController controller;
   final int treeID; //Id of tree to retrieve info from DataManager
 
@@ -177,6 +177,7 @@ class TreeInfoSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String nameTree = DataManager.getTreeNameById(treeID);
     return Container(
       decoration: const BoxDecoration(
           borderRadius:
@@ -185,7 +186,7 @@ class TreeInfoSheet extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
         child: ListView(controller: controller, children: [
-          Text(treeID.toString(),
+          Text(nameTree,
               style: const TextStyle(
                   color: Colors.black,
                   fontSize: 25,
