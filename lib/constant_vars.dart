@@ -8,6 +8,7 @@ const topSectionTabWidth = 250.0;
 const pagePadding = EdgeInsets.only(top: 10, left: 10, right: 10);
 const double grassBottomBarHeight = 40;
 const double selectedFontSizeBottomNav = 15;
+const radiusCorner = Radius.circular(15);
 
 enum InfoType { tree, project }
 
@@ -17,5 +18,11 @@ enum StatsType {
   leafs(2);
 
   const StatsType(this.value);
-  final num value;
+  final int value;
 }
+
+const statsIcon = [
+  Icons.local_gas_station, //StatsType.co2
+  Icons.description, //StatsType.paper
+  Icons.eco //StatsType.leafs
+];
