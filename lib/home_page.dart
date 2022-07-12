@@ -43,7 +43,7 @@ class _MainPage extends State<MainPage> {
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.all(5),
                   decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      borderRadius: BorderRadius.all(radiusCorner),
                       color: secondColor),
                   height: 50,
                   width: topSectionTabWidth,
