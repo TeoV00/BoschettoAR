@@ -33,6 +33,8 @@ class _ScanTreePageState extends State<ScanTreePage> {
   late QRView qrViewPage;
   QRViewController? controller;
   bool qrCodeFound = false;
+  DateTime lastScanTime = DateTime.now();
+  final Duration timeoutScan = const Duration(seconds: 4);
 
   @override
   void initState() {
@@ -93,7 +95,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
 
   Widget getViewToShow() {
     //TODO: from scan result get id then get all info to show from data manager or db
-    bool debug = true;
+    bool debug = false;
     if (qrCodeFound && result != null || debug) {
       return Stack(
         children: [
@@ -130,14 +132,24 @@ class _ScanTreePageState extends State<ScanTreePage> {
     });
 
     controller.scannedDataStream.listen((scanData) {
-      //TODO: check if value of qr is valid, if it isn't show a toast message
-      setState(() {
-        if (!qrCodeFound) {
-          controller.pauseCamera();
-          result = scanData;
-          qrCodeFound = true;
+      if (DateTime.now().difference(lastScanTime) > timeoutScan) {
+        lastScanTime = DateTime.now();
+        if (DataManager.isValidTreeCode(scanData.toString())) {
+          setState(() {
+            if (!qrCodeFound) {
+              controller.pauseCamera();
+              result = scanData;
+              qrCodeFound = true;
+            }
+          });
+        } else {
+          //qr data are not valid for this app or not contains valid tree id
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content:
+                Text("QRcode non valido o albero non trovato ${scanData.code}"),
+          ));
         }
-      });
+      }
     });
   }
 
@@ -169,7 +181,7 @@ class TreeInfoSheet extends StatelessWidget {
   final ScrollController controller;
   final int treeID; //Id of tree to retrieve info from DataManager
 
-  TreeInfoSheet({
+  const TreeInfoSheet({
     Key? key,
     required this.controller,
     required this.treeID,
