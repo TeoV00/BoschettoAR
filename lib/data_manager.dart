@@ -14,4 +14,15 @@ class DataManager {
   static String getTreeNameById(int treeId) {
     return "Gingobiloba africano - Nord Africa";
   }
+
+  static void addUserTree(int treeId) {
+    //TODO: save in user profile the new tree unlocked
+    //update all statistics and badge unlocking
+  }
+
+  static bool isValidTreeCode(String qrData) {
+    //TODO: check if scanned qr contains a treeId and is valid
+    //if not valid return false
+    return false;
+  }
 }
