@@ -27,7 +27,7 @@ class _UserPage extends State<UserPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: const [
               UserStatisticCounter(type: "Co2", amount: 011313, unit: "Kg"),
-              TreeProgessBar(progress: 0.5), //TODO: here put the correct value
+              TreeProgessBar(progress: 0.45), //TODO: here put the correct value
               UserStatisticCounter(type: "Carta", amount: 230, unit: "Fogli"),
             ],
           ),
@@ -113,7 +113,7 @@ class _TreeProgressBar extends State<TreeProgessBar> {
             ),
           ),
         ),
-        Text("${widget.progress} %",
+        Text("${widget.progress * 100} %",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
         Image.asset(
           'images/progressBarTree.png',
@@ -186,6 +186,7 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(10),
         decoration: const BoxDecoration(
           color: secondColor,
@@ -195,8 +196,30 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
           children: [
             ClipOval(
               child: Image.asset(
+                //TODO: load user image uri from domain
                 "images/userPlaceholder.jpeg",
-                height: 80,
+                height: 90,
+              ),
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      "Name and Surname",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    //TODO: Put user information from domain
+                    Text("Anni: 22"),
+                    Text("Unibo - Sede Cesena"),
+                    Text("Immatricolato il: 2019-2020"),
+                    Text("Corso: Ingnegneria e scienze informatiche",
+                        overflow: TextOverflow.visible)
+                  ],
+                ),
               ),
             )
           ],
