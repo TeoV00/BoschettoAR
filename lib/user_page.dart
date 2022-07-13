@@ -5,7 +5,7 @@ class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
 
   @override
-  _UserPage createState() => _UserPage();
+  State<UserPage> createState() => _UserPage();
 }
 
 class _UserPage extends State<UserPage> {
@@ -18,6 +18,11 @@ class _UserPage extends State<UserPage> {
       padding: pagePadding,
       child: Column(
         children: [
+          Row(
+            children: const [
+              UserInfoBanner(),
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: const [
@@ -165,6 +170,38 @@ class BadgeCircle extends StatelessWidget {
         color: isActive ? secondColor : disableBadge,
       ),
       child: Text(isActive.toString()), //TODO: put badge img
+    );
+  }
+}
+
+class UserInfoBanner extends StatefulWidget {
+  const UserInfoBanner({Key? key}) : super(key: key);
+
+  @override
+  State<UserInfoBanner> createState() => _UserInfoBannerState();
+}
+
+class _UserInfoBannerState extends State<UserInfoBanner> {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          color: secondColor,
+          borderRadius: BorderRadius.all(radiusCorner),
+        ),
+        child: Row(
+          children: [
+            ClipOval(
+              child: Image.asset(
+                "images/userPlaceholder.jpeg",
+                height: 80,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
