@@ -16,7 +16,8 @@ class _UserPage extends State<UserPage> {
     return SafeArea(
         child: Padding(
       padding: pagePadding,
-      child: Column(
+      child: ListView(
+        scrollDirection: Axis.vertical,
         children: [
           Row(
             children: const [
@@ -131,24 +132,22 @@ class BadgeContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO: apply pattern mvc in order to update color of badges when unlocked achievements
-    return Expanded(
-      child: GridView.count(
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 4,
-        padding: const EdgeInsets.all(20),
-        crossAxisCount: 4,
-        children: const <Widget>[
-          BadgeCircle(badgeImage: "dsds", isActive: false),
-          BadgeCircle(badgeImage: "dsds", isActive: true),
-          BadgeCircle(badgeImage: "dsds", isActive: true),
-          BadgeCircle(badgeImage: "dsds", isActive: false),
-          BadgeCircle(badgeImage: "dsds", isActive: true),
-          BadgeCircle(badgeImage: "dsds", isActive: true),
-          BadgeCircle(badgeImage: "dsds", isActive: false),
-          BadgeCircle(badgeImage: "dsds", isActive: true),
-          BadgeCircle(badgeImage: "dsds", isActive: true),
-        ],
-      ),
+    return GridView.count(
+      shrinkWrap: true,
+      crossAxisSpacing: 5,
+      mainAxisSpacing: 4,
+      padding: const EdgeInsets.all(20),
+      crossAxisCount: 4,
+      children: const <Widget>[
+        BadgeCircle(badgeImage: "dsds", isActive: true),
+        BadgeCircle(badgeImage: "dsds", isActive: true),
+        BadgeCircle(badgeImage: "dsds", isActive: false),
+        BadgeCircle(badgeImage: "dsds", isActive: true),
+        BadgeCircle(badgeImage: "dsds", isActive: true),
+        BadgeCircle(badgeImage: "dsds", isActive: false),
+        BadgeCircle(badgeImage: "dsds", isActive: true),
+        BadgeCircle(badgeImage: "dsds", isActive: true),
+      ],
     );
   }
 }
