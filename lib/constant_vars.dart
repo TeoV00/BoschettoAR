@@ -10,6 +10,11 @@ const double grassBottomBarHeight = 40;
 const double selectedFontSizeBottomNav = 15;
 const radiusCorner = Radius.circular(15);
 
+const textStyleUserInfo = TextStyle(
+    // fontWeight: FontWeight.bold,
+    fontSize: 15,
+    color: Color.fromARGB(255, 67, 67, 67));
+
 enum InfoType { tree, project }
 
 enum StatsType {

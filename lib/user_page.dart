@@ -33,6 +33,11 @@ class _UserPage extends State<UserPage> {
             ],
           ),
           Row(
+            children: [
+              Text("Altre informazioni e statistiche su alberi e rpogetti")
+            ],
+          ),
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
               Text(
@@ -206,17 +211,28 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
-                    Text(
-                      "Name and Surname",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 5),
+                      child: Text(
+                        "Name and Surname",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
                     ),
                     //TODO: Put user information from domain
-                    Text("Anni: 22"),
-                    Text("Unibo - Sede Cesena"),
-                    Text("Immatricolato il: 2019-2020"),
-                    Text("Corso: Ingnegneria e scienze informatiche",
-                        overflow: TextOverflow.visible)
+                    Text(
+                      "Data Nascita: 24/02/00",
+                      style: textStyleUserInfo,
+                    ),
+                    Text(
+                      "Ingnegneria e scienze informatiche",
+                      overflow: TextOverflow.visible,
+                      style: textStyleUserInfo,
+                    ),
+                    Text(
+                      "Immatricolato il: 2019-2020",
+                      style: textStyleUserInfo,
+                    ),
                   ],
                 ),
               ),
