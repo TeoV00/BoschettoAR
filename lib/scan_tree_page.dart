@@ -144,9 +144,9 @@ class _ScanTreePageState extends State<ScanTreePage> {
           });
         } else {
           //qr data are not valid for this app or not contains valid tree id
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content:
-                Text("QRcode non valido o albero non trovato ${scanData.code}"),
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("QRcode non valido o albero non trovato"),
+            duration: Duration(seconds: 2),
           ));
         }
       }

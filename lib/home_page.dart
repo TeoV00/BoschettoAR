@@ -9,7 +9,7 @@ class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
-  _MainPage createState() => _MainPage();
+  State<MainPage> createState() => _MainPage();
 }
 
 class _MainPage extends State<MainPage> {
@@ -91,10 +91,13 @@ class CustomListView extends StatefulWidget {
   const CustomListView({Key? key, required this.dataType}) : super(key: key);
 
   @override
-  _CustomListView createState() => _CustomListView();
+  State<CustomListView> createState() => _CustomListView();
 }
 
 class _CustomListView extends State<CustomListView> {
+  DataManager dataManager = DataManager();
+  //TODO: listener when change domain data
+
   @override
   Widget build(BuildContext context) {
     //get data to show in list of category InfoType
