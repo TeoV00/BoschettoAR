@@ -3,12 +3,29 @@ import 'constant_vars.dart';
 class DataManager {
   ///static function to get trees or Projects items scanned byt user to be showed
   ///in listview.
-  static List<String> getDataOf(InfoType dataType) {
-    if (dataType == InfoType.project) {
-      return <String>['G', 'e', 'f', 'd', 'e', 'f', 'd'];
-    } else {
-      return <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
-    }
+
+  late List<String> _treeSaved;
+  late List<bool> _badgeUnlocked;
+  Profile? userData;
+
+  DataManager() {
+    _badgeUnlocked = List.empty(growable: true);
+    _treeSaved = List.empty(growable: true);
+    //Init saving user preferences and data
+    //if there are saved data in json load them and init userData
+  }
+
+  void addTree(treeID) {
+    _treeSaved.add(treeID);
+  }
+
+  List<String> getTree() {
+    //from id of tree get information from source
+    return _treeSaved.toList(growable: false);
+  }
+
+  List<bool> getBadges() {
+    return _badgeUnlocked.toList(growable: false);
   }
 
   static String getTreeNameById(int treeId) {
@@ -25,4 +42,16 @@ class DataManager {
     //if not valid return false
     return false;
   }
+}
+
+class Profile {
+  String name;
+  String surname;
+  DateTime birth;
+  String course;
+  DateTime registrationDate;
+  String? photoURI;
+
+  Profile(this.name, this.surname, this.birth, this.course,
+      this.registrationDate, this.photoURI);
 }
