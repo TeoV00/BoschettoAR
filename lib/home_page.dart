@@ -101,7 +101,7 @@ class _CustomListView extends State<CustomListView> {
   @override
   Widget build(BuildContext context) {
     //get data to show in list of category InfoType
-    final List<String> entries = DataManager.getDataOf(widget.dataType);
+    final List<String> entries = [];
     return ListView.builder(
         scrollDirection: Axis.vertical,
         padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
