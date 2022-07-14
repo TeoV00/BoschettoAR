@@ -100,7 +100,7 @@ class _CustomListView extends State<CustomListView> {
 
   @override
   Widget build(BuildContext context) {
-    //get data to show in list of category InfoType
+    //TODO: get data to show in list of category InfoType
     final List<String> entries = [];
     return ListView.builder(
         scrollDirection: Axis.vertical,
