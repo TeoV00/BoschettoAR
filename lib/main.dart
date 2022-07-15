@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'Views/user_page.dart';
 import 'constant_vars.dart';
-import 'home_page.dart';
-import 'user_page.dart';
-import 'scan_tree_page.dart';
+import 'Views/home_page.dart';
+import 'Views/scan_tree_page.dart';
 
 void main() {
   runApp(const MyApp());

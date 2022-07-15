@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'constant_vars.dart';
-import 'data_manager.dart';
+import '../constant_vars.dart';
+import '../data_manager.dart';
 
 ///Main page of application, shows list of project and tree that has been
 ///discovered-scanned by user in scan-tree-ar page
