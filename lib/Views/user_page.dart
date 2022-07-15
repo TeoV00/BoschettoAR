@@ -46,7 +46,23 @@ class _UserPage extends State<UserPage> {
               ),
             ],
           ),
-          const BadgeContainer(),
+          const BadgeContainer(badgeEnabled: [
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true
+          ]),
           ImagesReferencesCopyright()
         ],
       ),
@@ -133,8 +149,10 @@ class _TreeProgressBar extends State<TreeProgessBar> {
 }
 
 class BadgeContainer extends StatelessWidget {
-  const BadgeContainer({Key? key}) : super(key: key);
+  const BadgeContainer({Key? key, required this.badgeEnabled})
+      : super(key: key);
   final badgeCount = 15;
+  final List<bool> badgeEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -142,12 +160,13 @@ class BadgeContainer extends StatelessWidget {
     return GridView.count(
       shrinkWrap: true,
       crossAxisSpacing: 5,
-      mainAxisSpacing: 4,
-      padding: const EdgeInsets.all(20),
-      crossAxisCount: 4,
+      mainAxisSpacing: 5,
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      crossAxisCount: 5,
       children: <Widget>[
         for (var i = 0; i < badgeCount; i++) ...[
-          BadgeCircle(badgeImage: 'icons/badge$i.png', isActive: true),
+          BadgeCircle(
+              badgeImage: 'icons/badge$i.png', isActive: badgeEnabled[i]),
         ]
       ],
     );
@@ -164,14 +183,15 @@ class BadgeCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: isActive ? badgeColor : disableBadge,
+    return ClipOval(
+        child: ColorFiltered(
+      colorFilter: ColorFilter.mode(
+          isActive ? badgeColor : disableBadge, BlendMode.color),
+      child: Image.asset(
+        badgeImage,
+        centerSlice: Rect.largest,
       ),
-      child: Image.asset(badgeImage),
-    );
+    ));
   }
 }
 

@@ -6,6 +6,7 @@ import 'Views/home_page.dart';
 import 'Views/scan_tree_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
