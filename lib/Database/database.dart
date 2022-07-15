@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'EntityDBClasses.dart';
+import 'dataModel.dart';
 import 'package:flutter/services.dart';
 
 const String databaseDDLfile = "assets/TreeAR.ddl";
@@ -17,6 +17,7 @@ class DatabaseHelper {
   Future<Database> _createDatabase() async {
     String creationQuery = await rootBundle.loadString(databaseDDLfile);
     print(creationQuery);
+
     return openDatabase(
       join(await getDatabasesPath(), 'TreeArData.db'),
       onCreate: ((db, version) {
