@@ -13,7 +13,8 @@ class DatabaseHelper {
     database = _createDatabase();
   }
 
-  ///method to create database tables
+  ///method to create database tables from file ddl generated from db-main
+  ///all tables are created
   Future<Database> _createDatabase() async {
     String creationQuery = await rootBundle.loadString(databaseDDLfile);
     print(creationQuery);
