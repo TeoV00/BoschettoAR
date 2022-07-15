@@ -46,7 +46,8 @@ class _UserPage extends State<UserPage> {
               ),
             ],
           ),
-          const BadgeContainer()
+          const BadgeContainer(),
+          ImagesReferencesCopyright()
         ],
       ),
     ));
@@ -133,6 +134,7 @@ class _TreeProgressBar extends State<TreeProgessBar> {
 
 class BadgeContainer extends StatelessWidget {
   const BadgeContainer({Key? key}) : super(key: key);
+  final badgeCount = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -143,15 +145,10 @@ class BadgeContainer extends StatelessWidget {
       mainAxisSpacing: 4,
       padding: const EdgeInsets.all(20),
       crossAxisCount: 4,
-      children: const <Widget>[
-        BadgeCircle(badgeImage: "dsds", isActive: true),
-        BadgeCircle(badgeImage: "dsds", isActive: true),
-        BadgeCircle(badgeImage: "dsds", isActive: false),
-        BadgeCircle(badgeImage: "dsds", isActive: true),
-        BadgeCircle(badgeImage: "dsds", isActive: true),
-        BadgeCircle(badgeImage: "dsds", isActive: false),
-        BadgeCircle(badgeImage: "dsds", isActive: true),
-        BadgeCircle(badgeImage: "dsds", isActive: true),
+      children: <Widget>[
+        for (var i = 0; i < badgeCount; i++) ...[
+          BadgeCircle(badgeImage: 'icons/badge$i.png', isActive: true),
+        ]
       ],
     );
   }
@@ -171,9 +168,9 @@ class BadgeCircle extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isActive ? secondColor : disableBadge,
+        color: isActive ? badgeColor : disableBadge,
       ),
-      child: Text(isActive.toString()), //TODO: put badge img
+      child: Image.asset(badgeImage),
     );
   }
 }
@@ -210,28 +207,42 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
                 padding: const EdgeInsets.only(left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 5),
-                      child: Text(
-                        "Name and Surname",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            "Name and Surname",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          //TODO: Put user information from domain
+                          Text(
+                            "Data Nascita: 24/02/00",
+                            style: TextStyle(
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: darkGray),
+                          ),
+                        ],
                       ),
                     ),
-                    //TODO: Put user information from domain
-                    Text(
-                      "Data Nascita: 24/02/00",
-                      style: textStyleUserInfo,
-                    ),
-                    Text(
-                      "Ingnegneria e scienze informatiche",
+                    const Text(
+                      "Ingnegneria informatica",
                       overflow: TextOverflow.visible,
-                      style: textStyleUserInfo,
+                      style: TextStyle(
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: darkGray),
                     ),
-                    Text(
+                    const Text(
                       "Immatricolato il: 2019-2020",
-                      style: textStyleUserInfo,
+                      style: TextStyle(
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: darkGray),
                     ),
                   ],
                 ),
@@ -241,5 +252,29 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
         ),
       ),
     );
+  }
+}
+
+class ImagesReferencesCopyright extends StatelessWidget {
+  final linkRef = [
+    "it.freepik.com - Icone dei Badge",
+    "www.onlinewebfonts.com - Progress bar"
+  ];
+
+  ImagesReferencesCopyright({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(top: 100, bottom: 5),
+        child: Column(
+          children: [
+            const Text("Riferimenti fonti immagini utilizzate:"),
+            Column(
+              children: [
+                for (var i = 0; i < linkRef.length; i++) ...[Text(linkRef[i])]
+              ],
+            )
+          ],
+        ));
   }
 }
