@@ -12,3 +12,11 @@ class Tree {
       required this.descr,
       required this.height});
 }
+
+class Project {
+  final int projectId;
+  final String name;
+  final String descr;
+
+  Project({required this.projectId, required this.name, required this.descr});
+}

@@ -166,7 +166,7 @@ class BadgeContainer extends StatelessWidget {
       children: <Widget>[
         for (var i = 0; i < badgeCount; i++) ...[
           BadgeCircle(
-              badgeImage: 'icons/badge$i.png', isActive: badgeEnabled[i]),
+              badgeImage: '$iconsPath/badge$i.png', isActive: badgeEnabled[i]),
         ]
       ],
     );
@@ -285,7 +285,7 @@ class ImagesReferencesCopyright extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 100, bottom: 5),
+        padding: const EdgeInsets.only(top: 100, bottom: 20),
         child: Column(
           children: [
             const Text("Riferimenti fonti immagini utilizzate:"),

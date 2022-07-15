@@ -12,6 +12,9 @@ const double grassBottomBarHeight = 40;
 const double selectedFontSizeBottomNav = 15;
 const radiusCorner = Radius.circular(15);
 
+const iconsPath = "assets/icons";
+const imagePath = "assets/images";
+
 enum InfoType { tree, project }
 
 enum StatsType {

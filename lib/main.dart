@@ -97,7 +97,7 @@ class _TabViewState extends State<TabView> {
           )
         },
         child: const ImageIcon(
-          AssetImage('icons/ScanTreeIcon.png'),
+          AssetImage('$iconsPath/ScanTreeIcon.png'),
           color: Colors.black,
           size: 32,
         ),
