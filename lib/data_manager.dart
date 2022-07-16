@@ -1,40 +1,32 @@
-import 'constant_vars.dart';
+import 'package:tree_ar/Database/database.dart';
+import 'Database/dataModel.dart';
 
 class DataManager {
   ///static function to get trees or Projects items scanned byt user to be showed
   ///in listview.
-
-  late List<String> _treeSaved;
-  late List<bool> _badgeUnlocked;
-  Profile? userData;
+  //TODO: save in user preferences user id
+  static DatabaseProvider dbProvider = DatabaseProvider.dbp;
 
   DataManager() {
-    _badgeUnlocked = List.empty(growable: true);
-    _treeSaved = List.empty(growable: true);
     //Init saving user preferences and data
     //if there are saved data in json load them and init userData
   }
 
-  void addTree(treeID) {
-    _treeSaved.add(treeID);
-  }
-
-  List<String> getTree() {
+  Future<List<Tree>> getScannedUserTrees(int userId) {
     //from id of tree get information from source
-    return _treeSaved.toList(growable: false);
+    return dbProvider.getUserTrees(userId);
   }
 
-  List<bool> getBadges() {
-    return _badgeUnlocked.toList(growable: false);
+  Future<List<Badge>> getBadges(int userId) {
+    return dbProvider.getUserBadges(userId);
   }
 
-  static String getTreeNameById(int treeId) {
-    return "Gingobiloba africano - Nord Africa";
+  static void addUserTree(int userId, int treeId) {
+    dbProvider.addUserTree(userId, treeId);
   }
 
-  static void addUserTree(int treeId) {
-    //TODO: save in user profile the new tree unlocked
-    //update all statistics and badge unlocking
+  static void unlockUserBadge(int userId, int idBadge) {
+    dbProvider.addUserBadge(userId, idBadge);
   }
 
   static bool isValidTreeCode(String qrData) {
@@ -42,16 +34,4 @@ class DataManager {
     //if not valid return false
     return false;
   }
-}
-
-class Profile {
-  String name;
-  String surname;
-  DateTime birth;
-  String course;
-  DateTime registrationDate;
-  String? photoURI;
-
-  Profile(this.name, this.surname, this.birth, this.course,
-      this.registrationDate, this.photoURI);
 }

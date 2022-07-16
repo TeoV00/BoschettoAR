@@ -18,6 +18,8 @@ import 'package:ar_flutter_plugin/models/ar_anchor.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:flutter/material.dart';
 
+import '../Database/dataModel.dart';
+
 class ScanTreePage extends StatefulWidget {
   const ScanTreePage({Key? key}) : super(key: key);
 
@@ -95,6 +97,9 @@ class _ScanTreePageState extends State<ScanTreePage> {
 
   Widget getViewToShow() {
     //TODO: from scan result get id then get all info to show from data manager or db
+    //TODO: get id of tree from result var then call local db to get Tree and relative Project
+    // final Tree treeScanned = result;
+    // final Project project = getProject from treeId;
     bool debug = false;
     if (qrCodeFound && result != null || debug) {
       return Stack(
@@ -107,7 +112,21 @@ class _ScanTreePageState extends State<ScanTreePage> {
             maxChildSize: 0.6,
             builder: (BuildContext context, ScrollController scrollController) {
               return TreeInfoSheet(
-                treeID: 23,
+                //TODO: change these obejct and put correct obj
+                tree: Tree(
+                    treeId: 1,
+                    name: 'name',
+                    descr: 'descr',
+                    height: 1,
+                    diameter: 1,
+                    co2: 1),
+                project: Project(
+                  treeId: 0,
+                  projectId: 0,
+                  name: 'name',
+                  descr: 'descr',
+                  link: 'link',
+                ),
                 controller: scrollController,
               );
             },
@@ -140,6 +159,10 @@ class _ScanTreePageState extends State<ScanTreePage> {
               controller.pauseCamera();
               result = scanData;
               qrCodeFound = true;
+              //TODO: get userid from user preferences
+              int userId = 0;
+              int treeId = 0; //get from qr code
+              DataManager.addUserTree(userId, treeId);
             }
           });
         } else {
@@ -179,17 +202,19 @@ class _ScanTreePageState extends State<ScanTreePage> {
 
 class TreeInfoSheet extends StatelessWidget {
   final ScrollController controller;
-  final int treeID; //Id of tree to retrieve info from DataManager
+  final Tree tree;
+  final Project project;
 
   const TreeInfoSheet({
     Key? key,
     required this.controller,
-    required this.treeID,
+    required this.tree,
+    required this.project,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final String nameTree = DataManager.getTreeNameById(treeID);
+    final String nameTree = tree.name;
     return Container(
       decoration: const BoxDecoration(
           borderRadius:
@@ -205,17 +230,17 @@ class TreeInfoSheet extends StatelessWidget {
                   fontWeight: FontWeight.bold)),
           Container(
             margin: const EdgeInsets.only(bottom: 5),
-            child: const Text("Progetto: Nome Progetto unibo",
-                style: TextStyle(
+            child: Text("Progetto: ${project.name}",
+                style: const TextStyle(
                   color: Colors.black54,
                   fontSize: 18,
                 )),
           ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 5),
-            child: const Text(
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed convallis quam. Phasellus ultrices lobortis enim interdum congue. Vivamus maximus faucibus nunc, in porta elit. Proin sed finibus neque. Donec imperdiet, ligula vel aliquet posuere, erat mi tincidunt diam, at aliquam ex magna eget nisl. Nullam lacinia malesuada lacus, convallis euismod nunc pharetra ac.",
-              style: TextStyle(
+            child: Text(
+              tree.descr,
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 12,
               ),
@@ -223,13 +248,19 @@ class TreeInfoSheet extends StatelessWidget {
           ),
           Row(
             children: [
-              Text("Co2"),
+              Text("Co2: ${tree.co2}"),
               getIconIndicator(StatsType.co2, 3),
             ],
           ),
           Row(
             children: [
-              Text("Carta"),
+              Text("Altezza: ${tree.height}"),
+              getIconIndicator(StatsType.paper, 9),
+            ],
+          ),
+          Row(
+            children: [
+              Text("Larghezza: ${tree.diameter}"),
               getIconIndicator(StatsType.paper, 9),
             ],
           ),
