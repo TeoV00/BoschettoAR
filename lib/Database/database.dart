@@ -3,8 +3,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dataModel.dart';
 import 'package:flutter/services.dart';
-
-const String databaseDDLfile = "assets/TreeAR.ddl";
+import 'database_constant.dart';
 
 class DatabaseProvider {
   DatabaseProvider._();
@@ -26,7 +25,20 @@ class DatabaseProvider {
     return openDatabase(
       join(await getDatabasesPath(), 'TreeArData.db'),
       onCreate: ((db, version) {
-        return db.execute(creationQuery);
+        db.execute(creationQuery);
+        //create userProfile
+        db.insert(
+          userTable,
+          User(
+            userId: DEFAULT_USER_ID,
+            name: "Nome",
+            surname: "cognome",
+            dateBirth: "Data di nascita",
+            course: "Corso universitario",
+            registrationDate: "data Immatric.",
+            userImageName: "userPlaceholder.jpeg",
+          ).toMap(),
+        );
       }),
       version: 1, //--> use oncreate
     );
