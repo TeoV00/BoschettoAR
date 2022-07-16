@@ -1,13 +1,12 @@
 //File containing all classes that correspond to entities/tables in db
 
-import 'package:flutter/material.dart';
-
 const userTreeTable = "UserTree";
 const userBadgeTable = "UserBadge";
 const userTable = "UserProfile";
+const projectTable = "Project";
 
 class Tree {
-  final int id;
+  final int treeId;
   final String name;
   final String descr;
   final int height;
@@ -15,7 +14,7 @@ class Tree {
   final int co2;
 
   Tree(
-      {required this.id,
+      {required this.treeId,
       required this.name,
       required this.descr,
       required this.height,
@@ -24,7 +23,7 @@ class Tree {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'treeId': treeId,
       'name': name,
       'descr': descr,
       'height': height,
@@ -35,7 +34,7 @@ class Tree {
 
   factory Tree.fromMap(Map<String, dynamic> treeDb) {
     return Tree(
-        id: treeDb['id'],
+        treeId: treeDb['treeId'],
         name: treeDb['name'],
         descr: treeDb['descr'],
         height: treeDb['height'],
@@ -46,23 +45,32 @@ class Tree {
 
 class Project {
   final int projectId;
+  final int treeId;
   final String name;
   final String descr;
   final String link;
 
   Project(
       {required this.projectId,
+      required this.treeId,
       required this.name,
       required this.descr,
       required this.link});
 
   Map<String, dynamic> toMap() {
-    return {'id': projectId, 'name': name, 'descr': descr, 'link': link};
+    return {
+      'projectId': projectId,
+      'treeId': treeId,
+      'name': name,
+      'descr': descr,
+      'link': link
+    };
   }
 
   factory Project.fromMap(Map<String, dynamic> projectDb) {
     return Project(
         projectId: projectDb['projectId'],
+        treeId: projectDb['treeId'],
         name: projectDb['name'],
         descr: projectDb['descr'],
         link: projectDb['link']);

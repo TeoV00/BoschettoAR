@@ -83,4 +83,55 @@ class DatabaseProvider {
 
     return result > 0;
   }
+
+//VOLENDO RITORNO UNA MAPPA CON CHIAVI InfoType.trees InfoType.project e poi gli array corrispondenti
+  Future<List<Tree>> getUserTrees(int userId) async {
+    final db = await database;
+    var result = await db.query(
+      userTreeTable,
+      where: "userId = ?",
+      whereArgs: [userId],
+    );
+
+    List<Tree> userTrees = List.empty(growable: true);
+    for (var element in result) {
+      Tree tree = Tree.fromMap(element);
+      userTrees.add(tree);
+    }
+    return userTrees;
+  }
+
+  Future<List<Project>> getUserProjects(int userId) async {
+    //get all projects where treeId is in list
+    final treeIds = (await getUserTrees(userId)).map((e) => e.treeId).toSet();
+
+    final db = await database;
+    var result = await db.query(
+      projectTable,
+      where: "treeId IN (${treeIds.join(', ')})",
+    );
+
+    List<Project> userProject = List.empty(growable: true);
+    for (var element in result) {
+      Project projc = Project.fromMap(element);
+      userProject.add(projc);
+    }
+    return userProject;
+  }
+
+  Future<List<Badge>> getUserBadges(int userId) async {
+    final db = await database;
+    var result = await db.query(
+      userBadgeTable,
+      where: "userId = ?",
+      whereArgs: [userId],
+    );
+
+    List<Badge> userBadges = List.empty(growable: true);
+    for (var element in result) {
+      Badge badge = Badge.fromMap(element);
+      userBadges.add(badge);
+    }
+    return userBadges;
+  }
 }
