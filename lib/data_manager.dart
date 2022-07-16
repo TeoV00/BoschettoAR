@@ -8,16 +8,11 @@ class DataManager {
   ///in listview.
   //TODO: save in user preferences user id
   static DatabaseProvider dbProvider = DatabaseProvider.dbp;
-  var localTreeCopy = List.empty(); //TODO: fill it with online trees
 
-  DataManager() {
-    //Init saving user preferences and data
-    //if there are saved data in json load them and init userData
-    //copy all online trees in local db --> then keep a list of them
-  }
+//TODO: metodo statico che copia gli alberi da server online a db locale
 
   // GETTER methods
-  Future<Map<InfoType, List>> getUserTreesProject(int userId) async {
+  static Future<Map<InfoType, List>> getUserTreesProject(int userId) async {
     //from id of tree get information from source
     final trees = await dbProvider.getUserTrees(userId);
     final projc = await dbProvider.getUserProjects(userId);
@@ -27,7 +22,7 @@ class DataManager {
     };
   }
 
-  Future<List<Badge>> getBadges(int userId) {
+  static Future<List<Badge>> getBadges(int userId) {
     return dbProvider.getUserBadges(userId);
   }
 
