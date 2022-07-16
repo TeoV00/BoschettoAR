@@ -139,7 +139,7 @@ class _TreeProgressBar extends State<TreeProgessBar> {
         Text("${widget.progress * 100} %",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
         Image.asset(
-          'images/progressBarTree.png',
+          '$imagePath/progressBarTree.png',
           alignment: Alignment.bottomCenter,
           height: treeHeight,
         ),
@@ -218,7 +218,7 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
             ClipOval(
               child: Image.asset(
                 //TODO: load user image uri from domain
-                "images/userPlaceholder.jpeg",
+                "$imagePath/userPlaceholder.jpeg",
                 height: 90,
               ),
             ),
@@ -285,7 +285,7 @@ class ImagesReferencesCopyright extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 100, bottom: 20),
+        padding: const EdgeInsets.only(top: 100, bottom: 40),
         child: Column(
           children: [
             const Text("Riferimenti fonti immagini utilizzate:"),
