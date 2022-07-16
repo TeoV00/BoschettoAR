@@ -63,7 +63,7 @@ class _TabViewState extends State<TabView> {
               width: parentWidth,
               height: grassBottomBarHeight,
               child: SvgPicture.asset(
-                'images/grass.svg',
+                '$imagePath/grass.svg',
                 color: mainColor,
                 excludeFromSemantics: true,
                 fit: BoxFit.fill,
