@@ -1,5 +1,11 @@
 //File containing all classes that correspond to entities/tables in db
 
+import 'package:flutter/material.dart';
+
+const userTreeTable = "UserTree";
+const userBadgeTable = "UserBadge";
+const userTable = "UserProfile";
+
 class Tree {
   final int id;
   final String name;
@@ -66,17 +72,23 @@ class Project {
 class Badge {
   final int id;
   final String descr;
-  Badge({required this.id, required this.descr});
+  final String imageName;
+  Badge({required this.id, required this.descr, required this.imageName});
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'descr': descr,
+      'imageName': imageName,
     };
   }
 
   factory Badge.fromMap(Map<String, dynamic> badgeDb) {
-    return Badge(id: badgeDb['id'], descr: badgeDb['descr']);
+    return Badge(
+      id: badgeDb['id'],
+      descr: badgeDb['descr'],
+      imageName: badgeDb['imageName'],
+    );
   }
 }
 
@@ -122,18 +134,56 @@ class User {
         registrationDate: userDb['registrationDate'],
         userImageName: userDb['userImageName)']);
   }
+
+  String getNameSurname() {
+    return "${name[0].toUpperCase()}${name.substring(1)} ${surname[0].toUpperCase()}${surname.substring(1)}";
+  }
 }
 
-// create table userTrees (
-//      userId numeric(5) not null,
-//      treeId numeric(4) not null,
-//      constraint IDhasScanned primary key (treeId, userId),
-//      foreign key (treeId) references Tree,
-//      foreign key (userId) references User);
+class UserTrees {
+  final int userId; //numeric(5) not null,
+  final int treeId; //numeric(4) not null,
+  //constraint IDhasScanned primary key (treeId, userId),
+  //foreign key (treeId) references Tree,
+  //foreign key (userId) references User);
 
-// create table userBadge (
-//      idBadge numeric(2) not null,
-//      userId numeric(5) not null,
+  UserTrees({required this.userId, required this.treeId});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userId': userId,
+      'treeId': treeId,
+    };
+  }
+
+  factory UserTrees.fromMap(Map<String, dynamic> userTreeDb) {
+    return UserTrees(
+      userId: userTreeDb['userId'],
+      treeId: userTreeDb['treeId'],
+    );
+  }
+}
+
+class UserBadge {
+  final int userId; //numeric(5) not null,
+  final int idBadge; //numeric(4) not null,
 //      constraint IDunlocked primary key (idBadge, userId),
 //      foreign key (userId) references User,
 //      foreign key (idBadge) references Badge);
+
+  UserBadge({required this.userId, required this.idBadge});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userId': userId,
+      'idBadge': idBadge,
+    };
+  }
+
+  factory UserBadge.fromMap(Map<String, dynamic> userTreeDb) {
+    return UserBadge(
+      userId: userTreeDb['userId'],
+      idBadge: userTreeDb['idBadge'],
+    );
+  }
+}

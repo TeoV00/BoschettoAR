@@ -9,7 +9,7 @@ const String databaseDDLfile = "assets/TreeAR.ddl";
 class DatabaseProvider {
   DatabaseProvider._();
   //Singleton pattern
-  static final DatabaseProvider db = DatabaseProvider._();
+  static final DatabaseProvider dbp = DatabaseProvider._();
   static late Database _database;
 
   Future<Database> get database async {
@@ -30,5 +30,57 @@ class DatabaseProvider {
       }),
       version: 1, //--> use oncreate
     );
+  }
+
+  ///Save new tree scanned from user
+  ///return false for some specific conflict algorithms if not inserted.
+  Future<bool> addUserTree(int userId, int treeId) async {
+    final db = await database;
+    var result = db.insert(
+      userTreeTable,
+      UserTrees(userId: userId, treeId: treeId).toMap(),
+    );
+    return result != 0;
+  }
+
+  ///Add new badge that user unlocked
+  ///return false for some specific conflict algorithms if not inserted.
+  Future<bool> addUserBadge(int userId, int idBadge) async {
+    final db = await database;
+    var result = db.insert(
+      userBadgeTable,
+      UserBadge(userId: userId, idBadge: idBadge).toMap(),
+      conflictAlgorithm: ConflictAlgorithm.abort,
+    );
+    return result != 0;
+  }
+
+  ///update user information
+  //if result greather than 0 means that operation has gone done
+  //else nothing has been changed
+  Future<bool> updateUserInfo(
+    int userId,
+    String name,
+    String surname,
+    String dateBirth,
+    String course,
+    String registrationDate,
+    String userImageName,
+  ) async {
+    final db = await database;
+
+    var result = await db.update(
+        userTable,
+        User(
+          userId: userId,
+          name: name,
+          surname: surname,
+          dateBirth: dateBirth,
+          course: course,
+          registrationDate: registrationDate,
+          userImageName: userImageName,
+        ).toMap());
+
+    return result > 0;
   }
 }
