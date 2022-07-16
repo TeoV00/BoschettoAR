@@ -3,7 +3,7 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.1              
 -- * Generator date: Dec  4 2018              
--- * Generation date: Sat Jul 16 00:52:56 2022 
+-- * Generation date: Sat Jul 16 08:31:59 2022 
 -- * LUN file: Z:\FlutterProjects\TirocinioTreeAR\TreeAR.lun 
 -- * Schema: Logico/1 
 -- ********************************************* 
@@ -19,12 +19,13 @@
 create table Project (
      name varchar(100) not null,
      id integer primary key autoincrement,
-     descr varchar(500) not null --,
+     descr varchar(500) not null,
+     link varchar(400) not null --,
 --     check(exists(select * from Tree
 --                  where Tree.associatedProject = id)) 
 );
 
-create table User (
+create table UserProfile (
      userId integer primary key autoincrement,
      name varchar(30) not null,
      surname varchar(30) not null,
@@ -45,7 +46,7 @@ create table userTrees (
      treeId numeric(4) not null,
      constraint IDhasScanned primary key (treeId, userId),
      foreign key (treeId) references Tree,
-     foreign key (userId) references User);
+     foreign key (userId) references UserProfile);
 
 create table Tree (
      id integer primary key autoincrement,
@@ -62,7 +63,7 @@ create table userBadge (
      idBadge numeric(2) not null,
      userId numeric(5) not null,
      constraint IDunlocked primary key (idBadge, userId),
-     foreign key (userId) references User,
+     foreign key (userId) references UserProfile,
      foreign key (idBadge) references Badge);
 
 
