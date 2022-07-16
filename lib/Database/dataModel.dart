@@ -79,3 +79,61 @@ class Badge {
     return Badge(id: badgeDb['id'], descr: badgeDb['descr']);
   }
 }
+
+class User {
+  final int userId;
+  final String name;
+  final String surname;
+  final String dateBirth; //Date
+  final String course; // varchar(50) not null,
+  final String registrationDate; // date not null,
+  final String userImageName; //varchar(20) not null --,
+// --     check(exists(select * from userBadge
+// --                  where userBadge.userId = userId))
+
+  User(
+      {required this.userId,
+      required this.name,
+      required this.surname,
+      required this.dateBirth,
+      required this.course,
+      required this.registrationDate,
+      required this.userImageName});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userId': userId,
+      'name': name,
+      'surname': surname,
+      'dateBirth': dateBirth,
+      'course': course,
+      'registrationDate': registrationDate,
+      'userImageName': userImageName
+    };
+  }
+
+  factory User.fromMap(Map<String, dynamic> userDb) {
+    return User(
+        userId: userDb['userId'],
+        name: userDb['name'],
+        surname: userDb['surname'],
+        dateBirth: userDb['dateBirth'],
+        course: userDb['course'],
+        registrationDate: userDb['registrationDate'],
+        userImageName: userDb['userImageName)']);
+  }
+}
+
+// create table userTrees (
+//      userId numeric(5) not null,
+//      treeId numeric(4) not null,
+//      constraint IDhasScanned primary key (treeId, userId),
+//      foreign key (treeId) references Tree,
+//      foreign key (userId) references User);
+
+// create table userBadge (
+//      idBadge numeric(2) not null,
+//      userId numeric(5) not null,
+//      constraint IDunlocked primary key (idBadge, userId),
+//      foreign key (userId) references User,
+//      foreign key (idBadge) references Badge);
