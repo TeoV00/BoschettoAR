@@ -153,23 +153,25 @@ class _ScanTreePageState extends State<ScanTreePage> {
     controller.scannedDataStream.listen((scanData) {
       if (DateTime.now().difference(lastScanTime) > timeoutScan) {
         lastScanTime = DateTime.now();
-        if (DataManager.isValidTreeCode(scanData.toString())) {
+        final qrData = scanData.code;
+        if (DataManager.isValidTreeCode(qrData.toString())) {
           setState(() {
             if (!qrCodeFound) {
               controller.pauseCamera();
               result = scanData;
               qrCodeFound = true;
-              //TODO: get userid from user preferences
-              int userId = 0;
-              int treeId = 0; //get from qr code
+
+              int userId = DataManager.getCurrentUserId();
+              int treeId = int.parse(qrData.toString());
               DataManager.addUserTree(userId, treeId);
             }
           });
         } else {
           //qr data are not valid for this app or not contains valid tree id
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("QRcode non valido o albero non trovato"),
-            duration: Duration(seconds: 2),
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+                "QRcode non valido o albero non trovato id: ${scanData.code}"),
+            duration: const Duration(seconds: 2),
           ));
         }
       }
