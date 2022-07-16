@@ -47,5 +47,9 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>Per poter scannerizzare i qr e quindi aggiungere nuovi alberi occorre la fotocamera</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartobservatory._tcp</string>
+	</array>
 </dict>
 </plist>
