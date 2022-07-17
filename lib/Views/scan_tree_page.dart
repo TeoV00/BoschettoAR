@@ -32,7 +32,6 @@ class _ScanTreePageState extends State<ScanTreePage> {
   late DataManager dataManager;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  //TODO: it must contain id (tree/project) in order to get all info
   Barcode? result;
   late QRView qrViewPage;
   QRViewController? controller;
@@ -100,12 +99,11 @@ class _ScanTreePageState extends State<ScanTreePage> {
   }
 
   Widget getViewToShow() {
-    //TODO: from scan result get id then get all info to show from data manager or db
-    //TODO: get id of tree from result var then call local db to get Tree and relative Project
-    // final Tree treeScanned = result;
-    // final Project project = getProject from treeId;
     bool debug = false;
     if (qrCodeFound && result != null || debug) {
+      Tree? tree = dataManager.getTreeById(0);
+      Project? project = dataManager.getProjectById(0);
+
       return Stack(
         children: [
           const ARWidget(), //AR view widget
@@ -115,24 +113,15 @@ class _ScanTreePageState extends State<ScanTreePage> {
             initialChildSize: 0.15,
             maxChildSize: 0.6,
             builder: (BuildContext context, ScrollController scrollController) {
-              return TreeInfoSheet(
-                //TODO: change these obejct and put correct obj
-                tree: Tree(
-                    treeId: 1,
-                    name: 'name',
-                    descr: 'descr',
-                    height: 1,
-                    diameter: 1,
-                    co2: 1),
-                project: Project(
-                  treeId: 0,
-                  projectId: 0,
-                  name: 'name',
-                  descr: 'descr',
-                  link: 'link',
-                ),
-                controller: scrollController,
-              );
+              if (tree != null && project != null) {
+                return TreeInfoSheet(
+                  tree: tree,
+                  project: project,
+                  controller: scrollController,
+                );
+              } else {
+                return const Text("Errore nel reperire le informazioni");
+              }
             },
           )
         ],

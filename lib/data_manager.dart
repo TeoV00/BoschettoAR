@@ -25,6 +25,18 @@ class DataManager extends ChangeNotifier {
     };
   }
 
+  Tree? getTreeById(int id) {
+    Tree? result;
+    dbProvider.getTree(id).then((tree) => {result = tree});
+    return result;
+  }
+
+  Project? getProjectById(int id) {
+    Project? result;
+    dbProvider.getProject(id).then((proj) => result = proj);
+    return result;
+  }
+
   Future<List<Badge>> getBadges() {
     return dbProvider.getUserBadges(currentUserId);
   }
