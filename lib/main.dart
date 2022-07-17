@@ -5,10 +5,14 @@ import 'Views/user_page.dart';
 import 'constant_vars.dart';
 import 'Views/home_page.dart';
 import 'Views/scan_tree_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => DataManager(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

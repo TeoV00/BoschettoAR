@@ -30,9 +30,9 @@ dependencies:
   flutter:
     sdk: flutter
   sqflite: ^2.0.3
-  path:
   provider: ^6.0.0 #to user "observer pattern" of flutter with Notifier and so on
-  
+  path: any
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
