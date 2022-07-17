@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tree_ar/data_manager.dart';
 import 'Views/user_page.dart';
 import 'constant_vars.dart';
 import 'Views/home_page.dart';
@@ -37,10 +38,19 @@ class TabView extends StatefulWidget {
 /// when tap on button it change selected view and show it
 class _TabViewState extends State<TabView> {
 //selected page index
+  DataManager dataManager = DataManager();
   int _selectionIndex = 0; //deafultpage
-
   //Children screen of app
-  static const List<Widget> _appScreenPages = <Widget>[MainPage(), UserPage()];
+  late List<Widget> _appScreenPages;
+
+  @override
+  void initState() {
+    super.initState();
+    _appScreenPages = <Widget>[
+      MainPage(dataManager: dataManager),
+      UserPage(dataManager: dataManager),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -93,7 +103,8 @@ class _TabViewState extends State<TabView> {
         onPressed: () => {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ScanTreePage()),
+            MaterialPageRoute(
+                builder: (context) => ScanTreePage(dataManager: dataManager)),
           )
         },
         child: const ImageIcon(

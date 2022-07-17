@@ -21,13 +21,15 @@ import 'package:flutter/material.dart';
 import '../Database/dataModel.dart';
 
 class ScanTreePage extends StatefulWidget {
-  const ScanTreePage({Key? key}) : super(key: key);
+  final DataManager dataManager;
+  const ScanTreePage({Key? key, required this.dataManager}) : super(key: key);
 
   @override
   State<ScanTreePage> createState() => _ScanTreePageState();
 }
 
 class _ScanTreePageState extends State<ScanTreePage> {
+  late DataManager dataManager;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   //TODO: it must contain id (tree/project) in order to get all info
@@ -41,6 +43,8 @@ class _ScanTreePageState extends State<ScanTreePage> {
   @override
   void initState() {
     super.initState();
+
+    dataManager = widget.dataManager;
 
     qrViewPage = QRView(
       key: qrKey,
@@ -154,16 +158,15 @@ class _ScanTreePageState extends State<ScanTreePage> {
       if (DateTime.now().difference(lastScanTime) > timeoutScan) {
         lastScanTime = DateTime.now();
         final qrData = scanData.code;
-        if (DataManager.isValidTreeCode(qrData.toString())) {
+        if (dataManager.isValidTreeCode(qrData.toString())) {
           setState(() {
             if (!qrCodeFound) {
               controller.pauseCamera();
               result = scanData;
               qrCodeFound = true;
 
-              int userId = DataManager.getCurrentUserId();
               int treeId = int.parse(qrData.toString());
-              DataManager.addUserTree(userId, treeId);
+              dataManager.addUserTree(treeId);
             }
           });
         } else {

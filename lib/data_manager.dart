@@ -1,18 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'Database/dataModel.dart';
 import 'Database/database_constant.dart';
 
-class DataManager {
+class DataManager extends ChangeNotifier {
   ///static function to get trees or Projects items scanned byt user to be showed
   ///in listview.
   //TODO: save in user preferences user id
-  static DatabaseProvider dbProvider = DatabaseProvider.dbp;
+  int currentUserId = DEFAULT_USER_ID;
 
-//TODO: metodo statico che copia gli alberi da server online a db locale
+  DatabaseProvider dbProvider = DatabaseProvider.dbp;
+
+  //TODO: metodo che copia gli alberi da server online a db locale
 
   // GETTER methods
-  static Future<Map<InfoType, List>> getUserTreesProject(int userId) async {
+  Future<Map<InfoType, List>> getUserTreesProject(int userId) async {
     //from id of tree get information from source
     final trees = await dbProvider.getUserTrees(userId);
     final projc = await dbProvider.getUserProjects(userId);
@@ -22,25 +25,28 @@ class DataManager {
     };
   }
 
-  static Future<List<Badge>> getBadges(int userId) {
-    return dbProvider.getUserBadges(userId);
+  Future<List<Badge>> getBadges() {
+    return dbProvider.getUserBadges(currentUserId);
   }
 
   static int getCurrentUserId() {
+    //in user preferencies get current user id
     //the app for now not support multi user
     return DEFAULT_USER_ID;
   }
 
   //ADDING methods
-  static void addUserTree(int userId, int treeId) {
-    dbProvider.addUserTree(userId, treeId);
+  void addUserTree(int treeId) {
+    dbProvider.addUserTree(currentUserId, treeId);
+    notifyListeners();
   }
 
-  static void unlockUserBadge(int userId, int idBadge) {
-    dbProvider.addUserBadge(userId, idBadge);
+  void unlockUserBadge(int idBadge) {
+    dbProvider.addUserBadge(currentUserId, idBadge);
+    notifyListeners();
   }
 
-  static bool isValidTreeCode(String qrData) {
+  bool isValidTreeCode(String qrData) {
     //TODO: get valid ids from online server or from cached trees donwloade form online db
     return true;
   }

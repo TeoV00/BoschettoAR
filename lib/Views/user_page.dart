@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:tree_ar/constant_vars.dart';
+import 'package:tree_ar/data_manager.dart';
 
 class UserPage extends StatefulWidget {
-  const UserPage({Key? key}) : super(key: key);
+  final DataManager dataManager;
+  const UserPage({Key? key, required this.dataManager}) : super(key: key);
 
   @override
-  State<UserPage> createState() => _UserPage();
+  State<UserPage> createState() => _UserPageState();
 }
 
-class _UserPage extends State<UserPage> {
+class _UserPageState extends State<UserPage> {
+  late DataManager dataManager;
+
+  @override
+  void initState() {
+    super.initState();
+    dataManager = widget.dataManager;
+  }
+
   //TODO: observer when datamodel change in order to update user info
   //in this state i keep percentage and all the value to show then when model change i update
   @override
