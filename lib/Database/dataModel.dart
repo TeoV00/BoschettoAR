@@ -1,10 +1,5 @@
 //File containing all classes that correspond to entities/tables in db
 
-const userTreeTable = "UserTree";
-const userBadgeTable = "UserBadge";
-const userTable = "UserProfile";
-const projectTable = "Project";
-
 class Tree {
   final int treeId;
   final String name;
