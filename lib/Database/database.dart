@@ -113,6 +113,26 @@ class DatabaseProvider {
     return userTrees;
   }
 
+  Future<Tree> getTree(int treeId) async {
+    final db = await database;
+    var result = await db.query(
+      treeTable,
+      where: "treeId = ?",
+      whereArgs: [treeId],
+    );
+    return Tree.fromMap(result.first);
+  }
+
+  Future<Project> getProject(int treeId) async {
+    final db = await database;
+    var result = await db.query(
+      projectTable,
+      where: "treeId = ?",
+      whereArgs: [treeId],
+    );
+    return Project.fromMap(result.first);
+  }
+
   Future<List<Project>> getUserProjects(int userId) async {
     //get all projects where treeId is in list
     final treeIds = (await getUserTrees(userId)).map((e) => e.treeId).toSet();
