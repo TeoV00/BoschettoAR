@@ -12,51 +12,54 @@ class DatabaseProvider {
 
   DatabaseProvider() {
     database.then((value) => {_database = value});
-    print("Inizialixzee");
+
+    // if (_database != null) {
+    //   _database!.insert(
+    //     userTable,
+    //     defaultUser.toMap(),
+    //   );
+    // }
   }
 
   Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _createDatabase();
+    //if not already set create db
+    if (_database == null) {
+      _createDatabase();
+      print("creo db");
+    }
+    print("uso db gia creato");
     return _database!;
   }
 
   ///method to create database tables from file ddl generated from db-main
   ///all tables are created
-  Future<Database> _createDatabase() async {
-    String creationQuery = await rootBundle.loadString(databaseDDLfile);
+  void _createDatabase() async {
+    var path = await getDatabasesPath();
+    var creationQuery = await rootBundle.loadString(databaseDDLfile);
 
-    return openDatabase(
-      join(await getDatabasesPath(), 'TreeArData.db'),
-      onCreate: (db, version) async {
-        await db.execute(creationQuery);
-
-        //create userProfile
-        // db.insert(
-        //   userTable,
-        //   User(
-        //     userId: DEFAULT_USER_ID,
-        //     name: "Nome",
-        //     surname: "cognome",
-        //     dateBirth: "Data di nascita",
-        //     course: "Corso universitario",
-        //     registrationDate: "data Immatric.",
-        //     userImageName: "userPlaceholder.jpeg",
-        //   ).toMap(),
-        // );
-      },
+    _database = await openDatabase(
+      join(path, 'pp.db'),
       version: 1, //--> use oncreate
     );
+    print("Db creato");
+    if (_database != null) {
+      print("creo query raw");
+      _database!.rawQuery(creationQuery);
+      _database!.insert(userTable, defaultUser.toMap());
+    }
   }
 
   ///Save new tree scanned from user
   ///return false for some specific conflict algorithms if not inserted.
   Future<bool> addUserTree(int userId, int treeId) async {
     final db = await database;
-    var result = db.insert(
-      userTreeTable,
-      UserTrees(userId: userId, treeId: treeId).toMap(),
-    );
+    var result = 0;
+    db
+        .insert(
+          userTreeTable,
+          UserTrees(userId: userId, treeId: treeId).toMap(),
+        )
+        .then((value) => {result = value});
     return result != 0;
   }
 
@@ -64,11 +67,14 @@ class DatabaseProvider {
   ///return false for some specific conflict algorithms if not inserted.
   Future<bool> addUserBadge(int userId, int idBadge) async {
     final db = await database;
-    var result = db.insert(
-      userBadgeTable,
-      UserBadge(userId: userId, idBadge: idBadge).toMap(),
-      conflictAlgorithm: ConflictAlgorithm.abort,
-    );
+    int result = 0; //by default: insert query not done
+    db
+        .insert(
+          userBadgeTable,
+          UserBadge(userId: userId, idBadge: idBadge).toMap(),
+          conflictAlgorithm: ConflictAlgorithm.abort,
+        )
+        .then((value) => {result = value});
     return result != 0;
   }
 
@@ -101,7 +107,16 @@ class DatabaseProvider {
     return result > 0;
   }
 
-//VOLENDO RITORNO UNA MAPPA CON CHIAVI InfoType.trees InfoType.project e poi gli array corrispondenti
+  Future<User> getUserInfo(int userId) async {
+    final db = await database;
+    var result = await db.query(
+      userTable,
+      where: "userId = ?",
+      whereArgs: [userId],
+    );
+    return User.fromMap(result.first);
+  }
+
   Future<List<Tree>> getUserTrees(int userId) async {
     final db = await database;
     var result = await db.query(

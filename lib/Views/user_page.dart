@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
 
@@ -215,73 +217,77 @@ class UserInfoBanner extends StatefulWidget {
 class _UserInfoBannerState extends State<UserInfoBanner> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-          color: secondColor,
-          borderRadius: BorderRadius.all(radiusCorner),
-        ),
-        child: Row(
-          children: [
-            ClipOval(
-              child: Image.asset(
-                //TODO: load user image uri from domain
-                "$imagePath/userPlaceholder.jpeg",
-                height: 90,
-              ),
-            ),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Name and Surname",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          //TODO: Put user information from domain
-                          Text(
-                            "Data Nascita: 24/02/00",
-                            style: TextStyle(
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: darkGray),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Text(
-                      "Ingnegneria informatica",
-                      overflow: TextOverflow.visible,
-                      style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: darkGray),
-                    ),
-                    const Text(
-                      "Immatricolato il: 2019-2020",
-                      style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: darkGray),
-                    ),
-                  ],
+    return Consumer<DataManager>(builder: (context, dataManager, child) {
+      User? usr = dataManager.getCurrentUserInfo();
+      return Expanded(
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            color: secondColor,
+            borderRadius: BorderRadius.all(radiusCorner),
+          ),
+          child: Row(
+            children: [
+              ClipOval(
+                child: Image.asset(
+                  //TODO: load user image uri from domain
+                  usr != null
+                      ? usr.userImageName
+                      : "$imagePath/userPlaceholder.jpeg",
+                  height: 90,
                 ),
               ),
-            )
-          ],
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              usr != null ? usr.getNameSurname() : "no info",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                            Text(
+                              "Data Nascita: ${usr != null ? usr.dateBirth : "no data"}",
+                              style: const TextStyle(
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: darkGray),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        usr != null ? usr.course : "no course info",
+                        overflow: TextOverflow.visible,
+                        style: const TextStyle(
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: darkGray),
+                      ),
+                      Text(
+                        "Immatricolato il: ${usr != null ? usr.registrationDate : 'no info'}",
+                        style: const TextStyle(
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: darkGray),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

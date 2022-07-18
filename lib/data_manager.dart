@@ -15,6 +15,12 @@ class DataManager extends ChangeNotifier {
   //TODO: metodo che copia gli alberi da server online a db locale
 
   // GETTER methods
+  User? getCurrentUserInfo() {
+    User? user;
+    dbProvider.getUserInfo(currentUserId).then((value) => {user = value});
+    return user;
+  }
+
   Map<InfoType, List> getUserTreesProject() {
     //from id of tree get information from source
     List<Tree> trees = List.empty();

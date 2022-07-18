@@ -101,8 +101,9 @@ class _ScanTreePageState extends State<ScanTreePage> {
   Widget getViewToShow() {
     bool debug = false;
     if (qrCodeFound && result != null || debug) {
-      Tree? tree = dataManager.getTreeById(0);
-      Project? project = dataManager.getProjectById(0);
+      int treeId = int.parse((result!.code)!);
+      Tree? tree = dataManager.getTreeById(treeId);
+      Project? project = dataManager.getProjectById(treeId);
 
       return Stack(
         children: [
@@ -120,7 +121,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
                   controller: scrollController,
                 );
               } else {
-                return const Text("Errore nel reperire le informazioni");
+                return Text("Errore nel reperire le informazioni id: $treeId");
               }
             },
           )
