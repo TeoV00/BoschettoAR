@@ -6,15 +6,19 @@ import 'package:flutter/services.dart';
 import 'database_constant.dart';
 
 class DatabaseProvider {
-  DatabaseProvider._();
   //Singleton pattern
-  static final DatabaseProvider dbp = DatabaseProvider._();
-  static late Database _database;
+  static final DatabaseProvider dbp = DatabaseProvider();
+  static Database? _database;
+
+  DatabaseProvider() {
+    database.then((value) => {_database = value});
+    print("Inizialixzee");
+  }
 
   Future<Database> get database async {
-    if (_database != null) return _database;
+    if (_database != null) return _database!;
     _database = await _createDatabase();
-    return _database;
+    return _database!;
   }
 
   ///method to create database tables from file ddl generated from db-main
@@ -24,22 +28,23 @@ class DatabaseProvider {
 
     return openDatabase(
       join(await getDatabasesPath(), 'TreeArData.db'),
-      onCreate: ((db, version) {
-        db.execute(creationQuery);
+      onCreate: (db, version) async {
+        await db.execute(creationQuery);
+
         //create userProfile
-        db.insert(
-          userTable,
-          User(
-            userId: DEFAULT_USER_ID,
-            name: "Nome",
-            surname: "cognome",
-            dateBirth: "Data di nascita",
-            course: "Corso universitario",
-            registrationDate: "data Immatric.",
-            userImageName: "userPlaceholder.jpeg",
-          ).toMap(),
-        );
-      }),
+        // db.insert(
+        //   userTable,
+        //   User(
+        //     userId: DEFAULT_USER_ID,
+        //     name: "Nome",
+        //     surname: "cognome",
+        //     dateBirth: "Data di nascita",
+        //     course: "Corso universitario",
+        //     registrationDate: "data Immatric.",
+        //     userImageName: "userPlaceholder.jpeg",
+        //   ).toMap(),
+        // );
+      },
       version: 1, //--> use oncreate
     );
   }
