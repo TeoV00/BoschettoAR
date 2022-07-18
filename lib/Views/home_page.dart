@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tree_ar/Database/dataModel.dart';
 
 import '../constant_vars.dart';
 import '../data_manager.dart';
@@ -104,29 +106,31 @@ class CustomListView extends StatefulWidget {
 
 class _CustomListView extends State<CustomListView> {
   DataManager dataManager = DataManager();
-  //TODO: listener when change domain data
 
   @override
   Widget build(BuildContext context) {
-    //TODO: get data to show in list of category InfoType
-    final List<String> entries = [];
-    return ListView.builder(
+    return Consumer<DataManager>(
+      builder: (context, dataManager, child) => ListView.builder(
         scrollDirection: Axis.vertical,
         padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
-        itemCount: entries.length,
+        itemCount: dataManager.getUserTreesProject()[widget.dataType]!.length,
         itemBuilder: (BuildContext context, int index) {
-          return RowItem(itemId: entries[index], type: widget.dataType);
-        });
+          return RowItem(
+              item: dataManager.getUserTreesProject()[widget.dataType]![index],
+              type: widget.dataType);
+        },
+      ),
+    );
   }
 }
 
 class RowItem extends StatelessWidget {
-  final String itemId;
+  final ListItemInterface item;
   final InfoType type;
 
   static const margin5H = EdgeInsets.symmetric(horizontal: 5);
 
-  const RowItem({Key? key, required this.itemId, required this.type})
+  const RowItem({Key? key, required this.item, required this.type})
       : super(key: key);
 
   @override
@@ -158,7 +162,7 @@ class RowItem extends StatelessWidget {
             Padding(
               padding: margin5H,
               child: Text(
-                "$itemId - Place Name", //TODO: get name by id and type
+                item.getTitle(),
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
               ),
@@ -166,7 +170,7 @@ class RowItem extends StatelessWidget {
             Padding(
               padding: margin5H,
               child: Text(
-                type.name, //TODO: get details-description by id and type
+                item.getDescr(),
                 style: const TextStyle(fontSize: 16),
               ),
             ),

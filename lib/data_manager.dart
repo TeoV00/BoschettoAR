@@ -15,10 +15,15 @@ class DataManager extends ChangeNotifier {
   //TODO: metodo che copia gli alberi da server online a db locale
 
   // GETTER methods
-  Future<Map<InfoType, List>> getUserTreesProject(int userId) async {
+  Map<InfoType, List> getUserTreesProject() {
     //from id of tree get information from source
-    final trees = await dbProvider.getUserTrees(userId);
-    final projc = await dbProvider.getUserProjects(userId);
+    List<Tree> trees = List.empty();
+    List<Project> projc = List.empty();
+    dbProvider.getUserTrees(currentUserId).then((result) => {trees = result});
+    dbProvider
+        .getUserProjects(currentUserId)
+        .then((result) => {projc = result});
+
     return {
       InfoType.tree: trees,
       InfoType.project: projc,
@@ -39,12 +44,6 @@ class DataManager extends ChangeNotifier {
 
   Future<List<Badge>> getBadges() {
     return dbProvider.getUserBadges(currentUserId);
-  }
-
-  static int getCurrentUserId() {
-    //in user preferencies get current user id
-    //the app for now not support multi user
-    return DEFAULT_USER_ID;
   }
 
   //ADDING methods
