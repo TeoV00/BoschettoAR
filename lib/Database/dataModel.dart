@@ -126,6 +126,13 @@ class User {
 // --     check(exists(select * from userBadge
 // --                  where userBadge.userId = userId))
 
+// userId INTEGER PRIMARY KEY,
+//      name TEXT,
+//      surname TEXT,
+//      dateBirth TEXT ,
+//      course TEXT,
+//      registrationDate TEXT,
+//      userImageName TEXT );
   User(
       {required this.userId,
       required this.name,
@@ -160,6 +167,11 @@ class User {
 
   String getNameSurname() {
     return "${name[0].toUpperCase()}${name.substring(1)} ${surname[0].toUpperCase()}${surname.substring(1)}";
+  }
+
+  @override
+  String toString() {
+    return "$name $surname $course $dateBirth $registrationDate $userImageName";
   }
 }
 
