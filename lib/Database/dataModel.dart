@@ -1,6 +1,6 @@
 //File containing all classes that correspond to entities/tables in db
 
-class Tree {
+class Tree implements ListItemInterface {
   final int treeId;
   final String name;
   final String descr;
@@ -36,9 +36,19 @@ class Tree {
         diameter: treeDb['diameter'],
         co2: treeDb['co2']);
   }
+
+  @override
+  String getDescr() {
+    return descr;
+  }
+
+  @override
+  String getTitle() {
+    return name;
+  }
 }
 
-class Project {
+class Project implements ListItemInterface {
   final int projectId;
   final int treeId;
   final String name;
@@ -69,6 +79,16 @@ class Project {
         name: projectDb['name'],
         descr: projectDb['descr'],
         link: projectDb['link']);
+  }
+
+  @override
+  String getDescr() {
+    return descr;
+  }
+
+  @override
+  String getTitle() {
+    return name;
   }
 }
 
@@ -189,4 +209,9 @@ class UserBadge {
       idBadge: userTreeDb['idBadge'],
     );
   }
+}
+
+abstract class ListItemInterface {
+  String getTitle();
+  String getDescr();
 }
