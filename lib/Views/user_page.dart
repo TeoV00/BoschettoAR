@@ -218,7 +218,9 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DataManager>(builder: (context, dataManager, child) {
-      User? usr = dataManager.getCurrentUserInfo();
+      User? usr = dataManager.getUser();
+      dataManager.updateUserInfo(
+          0, "matteo", "viola", "24/04/883", null, "2019/20", "");
       return Expanded(
         child: Container(
           margin: const EdgeInsets.only(bottom: 10),
@@ -231,9 +233,8 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
             children: [
               ClipOval(
                 child: Image.asset(
-                  //TODO: load user image uri from domain
                   usr != null
-                      ? usr.userImageName
+                      ? '$imagePath/${usr.userImageName}'
                       : "$imagePath/userPlaceholder.jpeg",
                   height: 90,
                 ),
