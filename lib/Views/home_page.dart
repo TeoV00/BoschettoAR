@@ -111,17 +111,43 @@ class _CustomListView extends State<CustomListView> {
   Widget build(BuildContext context) {
     return Consumer<DataManager>(
       builder: (context, dataManager, child) {
+        dataManager.getUserTreesProject;
         var treeAndProj = dataManager.userTreeAndProj;
-        return ListView.builder(
-          scrollDirection: Axis.vertical,
-          padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
-          itemCount: treeAndProj[widget.dataType]!.length,
-          itemBuilder: (BuildContext context, int index) {
-            return RowItem(
-                item: treeAndProj[widget.dataType]![index],
-                type: widget.dataType);
-          },
-        );
+
+        if (treeAndProj[InfoType.tree] != null &&
+            treeAndProj[InfoType.project] != null &&
+            treeAndProj[InfoType.tree]!.isNotEmpty) {
+          print("Lista alberi scansionati");
+
+          return ListView.builder(
+            scrollDirection: Axis.vertical,
+            padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
+            itemCount: treeAndProj[widget.dataType]!.length,
+            itemBuilder: (BuildContext context, int index) {
+              return RowItem(
+                  item: treeAndProj[widget.dataType]![index],
+                  type: widget.dataType);
+            },
+          );
+        } else {
+          print("Nessun albero scansionato");
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "Ahi ahi!! Ancora nessun albero scansionato!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                ],
+              )
+            ],
+          );
+        }
       },
     );
   }
