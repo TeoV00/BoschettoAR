@@ -218,9 +218,8 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DataManager>(builder: (context, dataManager, child) {
-      User? usr = dataManager.getUser();
-      dataManager.updateUserInfo(
-          0, "matteo", "viola", "24/04/883", null, "2019/20", "");
+      dataManager.getUser();
+      User? usr = dataManager.userData;
       return Expanded(
         child: Container(
           margin: const EdgeInsets.only(bottom: 10),
@@ -237,6 +236,13 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
                       ? '$imagePath/${usr.userImageName}'
                       : "$imagePath/userPlaceholder.jpeg",
                   height: 90,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Image.asset(
+                      "$imagePath/userPlaceholder.jpeg",
+                      height: 90,
+                    );
+                  },
                 ),
               ),
               Flexible(
@@ -266,7 +272,9 @@ class _UserInfoBannerState extends State<UserInfoBanner> {
                         ),
                       ),
                       Text(
-                        usr != null ? usr.course : "no course info",
+                        usr != null && usr.course != null
+                            ? usr.course!
+                            : "no course info",
                         overflow: TextOverflow.visible,
                         style: const TextStyle(
                             // fontWeight: FontWeight.bold,
