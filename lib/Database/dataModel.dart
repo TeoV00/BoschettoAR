@@ -117,12 +117,12 @@ class Badge {
 
 class User {
   final int userId;
-  final String name;
-  final String surname;
-  final String dateBirth; //Date
-  final String course; // varchar(50) not null,
-  final String registrationDate; // date not null,
-  final String userImageName; //varchar(20) not null --,
+  final String? name;
+  final String? surname;
+  final String? dateBirth; //Date
+  final String? course; // varchar(50) not null,
+  final String? registrationDate; // date not null,
+  final String? userImageName; //varchar(20) not null --,
 // --     check(exists(select * from userBadge
 // --                  where userBadge.userId = userId))
 
@@ -166,6 +166,8 @@ class User {
   }
 
   String getNameSurname() {
+    var name = this.name != null ? this.name! : "Name";
+    var surname = this.surname != null ? this.surname! : "Surname";
     return "${name[0].toUpperCase()}${name.substring(1)} ${surname[0].toUpperCase()}${surname.substring(1)}";
   }
 
