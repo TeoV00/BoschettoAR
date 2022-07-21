@@ -43,7 +43,7 @@ class TabView extends StatefulWidget {
 class _TabViewState extends State<TabView> {
 //selected page index
   DataManager dataManager = DataManager();
-  int _selectionIndex = 1; //deafultpage
+  int _selectionIndex = 0; //deafultpage
   //Children screen of app
   late List<Widget> _appScreenPages;
 
