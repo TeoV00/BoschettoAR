@@ -10,12 +10,13 @@ class DataManager extends ChangeNotifier {
   //TODO: save in user preferences user id
   int currentUserId = DEFAULT_USER_ID;
   User? userData;
-
+  late Map<InfoType, List> userTreeAndProj;
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
 
-  // DataManager() {
-  //   super();
-  // }
+  DataManager() {
+    var emptyList = List.empty(growable: true);
+    userTreeAndProj = {InfoType.tree: emptyList, InfoType.project: emptyList};
+  }
 
   //TODO: metodo che copia gli alberi da server online a db locale
 
@@ -39,19 +40,16 @@ class DataManager extends ChangeNotifier {
         registrationDate, userImageName);
   }
 
-  Map<InfoType, List> getUserTreesProject() {
+  void getUserTreesProject() async {
     //from id of tree get information from source
-    List<Tree> trees = List.empty();
-    List<Project> projc = List.empty();
-    dbProvider.getUserTrees(currentUserId).then((result) => {trees = result});
-    dbProvider
-        .getUserProjects(currentUserId)
-        .then((result) => {projc = result});
+    List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
+    List<Project> projc = await dbProvider.getUserProjects(currentUserId);
 
-    return {
+    userTreeAndProj = {
       InfoType.tree: trees,
       InfoType.project: projc,
     };
+    notifyListeners();
   }
 
   Tree? getTreeById(int id) {

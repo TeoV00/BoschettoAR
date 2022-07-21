@@ -110,16 +110,19 @@ class _CustomListView extends State<CustomListView> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DataManager>(
-      builder: (context, dataManager, child) => ListView.builder(
-        scrollDirection: Axis.vertical,
-        padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
-        itemCount: dataManager.getUserTreesProject()[widget.dataType]!.length,
-        itemBuilder: (BuildContext context, int index) {
-          return RowItem(
-              item: dataManager.getUserTreesProject()[widget.dataType]![index],
-              type: widget.dataType);
-        },
-      ),
+      builder: (context, dataManager, child) {
+        var treeAndProj = dataManager.userTreeAndProj;
+        return ListView.builder(
+          scrollDirection: Axis.vertical,
+          padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
+          itemCount: treeAndProj[widget.dataType]!.length,
+          itemBuilder: (BuildContext context, int index) {
+            return RowItem(
+                item: treeAndProj[widget.dataType]![index],
+                type: widget.dataType);
+          },
+        );
+      },
     );
   }
 }
