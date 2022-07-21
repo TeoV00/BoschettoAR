@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dataModel.dart';
-import 'package:flutter/services.dart';
 import 'database_constant.dart';
 
 class DatabaseProvider {
@@ -90,33 +88,39 @@ class DatabaseProvider {
   //else nothing has been changed
   Future<bool> updateUserInfo(
     int userId,
-    String name,
-    String surname,
-    String dateBirth,
-    String course,
-    String registrationDate,
-    String userImageName,
+    String? name,
+    String? surname,
+    String? dateBirth,
+    String? course,
+    String? registrationDate,
+    String? userImageName,
   ) async {
     var result = 0;
-    if (database != null) {
+    var usr = await getUserInfo(userId);
+
+    if (database != null && usr != null) {
       var db = database!;
       result = await db.update(
           userTable,
           User(
             userId: userId,
-            name: name,
-            surname: surname,
-            dateBirth: dateBirth,
-            course: course,
-            registrationDate: registrationDate,
-            userImageName: userImageName,
+            name: isNull(name) ? usr.name : name!,
+            surname: isNull(surname) ? usr.surname : surname!,
+            dateBirth: isNull(dateBirth) ? usr.dateBirth : dateBirth!,
+            course: isNull(course) ? usr.course : course!,
+            registrationDate: isNull(registrationDate)
+                ? usr.registrationDate
+                : registrationDate!,
+            userImageName:
+                isNull(userImageName) ? usr.userImageName : userImageName!,
           ).toMap());
     }
     return result > 0;
   }
 
-  Future<User> getUserInfo(int userId) async {
-    var result = defaultUser;
+  ///it return null if the specified user by id doesn't exist
+  Future<User?> getUserInfo(int userId) async {
+    User? result;
     if (database != null) {
       var db = database!;
       var resultQuery = await db.query(
@@ -124,7 +128,7 @@ class DatabaseProvider {
         where: "userId = ?",
         whereArgs: [userId],
       );
-      result = User.fromMap(resultQuery.first);
+      result = resultQuery.isNotEmpty ? User.fromMap(resultQuery.first) : null;
     }
     return result;
   }
@@ -209,5 +213,9 @@ class DatabaseProvider {
       }
     }
     return userBadges;
+  }
+
+  static bool isNull(dynamic elem) {
+    return elem == null;
   }
 }
