@@ -8,6 +8,7 @@ import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
 import 'package:ar_flutter_plugin/models/ar_hittest_result.dart';
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/datatypes/hittest_result_types.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tree_ar/data_manager.dart';
 
@@ -128,6 +129,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
         ],
       );
     } else {
+      // Scan QrCode page
       return qrViewPage;
     }
   }
@@ -147,26 +149,36 @@ class _ScanTreePageState extends State<ScanTreePage> {
     controller.scannedDataStream.listen((scanData) {
       if (DateTime.now().difference(lastScanTime) > timeoutScan) {
         lastScanTime = DateTime.now();
-        final qrData = scanData.code;
-        if (dataManager.isValidTreeCode(qrData.toString())) {
-          setState(() {
-            if (!qrCodeFound) {
-              controller.pauseCamera();
-              result = scanData;
-              qrCodeFound = true;
+        final qrData = scanData.code!;
 
-              int treeId = int.parse(qrData.toString());
-              dataManager.addUserTree(treeId);
-            }
-          });
-        } else {
-          //qr data are not valid for this app or not contains valid tree id
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-                "QRcode non valido o albero non trovato id: ${scanData.code}"),
-            duration: const Duration(seconds: 2),
-          ));
+        if (scanData.code != null) {
+          print(scanData.code);
         }
+
+        dataManager.isValidTreeCode(qrData).then((isValidID) => {
+              if (isValidID)
+                {
+                  setState(() {
+                    if (!qrCodeFound) {
+                      controller.pauseCamera();
+                      result = scanData;
+                      qrCodeFound = true;
+
+                      int treeId = int.parse(qrData.toString());
+                      //dataManager.addUserTree(treeId);
+                    }
+                  })
+                }
+              else
+                {
+                  //qr data are not valid for this app or not contains valid tree id
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        "QRcode non valido o albero non trovato id: ${scanData.code}"),
+                    duration: const Duration(seconds: 2),
+                  ))
+                }
+            });
       }
     });
   }
