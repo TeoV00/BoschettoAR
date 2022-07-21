@@ -9,19 +9,21 @@ class DataManager extends ChangeNotifier {
   ///in listview.
   //TODO: save in user preferences user id
   int currentUserId = DEFAULT_USER_ID;
-  User? _currentCachedUser;
+  User? userData;
 
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
 
-  DataManager() {
-    _refreshChachedUserInfo();
-  }
+  // DataManager() {
+  //   super();
+  // }
 
   //TODO: metodo che copia gli alberi da server online a db locale
 
-  User? getUser() {
-    print(_currentCachedUser.toString());
-    return _currentCachedUser;
+  ///get user info then when received, cache data to var then notify listeners
+  getUser() async {
+    var user = await dbProvider.getUserInfo(currentUserId);
+    userData = user;
+    notifyListeners();
   }
 
   void updateUserInfo(
@@ -33,28 +35,8 @@ class DataManager extends ChangeNotifier {
     String? registrationDate,
     String? userImageName,
   ) async {
-    var usr = getUser();
-    if (usr != null) {
-      var execDone = await dbProvider.updateUserInfo(
-        usr.userId,
-        isNull(name) ? usr.name : name!,
-        isNull(surname) ? usr.surname : surname!,
-        isNull(dateBirth) ? usr.dateBirth : dateBirth!,
-        isNull(course) ? usr.course : course!,
-        isNull(registrationDate) ? usr.registrationDate : registrationDate!,
-        isNull(userImageName) ? usr.userImageName : userImageName!,
-      );
-      if (execDone == true) {
-        _refreshChachedUserInfo();
-      }
-    }
-    print(_currentCachedUser.toString());
-  }
-
-  _refreshChachedUserInfo() async {
-    var user = await dbProvider.getUserInfo(currentUserId);
-    _currentCachedUser = user;
-    notifyListeners();
+    await dbProvider.updateUserInfo(userId, name, surname, dateBirth, course,
+        registrationDate, userImageName);
   }
 
   Map<InfoType, List> getUserTreesProject() {
@@ -102,9 +84,5 @@ class DataManager extends ChangeNotifier {
   bool isValidTreeCode(String qrData) {
     //TODO: get valid ids from online server or from cached trees donwloade form online db
     return true;
-  }
-
-  bool isNull(dynamic elem) {
-    return elem == null;
   }
 }
