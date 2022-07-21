@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -5,13 +7,11 @@ import 'Database/dataModel.dart';
 import 'Database/database_constant.dart';
 
 class DataManager extends ChangeNotifier {
-  ///static function to get trees or Projects items scanned byt user to be showed
-  ///in listview.
-  //TODO: save in user preferences user id
-  int currentUserId = DEFAULT_USER_ID;
-  User? userData;
-  late Map<InfoType, List> userTreeAndProj;
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
+
+  int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
+  User? userData; // var to chache user data from db
+  late Map<InfoType, List> userTreeAndProj;
 
   DataManager() {
     var emptyList = List.empty(growable: true);
@@ -19,6 +19,7 @@ class DataManager extends ChangeNotifier {
   }
 
   //TODO: metodo che copia gli alberi da server online a db locale
+  //TODO: save in user preferences user id
 
   ///get user info then when received, cache data to var then notify listeners
   getUser() async {
@@ -45,6 +46,7 @@ class DataManager extends ChangeNotifier {
     List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
     List<Project> projc = await dbProvider.getUserProjects(currentUserId);
 
+    // set data manager var
     userTreeAndProj = {
       InfoType.tree: trees,
       InfoType.project: projc,
@@ -68,7 +70,7 @@ class DataManager extends ChangeNotifier {
     return dbProvider.getUserBadges(currentUserId);
   }
 
-  //ADDING methods
+  //SETTER methods
   void addUserTree(int treeId) {
     dbProvider.addUserTree(currentUserId, treeId);
     notifyListeners();
@@ -79,8 +81,11 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isValidTreeCode(String qrData) {
-    //TODO: get valid ids from online server or from cached trees donwloade form online db
-    return true;
+  Future<bool> isValidTreeCode(String qrData) async {
+    var treeId = int.parse(qrData);
+    var isValidTreeId = await dbProvider.isValidTree(treeId);
+    print(
+        "tree with id: $treeId ${isValidTreeId ? "ESISTE-VALIDO" : "NON VALIDO"}");
+    return isValidTreeId;
   }
 }
