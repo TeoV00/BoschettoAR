@@ -24,28 +24,38 @@ class DatabaseProvider {
   ///all tables are created
   void _createDatabase() async {
     var path = await getDatabasesPath();
-    //var creationQuery = await rootBundle.loadString(databaseDDLfile);
 
     _database = await openDatabase(
-      join(path, 'puttana.db'),
+      join(path, 'treeAR.db'),
       version: 1, //--> use oncreate
+      onCreate: (db, version) {
+        //var tablesCount = creationQuery.length;
+        //for (var i = 0; i < tablesCount; i++) {
+        db.execute(creationQuery[0]);
+        db.execute(creationQuery[5]);
+        //}
+        //insert default empty user profile
+        db.insert(
+          userTable,
+          defaultUser.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.abort,
+        );
+      },
     );
 
-//     database.execute('''
-// CREATE TABLE UserProfile (
-//      userId INTEGER PRIMARY KEY,
-//      name TEXT,
-//      surname TEXT,
-//      dateBirth TEXT ,
-//      course TEXT,
-//      registrationDate TEXT,
-//      userImageName TEXT );
-// ''');
-    // database.insert(
-    //   userTable,
-    //   defaultUser.toMap(),
-    //   conflictAlgorithm: ConflictAlgorithm.abort,
-    // );
+    //for debug insert tree with id = 1
+    database!.insert(
+      treeTable,
+      Tree(
+              treeId: 0,
+              name: "name",
+              descr: "descr",
+              height: 122,
+              diameter: 40,
+              co2: 40)
+          .toMap(),
+      conflictAlgorithm: ConflictAlgorithm.abort,
+    );
   }
 
   ///Save new tree scanned from user
@@ -213,6 +223,17 @@ class DatabaseProvider {
       }
     }
     return userBadges;
+  }
+
+  ///if result list is not empty means that there is a tree with the given treeId
+  Future<bool> isValidTree(int id) async {
+    List<Map<String, dynamic>> result = List.empty();
+    if (database != null) {
+      var db = database!;
+      //get treeId that match the given treeId
+      result = await db.query(treeTable, where: "treeId = ?", whereArgs: [id]);
+    }
+    return result.isNotEmpty;
   }
 
   static bool isNull(dynamic elem) {
