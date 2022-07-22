@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>853041049978-lvdbqji81l18c5382vtn902cobffjtuq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.853041049978-lvdbqji81l18c5382vtn902cobffjtuq</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBBMaNFVO4_a_GRQgarB5zz70O1-8Od_YQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>853041049978</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>it.unibo.treeAr</string>
+	<key>PROJECT_ID</key>
+	<string>boschetto-unibo-cesena</string>
+	<key>STORAGE_BUCKET</key>
+	<string>boschetto-unibo-cesena.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:853041049978:ios:32b4e83db66093aa24e6c3</string>
+</dict>
+</plist>

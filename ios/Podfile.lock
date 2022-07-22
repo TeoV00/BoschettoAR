@@ -25,6 +25,9 @@ PODS:
   - Firebase/RemoteConfig (8.15.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 8.15.0)
+  - firebase_core (1.20.0):
+    - Firebase/CoreOnly (= 8.15.0)
+    - Flutter
   - FirebaseABTesting (8.15.0):
     - FirebaseCore (~> 8.0)
   - FirebaseCore (8.15.0):
@@ -100,6 +103,7 @@ PODS:
 
 DEPENDENCIES:
   - ar_flutter_plugin (from `.symlinks/plugins/ar_flutter_plugin/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
@@ -135,6 +139,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   ar_flutter_plugin:
     :path: ".symlinks/plugins/ar_flutter_plugin/ios"
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
   geolocator_apple:
@@ -153,6 +159,7 @@ SPEC CHECKSUMS:
   BlueECC: 0d18e93347d3ec6d41416de21c1ffa4d4cd3c2cc
   BlueRSA: dfeef51db96bcc4edec654956c1581adbda4e6a3
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
+  firebase_core: c4f1766beba4a9767ed7ba87e03a7857440ee923
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
   FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb

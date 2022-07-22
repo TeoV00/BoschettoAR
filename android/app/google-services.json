@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "853041049978",
+    "project_id": "boschetto-unibo-cesena",
+    "storage_bucket": "boschetto-unibo-cesena.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853041049978:android:24a67f834f652e1624e6c3",
+        "android_client_info": {
+          "package_name": "com.example.tree_ar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "853041049978-1401f6oam7ji400m7cg8gbds1f7vvgmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAExV_MkSOQgPXAzNOIEAcyfELWRtXj_uw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "853041049978-1401f6oam7ji400m7cg8gbds1f7vvgmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
