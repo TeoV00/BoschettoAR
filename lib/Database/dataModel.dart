@@ -1,6 +1,6 @@
 //File containing all classes that correspond to entities/tables in db
 
-class Tree implements ListItemInterface {
+class Tree implements ListItemInterface, ObjToMapI {
   final int treeId;
   final String name;
   final String descr;
@@ -16,6 +16,7 @@ class Tree implements ListItemInterface {
       required this.diameter,
       required this.co2});
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'treeId': treeId,
@@ -48,7 +49,7 @@ class Tree implements ListItemInterface {
   }
 }
 
-class Project implements ListItemInterface {
+class Project implements ListItemInterface, ObjToMapI {
   final int projectId;
   final int treeId;
   final String name;
@@ -62,6 +63,7 @@ class Project implements ListItemInterface {
       required this.descr,
       required this.link});
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'projectId': projectId,
@@ -92,12 +94,13 @@ class Project implements ListItemInterface {
   }
 }
 
-class Badge {
+class Badge implements ObjToMapI {
   final int id;
   final String descr;
   final String imageName;
   Badge({required this.id, required this.descr, required this.imageName});
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -115,7 +118,7 @@ class Badge {
   }
 }
 
-class User {
+class User implements ObjToMapI {
   final int userId;
   final String? name;
   final String? surname;
@@ -142,6 +145,7 @@ class User {
       required this.registrationDate,
       required this.userImageName});
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
@@ -177,7 +181,7 @@ class User {
   }
 }
 
-class UserTrees {
+class UserTrees implements ObjToMapI {
   final int userId; //numeric(5) not null,
   final int treeId; //numeric(4) not null,
   //constraint IDhasScanned primary key (treeId, userId),
@@ -186,6 +190,7 @@ class UserTrees {
 
   UserTrees({required this.userId, required this.treeId});
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
@@ -201,7 +206,7 @@ class UserTrees {
   }
 }
 
-class UserBadge {
+class UserBadge implements ObjToMapI {
   final int userId; //numeric(5) not null,
   final int idBadge; //numeric(4) not null,
 //      constraint IDunlocked primary key (idBadge, userId),
@@ -210,6 +215,7 @@ class UserBadge {
 
   UserBadge({required this.userId, required this.idBadge});
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
@@ -228,4 +234,8 @@ class UserBadge {
 abstract class ListItemInterface {
   String getTitle();
   String getDescr();
+}
+
+abstract class ObjToMapI {
+  Map<String, dynamic> toMap();
 }

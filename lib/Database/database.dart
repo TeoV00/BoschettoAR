@@ -35,62 +35,21 @@ class DatabaseProvider {
         db.execute(creationQuery[5]);
         //}
         //insert default empty user profile
-        db.insert(
-          userTable,
-          defaultUser.toMap(),
-          conflictAlgorithm: ConflictAlgorithm.abort,
-        );
+        _insert(userTable, defaultUser);
       },
-    );
-
-    //for debug insert tree with id = 1
-    database!.insert(
-      treeTable,
-      Tree(
-              treeId: 0,
-              name: "name",
-              descr: "descr",
-              height: 122,
-              diameter: 40,
-              co2: 40)
-          .toMap(),
-      conflictAlgorithm: ConflictAlgorithm.abort,
     );
   }
 
   ///Save new tree scanned from user
   ///return false for some specific conflict algorithms if not inserted.
   Future<bool> addUserTree(int userId, int treeId) async {
-    var result = 0;
-    if (database != null) {
-      var db = database!;
-      db
-          .insert(
-            userTreeTable,
-            UserTrees(userId: userId, treeId: treeId).toMap(),
-          )
-          .then((value) => {result = value});
-    }
-
-    return result != 0;
+    return _insert(userTreeTable, UserTrees(userId: userId, treeId: treeId));
   }
 
   ///Add new badge that user unlocked
   ///return false for some specific conflict algorithms if not inserted.
   Future<bool> addUserBadge(int userId, int idBadge) async {
-    int result = 0; //by default: insert query not done
-    if (database != null) {
-      var db = database!;
-      db
-          .insert(
-            userBadgeTable,
-            UserBadge(userId: userId, idBadge: idBadge).toMap(),
-            conflictAlgorithm: ConflictAlgorithm.abort,
-          )
-          .then((value) => {result = value});
-    }
-
-    return result != 0;
+    return _insert(userBadgeTable, UserBadge(userId: userId, idBadge: idBadge));
   }
 
   ///update user information
@@ -238,5 +197,21 @@ class DatabaseProvider {
 
   static bool isNull(dynamic elem) {
     return elem == null;
+  }
+
+  //true --> transaction goes done
+  //false --> somethings goes wrong
+  Future<bool> _insert(String tableName, ObjToMapI objToInsert) async {
+    var result = 0; //not inserted
+
+    if (database != null) {
+      final db = database!;
+      result = await db.insert(
+        tableName,
+        objToInsert.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.abort,
+      );
+    }
+    return result != 0;
   }
 }
