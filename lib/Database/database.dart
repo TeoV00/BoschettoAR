@@ -24,32 +24,56 @@ class DatabaseProvider {
   ///all tables are created
   void _createDatabase() async {
     var path = await getDatabasesPath();
-
     _database = await openDatabase(
-      join(path, 'treeAR.db'),
+      join(path, 'trenx&&xew.db'),
       version: 1, //--> use oncreate
-      onCreate: (db, version) {
-        //var tablesCount = creationQuery.length;
-        //for (var i = 0; i < tablesCount; i++) {
-        db.execute(creationQuery[0]);
-        db.execute(creationQuery[5]);
-        //}
+      onCreate: (db, version) async {
+        //I tried to use a for-statement but queries ar not interpreted correctly
+        //i dont like it
+        db.execute(creationQuery[0]); //UserProfile
+        db.execute(creationQuery[1]); //project
+        db.execute(creationQuery[2]); //Badge
+        db.execute(creationQuery[3]); //UserTrees
+        db.execute(creationQuery[4]); //UserBadge
+        db.execute(creationQuery[5]); //Tree
         //insert default empty user profile
-        _insert(userTable, defaultUser);
+        _insert(db, userTable, defaultUser);
       },
     );
+  }
+
+  void insertTree(Tree tree) {
+    if (_database != null) {
+      _insert(_database!, treeTable, tree);
+    }
   }
 
   ///Save new tree scanned from user
   ///return false for some specific conflict algorithms if not inserted.
   Future<bool> addUserTree(int userId, int treeId) async {
-    return _insert(userTreeTable, UserTrees(userId: userId, treeId: treeId));
+    if (_database != null) {
+      return _insert(
+        _database!,
+        userTreeTable,
+        UserTrees(userId: userId, treeId: treeId),
+      );
+    } else {
+      return false;
+    }
   }
 
   ///Add new badge that user unlocked
   ///return false for some specific conflict algorithms if not inserted.
   Future<bool> addUserBadge(int userId, int idBadge) async {
-    return _insert(userBadgeTable, UserBadge(userId: userId, idBadge: idBadge));
+    if (_database != null) {
+      return _insert(
+        _database!,
+        userBadgeTable,
+        UserBadge(userId: userId, idBadge: idBadge),
+      );
+    } else {
+      return false;
+    }
   }
 
   ///update user information
@@ -128,7 +152,9 @@ class DatabaseProvider {
         where: "treeId = ?",
         whereArgs: [treeId],
       );
-      return Tree.fromMap(result.first);
+      Tree tree = Tree.fromMap(result.first);
+      //print(tree.toString());
+      return tree;
     }
     return null;
   }
@@ -201,17 +227,17 @@ class DatabaseProvider {
 
   //true --> transaction goes done
   //false --> somethings goes wrong
-  Future<bool> _insert(String tableName, ObjToMapI objToInsert) async {
+  Future<bool> _insert(
+    Database db,
+    String tableName,
+    ObjToMapI objToInsert,
+  ) async {
     var result = 0; //not inserted
-
-    if (database != null) {
-      final db = database!;
-      result = await db.insert(
-        tableName,
-        objToInsert.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.abort,
-      );
-    }
+    result = await db.insert(
+      tableName,
+      objToInsert.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.abort,
+    );
     return result != 0;
   }
 }
