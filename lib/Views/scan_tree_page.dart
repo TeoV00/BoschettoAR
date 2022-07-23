@@ -58,9 +58,12 @@ class _ScanTreePageState extends State<ScanTreePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: FloatingActionButton(
+            tooltip: "Torna indietro",
             onPressed: () => {Navigator.pop(context)},
-            backgroundColor: mainColor),
+            backgroundColor: mainColor,
+            child: const Icon(Icons.arrow_back)),
         body: SafeArea(
           child: Stack(children: [
             //qr data are not valid for this app or not contains valid tree id
