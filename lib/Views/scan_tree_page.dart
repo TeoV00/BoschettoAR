@@ -31,7 +31,6 @@ class ScanTreePage extends StatefulWidget {
 
 class _ScanTreePageState extends State<ScanTreePage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  late final DataManager dataManager;
 
   Barcode? result;
   late QRView qrViewPage;
@@ -43,7 +42,6 @@ class _ScanTreePageState extends State<ScanTreePage> {
   @override
   void initState() {
     super.initState();
-    dataManager = Repository.of(context).dataManager;
 
     qrViewPage = QRView(
       key: qrKey,
@@ -122,6 +120,8 @@ class _ScanTreePageState extends State<ScanTreePage> {
   }
 
   void streamData() {
+    //get datamanager form top widget that istanciate it
+    var dataManager = Repository.of(context).dataManager;
     if (controller != null) {
       controller!.scannedDataStream.listen((scanData) {
         if (DateTime.now().difference(lastScanTime) > timeoutScan) {

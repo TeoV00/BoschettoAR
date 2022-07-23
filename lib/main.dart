@@ -21,7 +21,8 @@ class Repository extends InheritedWidget {
       : super(key: key, child: child);
 
   static Repository of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType() as Repository;
+      context.dependOnInheritedWidgetOfExactType(aspect: Repository)
+          as Repository;
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
