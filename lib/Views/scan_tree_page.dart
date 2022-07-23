@@ -22,29 +22,26 @@ import 'package:flutter/material.dart';
 import '../Database/dataModel.dart';
 
 class ScanTreePage extends StatefulWidget {
-  final DataManager dataManager;
-  const ScanTreePage({Key? key, required this.dataManager}) : super(key: key);
+  const ScanTreePage({Key? key}) : super(key: key);
 
   @override
   State<ScanTreePage> createState() => _ScanTreePageState();
 }
 
 class _ScanTreePageState extends State<ScanTreePage> {
-  late DataManager dataManager;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   Barcode? result;
   late QRView qrViewPage;
   QRViewController? controller;
   bool qrCodeFound = false;
+
   DateTime lastScanTime = DateTime.now();
   final Duration timeoutScan = const Duration(seconds: 4);
 
   @override
   void initState() {
     super.initState();
-
-    dataManager = widget.dataManager;
 
     qrViewPage = QRView(
       key: qrKey,
@@ -63,78 +60,15 @@ class _ScanTreePageState extends State<ScanTreePage> {
     return Scaffold(
         body: SafeArea(
       child: Stack(children: [
-        getViewToShow(),
-        Padding(
-          padding: pagePadding,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    color: mainColor),
-                child: IconButton(
-                  tooltip: "Torna in Home",
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => {Navigator.pop(context)},
-                ),
-              ),
-              qrCodeFound
-                  ? Container(
-                      margin: const EdgeInsets.only(left: 20),
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
-                          color: mainColor),
-                      child: IconButton(
-                        icon: const Icon(Icons.qr_code_scanner),
-                        tooltip: "Nuova scansione",
-                        onPressed: () => {_resetView()},
-                      ),
-                    )
-                  : const Text("")
-            ],
-          ),
-        )
+        //qrCodeFound ? TreeViewInfoAr(proj: ,tree: ) : qrViewPage;
+        qrViewPage,
+        //TreeViewInfoAr(proj: ,tree: ),
+        TopButton(showNewScanButton: qrCodeFound, actionNewScanBtn: resetView)
       ]),
     ));
   }
 
-  Widget getViewToShow() {
-    bool debug = false;
-    if (qrCodeFound && result != null || debug) {
-      int treeId = int.parse((result!.code)!);
-      Tree? tree = dataManager.getTreeById(treeId);
-      Project? project = dataManager.getProjectById(treeId);
-
-      return Stack(
-        children: [
-          const ARWidget(), //AR view widget
-          DraggableScrollableSheet(
-            //Bottom Sheet that show scanned tree info
-            minChildSize: 0.10,
-            initialChildSize: 0.15,
-            maxChildSize: 0.6,
-            builder: (BuildContext context, ScrollController scrollController) {
-              if (tree != null && project != null) {
-                return TreeInfoSheet(
-                  tree: tree,
-                  project: project,
-                  controller: scrollController,
-                );
-              } else {
-                return Text("Errore nel reperire le informazioni id: $treeId");
-              }
-            },
-          )
-        ],
-      );
-    } else {
-      // Scan QrCode page
-      return qrViewPage;
-    }
-  }
-
-  void _resetView() {
+  void resetView() {
     setState(() {
       qrCodeFound = false;
       result = null;
@@ -151,34 +85,26 @@ class _ScanTreePageState extends State<ScanTreePage> {
         lastScanTime = DateTime.now();
         final qrData = scanData.code!;
 
-        if (scanData.code != null) {
-          print(scanData.code);
+        if (true) {
+          setState(() {
+            if (!qrCodeFound) {
+              controller.pauseCamera();
+              setState(() {
+                result = scanData;
+                qrCodeFound = true;
+              });
+              int treeId = int.parse(qrData.toString());
+              //dataManager.addUserTree(treeId);
+            }
+          });
+        } else {
+          //qr data are not valid for this app or not contains valid tree id
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+                "QRcode non valido o albero non trovato id: ${scanData.code}"),
+            duration: const Duration(seconds: 2),
+          ));
         }
-
-        dataManager.isValidTreeCode(qrData).then((isValidID) => {
-              if (isValidID)
-                {
-                  setState(() {
-                    if (!qrCodeFound) {
-                      controller.pauseCamera();
-                      result = scanData;
-                      qrCodeFound = true;
-
-                      int treeId = int.parse(qrData.toString());
-                      //dataManager.addUserTree(treeId);
-                    }
-                  })
-                }
-              else
-                {
-                  //qr data are not valid for this app or not contains valid tree id
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        "QRcode non valido o albero non trovato id: ${scanData.code}"),
-                    duration: const Duration(seconds: 2),
-                  ))
-                }
-            });
       }
     });
   }
@@ -204,6 +130,81 @@ class _ScanTreePageState extends State<ScanTreePage> {
   void dispose() {
     super.dispose();
     controller?.dispose();
+  }
+}
+
+class TopButton extends StatelessWidget {
+  final bool showNewScanButton;
+  final void actionNewScanBtn;
+
+  const TopButton(
+      {Key? key,
+      required this.showNewScanButton,
+      required this.actionNewScanBtn})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: pagePadding,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                color: mainColor),
+            child: IconButton(
+              tooltip: "Torna in Home",
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => {Navigator.pop(context)},
+            ),
+          ),
+          showNewScanButton
+              ? Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      color: mainColor),
+                  child: IconButton(
+                    icon: const Icon(Icons.qr_code_scanner),
+                    tooltip: "Nuova scansione",
+                    onPressed: () => {actionNewScanBtn},
+                  ),
+                )
+              : const Text("")
+        ],
+      ),
+    );
+  }
+}
+
+class TreeViewInfoAr extends StatelessWidget {
+  final Tree tree;
+  final Project proj;
+  const TreeViewInfoAr({Key? key, required this.tree, required this.proj})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        const ARWidget(), //AR view widget
+        DraggableScrollableSheet(
+          //Bottom Sheet that show scanned tree info
+          minChildSize: 0.10,
+          initialChildSize: 0.15,
+          maxChildSize: 0.6,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return TreeInfoSheet(
+              tree: tree,
+              project: proj,
+              controller: scrollController,
+            );
+          },
+        )
+      ],
+    );
   }
 }
 
