@@ -1,3 +1,5 @@
+// import 'firebase_options.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tree_ar/data_manager.dart';
@@ -7,11 +9,31 @@ import 'Views/home_page.dart';
 import 'Views/scan_tree_page.dart';
 import 'package:provider/provider.dart';
 
+// initFirebaseApp() async {
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+// }
+
+class Repository extends InheritedWidget {
+  final DataManager dataManager;
+  const Repository(this.dataManager, {Key? key, required Widget child})
+      : super(key: key, child: child);
+
+  static Repository of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType() as Repository;
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
+}
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // initFirebaseApp();
+  DataManager dataManager = DataManager();
   runApp(ChangeNotifierProvider(
-    create: (context) => DataManager(),
-    child: const MyApp(),
+    create: (context) => dataManager,
+    child: Repository(dataManager, child: const MyApp()),
   ));
 }
 
@@ -42,7 +64,6 @@ class TabView extends StatefulWidget {
 /// when tap on button it change selected view and show it
 class _TabViewState extends State<TabView> {
 //selected page index
-  DataManager dataManager = DataManager();
   int _selectionIndex = 0; //deafultpage
   //Children screen of app
   late List<Widget> _appScreenPages;
@@ -51,8 +72,8 @@ class _TabViewState extends State<TabView> {
   void initState() {
     super.initState();
     _appScreenPages = <Widget>[
-      MainPage(dataManager: dataManager),
-      UserPage(dataManager: dataManager),
+      const MainPage(),
+      const UserPage(),
     ];
   }
 
@@ -108,7 +129,8 @@ class _TabViewState extends State<TabView> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ScanTreePage(dataManager: dataManager)),
+              builder: (context) => const ScanTreePage(),
+            ),
           )
         },
         child: const ImageIcon(
