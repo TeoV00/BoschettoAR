@@ -152,9 +152,7 @@ class DatabaseProvider {
         where: "treeId = ?",
         whereArgs: [treeId],
       );
-      Tree tree = Tree.fromMap(result.first);
-      //print(tree.toString());
-      return tree;
+      return result.isNotEmpty ? Tree.fromMap(result.first) : null;
     }
     return null;
   }
@@ -167,7 +165,7 @@ class DatabaseProvider {
         where: "treeId = ?",
         whereArgs: [treeId],
       );
-      return Project.fromMap(result.first);
+      return result.isNotEmpty ? Project.fromMap(result.first) : null;
     }
     return null;
   }
