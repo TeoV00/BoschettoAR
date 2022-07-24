@@ -78,5 +78,3 @@ class _ARWidgetState extends State<ARWidget> {
     arObjectManager.addNode(newNode, planeAnchor: newAnchor);
   }
 }
-
-
