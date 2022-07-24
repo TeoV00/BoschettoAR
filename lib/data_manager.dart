@@ -15,7 +15,6 @@ class DataManager extends ChangeNotifier {
   Tree? treeByQrCodeId; // result of request treeById
   Project? projByQrCodeId;
   bool loadHasFinished = false;
-  bool qrIsValid = false;
   late Map<InfoType, List> userTreeAndProj;
 
   DataManager() {
@@ -111,13 +110,6 @@ class DataManager extends ChangeNotifier {
         descr: "descr",
         link: "link"); //await dbProvider.getProject(treeId);
 
-    if (treeByQrCodeId != null && projByQrCodeId != null) {
-      qrIsValid = true;
-    } else {
-      qrIsValid = false;
-      treeByQrCodeId = null;
-      projByQrCodeId = null;
-    }
     loadHasFinished = true;
     notifyListeners();
   }
