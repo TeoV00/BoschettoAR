@@ -51,45 +51,41 @@ class _ScanTreePageState extends State<ScanTreePage> {
           builder: (context, dataMgr, child) {
             var tree = dataMgr.treeByQrCodeId;
             var proj = dataMgr.projByQrCodeId;
-            var isValid = dataMgr.qrIsValid;
             var loadFinished = dataMgr.loadHasFinished;
             dataMgr.resetCacheVars();
 
-            if (loadFinished && !isValid) {
-              showSnackError();
-            }
-            if (loadFinished && isValid) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Text("pagina correttta"),
-                ),
+            if (loadFinished && tree != null && proj != null) {
+              return TreeViewInfoAr(
+                tree: tree,
+                proj: proj,
+              );
+            } else {
+              //showSnackError(); //TODO: da un mega errore!!!!
+              return QRView(
+                key: qrKey,
+                onQRViewCreated: (controller) {
+                  setState(() {
+                    this.controller = controller;
+                  });
+
+                  controller.scannedDataStream.listen((scanData) {
+                    if (DateTime.now().difference(lastScanTime) > timeoutScan) {
+                      lastScanTime = DateTime.now();
+
+                      var qrData = scanData.code ?? "";
+                      dataMgr.isValidTreeCode(qrData);
+                    }
+                  });
+                },
+                overlay: QrScannerOverlayShape(
+                    borderColor: mainColor,
+                    borderRadius: 10,
+                    borderLength: 30,
+                    borderWidth: 20),
+                onPermissionSet: (ctrl, p) =>
+                    _onPermissionSet(context, ctrl, p),
               );
             }
-
-            return QRView(
-              key: qrKey,
-              onQRViewCreated: (controller) {
-                setState(() {
-                  this.controller = controller;
-                });
-
-                controller.scannedDataStream.listen((scanData) {
-                  if (DateTime.now().difference(lastScanTime) > timeoutScan) {
-                    lastScanTime = DateTime.now();
-
-                    var qrData = scanData.code ?? "";
-                    dataMgr.isValidTreeCode(qrData);
-                  }
-                });
-              },
-              overlay: QrScannerOverlayShape(
-                  borderColor: mainColor,
-                  borderRadius: 10,
-                  borderLength: 30,
-                  borderWidth: 20),
-              onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
-            );
           },
         )
       ]),
