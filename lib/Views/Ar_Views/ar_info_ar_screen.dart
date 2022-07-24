@@ -11,23 +11,25 @@ class TreeViewInfoAr extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        const ARWidget(), //AR view widget
-        DraggableScrollableSheet(
-          //Bottom Sheet that show scanned tree info
-          minChildSize: 0.10,
-          initialChildSize: 0.15,
-          maxChildSize: 0.6,
-          builder: (BuildContext context, ScrollController scrollController) {
-            return TreeInfoSheet(
-              tree: tree,
-              project: proj,
-              controller: scrollController,
-            );
-          },
-        )
-      ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          const ARWidget(), //AR view widget
+          DraggableScrollableSheet(
+            //Bottom Sheet that show scanned tree info
+            minChildSize: 0.10,
+            initialChildSize: 0.15,
+            maxChildSize: 0.6,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return TreeInfoSheet(
+                tree: tree,
+                project: proj,
+                controller: scrollController,
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }
