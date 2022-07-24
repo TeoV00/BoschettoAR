@@ -15,6 +15,7 @@ class DataManager extends ChangeNotifier {
   Tree? treeByQrCodeId; // result of request treeById
   Project? projByQrCodeId;
   bool loadHasFinished = false;
+  bool qrIsValid = false;
   late Map<InfoType, List> userTreeAndProj;
 
   DataManager() {
@@ -93,7 +94,6 @@ class DataManager extends ChangeNotifier {
   //SETTER methods
   void addUserTree(int treeId) {
     dbProvider.addUserTree(currentUserId, treeId);
-    notifyListeners();
   }
 
   void unlockUserBadge(int idBadge) {
@@ -103,16 +103,18 @@ class DataManager extends ChangeNotifier {
 
   void isValidTreeCode(String qrData) async {
     var treeId = int.parse(qrData);
-    var isValidTreeId = await dbProvider.isValidTree(treeId);
+    treeByQrCodeId = await dbProvider.getTree(treeId);
+    projByQrCodeId = Project(
+        projectId: 1,
+        treeId: 1,
+        name: "name",
+        descr: "descr",
+        link: "link"); //await dbProvider.getProject(treeId);
 
-    if (isValidTreeId) {
-      treeByQrCodeId = await dbProvider.getTree(treeId);
-      projByQrCodeId = await dbProvider.getProject(treeId);
-      print(
-          "tree with id: $treeId ${isValidTreeId ? "ESISTE-VALIDO" : "NON VALIDO"}");
-      print("tree is ${treeByQrCodeId == null ? "null" : "presente"}");
-      print("proj is ${projByQrCodeId == null ? "null" : "presente"}");
+    if (treeByQrCodeId != null && projByQrCodeId != null) {
+      qrIsValid = true;
     } else {
+      qrIsValid = false;
       treeByQrCodeId = null;
       projByQrCodeId = null;
     }

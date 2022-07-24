@@ -208,17 +208,6 @@ class DatabaseProvider {
     return userBadges;
   }
 
-  ///if result list is not empty means that there is a tree with the given treeId
-  Future<bool> isValidTree(int id) async {
-    List<Map<String, dynamic>> result = List.empty();
-    if (database != null) {
-      var db = database!;
-      //get treeId that match the given treeId
-      result = await db.query(treeTable, where: "treeId = ?", whereArgs: [id]);
-    }
-    return result.isNotEmpty;
-  }
-
   static bool isNull(dynamic elem) {
     return elem == null;
   }

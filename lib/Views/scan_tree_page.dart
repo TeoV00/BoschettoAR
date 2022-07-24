@@ -8,6 +8,7 @@ import 'package:tree_ar/data_manager.dart';
 
 import 'package:tree_ar/constant_vars.dart';
 import '../Database/dataModel.dart';
+import 'Ar_Views/ar_info_ar_screen.dart';
 
 class ScanTreePage extends StatefulWidget {
   const ScanTreePage({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
   final Duration timeoutScan = const Duration(seconds: 4);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext buildContext) {
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: FloatingActionButton(
@@ -38,20 +39,20 @@ class _ScanTreePageState extends State<ScanTreePage> {
         body: SafeArea(
           child: Consumer<DataManager>(
             builder: (context, dataManager, child) {
-              if (dataManager.loadHasFinished && dataManager.treeById != null) {
-                //TODO: get all info from datamanager then call rest method to init buffer vars
-                //save info in vars in order to pass them to the wiget to be returned
-                //reset 'biffer vars'
-                var id = dataManager.treeById?.treeId;
-                // if (id != null) {
-                //   dataManager.addUserTree(id);
-                // }
+              var tree = dataManager.treeByQrCodeId;
+              var proj = dataManager.projByQrCodeId;
+              var isValid = dataManager.qrIsValid;
+              var loadFinished = dataManager.loadHasFinished;
 
-                dataManager.resetConsumerVars();
+              dataManager.resetCacheVars();
 
-                return Text("Albero info ottenute ID: ${id?.toString()}");
-              } else if (qrCodeFound && !dataManager.loadHasFinished) {
-                return loadingPage();
+              if (loadFinished && isValid) {
+                controller!.pauseCamera();
+                dataManager.addUserTree(tree!.treeId);
+                return TreeViewInfoAr(
+                  tree: tree,
+                  proj: proj!,
+                );
               } else {
                 return QRView(
                   key: qrKey,
@@ -76,7 +77,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
                       borderLength: 30,
                       borderWidth: 20),
                   onPermissionSet: (ctrl, p) =>
-                      _onPermissionSet(context, ctrl, p),
+                      _onPermissionSet(buildContext, ctrl, p),
                 );
               }
             },
