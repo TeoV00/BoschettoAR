@@ -8,22 +8,14 @@ import '../data_manager.dart';
 ///Main page of application, shows list of project and tree that has been
 ///discovered-scanned by user in scan-tree-ar page
 class MainPage extends StatefulWidget {
-  final DataManager dataManager;
-  const MainPage({Key? key, required this.dataManager}) : super(key: key);
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPage();
 }
 
 class _MainPage extends State<MainPage> {
-  late DataManager dataManager;
   InfoType _selectedType = InfoType.tree;
-
-  @override
-  void initState() {
-    super.initState();
-    dataManager = widget.dataManager;
-  }
 
   void _onTapTab(InfoType typeSelected) {
     setState(() {
@@ -105,8 +97,6 @@ class CustomListView extends StatefulWidget {
 }
 
 class _CustomListView extends State<CustomListView> {
-  DataManager dataManager = DataManager();
-
   @override
   Widget build(BuildContext context) {
     return Consumer<DataManager>(
