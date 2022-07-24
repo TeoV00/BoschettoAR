@@ -12,12 +12,13 @@ class DataManager extends ChangeNotifier {
 
   //Variables used as place of return vars of async method
   User? userData; // var to chache user data from db
-  Tree? treeById; // result of request treeById
+  Tree? treeByQrCodeId; // result of request treeById
+  Project? projByQrCodeId;
   bool loadHasFinished = false;
   late Map<InfoType, List> userTreeAndProj;
 
   DataManager() {
-    resetConsumerVars();
+    resetCacheVars();
     var emptyList = List.empty(growable: true);
     userTreeAndProj = {InfoType.tree: emptyList, InfoType.project: emptyList};
     pullTreeDataInDb();
@@ -75,16 +76,15 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getTreeById(int id) {
-    dbProvider.getTree(id).then((tree) => {treeById = tree});
-    notifyListeners();
-  }
+  // void getTreeById(int id) {
+  //   dbProvider.getTree(id).then((tree) => {treeByQrCodeId = tree});
+  //   notifyListeners();
+  // }
 
-  Project? getProjectById(int id) {
-    Project? result;
-    dbProvider.getProject(id).then((proj) => result = proj);
-    return result;
-  }
+  // void getProjectById(int id) {
+  //   dbProvider.getProject(id).then((proj) => projByQrCodeId = proj);
+  //   notifyListeners();
+  // }
 
   Future<List<Badge>> getBadges() {
     return dbProvider.getUserBadges(currentUserId);
@@ -106,11 +106,15 @@ class DataManager extends ChangeNotifier {
     var isValidTreeId = await dbProvider.isValidTree(treeId);
 
     if (isValidTreeId) {
-      treeById = await dbProvider.getTree(treeId);
+      treeByQrCodeId = await dbProvider.getTree(treeId);
+      projByQrCodeId = await dbProvider.getProject(treeId);
       print(
           "tree with id: $treeId ${isValidTreeId ? "ESISTE-VALIDO" : "NON VALIDO"}");
+      print("tree is ${treeByQrCodeId == null ? "null" : "presente"}");
+      print("proj is ${projByQrCodeId == null ? "null" : "presente"}");
     } else {
-      treeById = null;
+      treeByQrCodeId = null;
+      projByQrCodeId = null;
     }
     loadHasFinished = true;
     notifyListeners();
@@ -118,9 +122,10 @@ class DataManager extends ChangeNotifier {
 
   ///remember to call this method to reset return vars that can be used in other screen
   ///in order to make app work fine, its a workaround to return values of async functions
-  void resetConsumerVars() {
+  void resetCacheVars() {
     userData = null;
-    treeById = null;
+    treeByQrCodeId = null;
+    projByQrCodeId = null;
     loadHasFinished = false;
     var emptyList = List.empty(growable: true);
     userTreeAndProj = {InfoType.tree: emptyList, InfoType.project: emptyList};
