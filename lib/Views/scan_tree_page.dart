@@ -52,6 +52,10 @@ class _ScanTreePageState extends State<ScanTreePage> {
               } else {
                 //showSnackError(); //TODO: da un mega errore!!!!
                 showNewScanBtn = false;
+//TODO: check and fix that error
+                /*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', 
+                 * reason: 'Scan rect cannot be set when not (yet) scanning. You may want to set 
+                 * it within didStartScanningBlock.'*/
                 return QRView(
                   key: qrKey,
                   onQRViewCreated: (controller) {
