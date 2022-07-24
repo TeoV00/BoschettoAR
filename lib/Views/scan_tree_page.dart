@@ -19,6 +19,7 @@ class ScanTreePage extends StatefulWidget {
 class _ScanTreePageState extends State<ScanTreePage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
+  bool showScan = true;
   bool showErrorSnackBar = false;
   Barcode? result;
   bool qrCodeFound = false;
@@ -31,64 +32,76 @@ class _ScanTreePageState extends State<ScanTreePage> {
   Widget build(BuildContext buildContext) {
     return Scaffold(
         body: SafeArea(
-      child: Stack(children: [
-        //   if (loadFinished && !isValid) {
-        //     setState(() {
-        //       showErrorSnackBar = true;
-        //     });
-        //   }
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: Stack(children: [
+          Consumer<DataManager>(
+            builder: (context, dataMgr, child) {
+              var tree = dataMgr.treeByQrCodeId;
+              var proj = dataMgr.projByQrCodeId;
+              var loadFinished = dataMgr.loadHasFinished;
+              dataMgr.resetCacheVars();
 
-        //   if (loadFinished && isValid) {
-        //     controller!.pauseCamera();
-        //     dataManager.addUserTree(tree!.treeId);
-        //   }
-        //   return TreeViewInfoAr(
-        //     tree: tree!,
-        //     proj: proj!,
-        //   );
-        // },
-        Consumer<DataManager>(
-          builder: (context, dataMgr, child) {
-            var tree = dataMgr.treeByQrCodeId;
-            var proj = dataMgr.projByQrCodeId;
-            var loadFinished = dataMgr.loadHasFinished;
-            dataMgr.resetCacheVars();
+              if (loadFinished && tree != null && proj != null) {
+                return TreeViewInfoAr(
+                  tree: tree,
+                  proj: proj,
+                );
+              } else {
+                //showSnackError(); //TODO: da un mega errore!!!!
+                return QRView(
+                  key: qrKey,
+                  onQRViewCreated: (controller) {
+                    setState(() {
+                      this.controller = controller;
+                    });
 
-            if (loadFinished && tree != null && proj != null) {
-              return TreeViewInfoAr(
-                tree: tree,
-                proj: proj,
-              );
-            } else {
-              //showSnackError(); //TODO: da un mega errore!!!!
-              return QRView(
-                key: qrKey,
-                onQRViewCreated: (controller) {
-                  setState(() {
-                    this.controller = controller;
-                  });
+                    controller.scannedDataStream.listen((scanData) {
+                      if (DateTime.now().difference(lastScanTime) >
+                          timeoutScan) {
+                        lastScanTime = DateTime.now();
 
-                  controller.scannedDataStream.listen((scanData) {
-                    if (DateTime.now().difference(lastScanTime) > timeoutScan) {
-                      lastScanTime = DateTime.now();
-
-                      var qrData = scanData.code ?? "";
-                      dataMgr.isValidTreeCode(qrData);
-                    }
-                  });
-                },
-                overlay: QrScannerOverlayShape(
-                    borderColor: mainColor,
-                    borderRadius: 10,
-                    borderLength: 30,
-                    borderWidth: 20),
-                onPermissionSet: (ctrl, p) =>
-                    _onPermissionSet(context, ctrl, p),
-              );
-            }
-          },
-        )
-      ]),
+                        var qrData = scanData.code ?? "";
+                        dataMgr.isValidTreeCode(qrData);
+                      }
+                    });
+                  },
+                  overlay: QrScannerOverlayShape(
+                      borderColor: mainColor,
+                      borderRadius: 10,
+                      borderLength: 30,
+                      borderWidth: 20),
+                  onPermissionSet: (ctrl, p) =>
+                      _onPermissionSet(context, ctrl, p),
+                );
+              }
+            },
+          ),
+          Container(
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                color: mainColor),
+            child: IconButton(
+              tooltip: "Torna in Home",
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => {Navigator.pop(context)},
+            ),
+          ),
+          qrCodeFound
+              ? Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      color: mainColor),
+                  child: IconButton(
+                    icon: const Icon(Icons.qr_code_scanner),
+                    tooltip: "Nuova scansione",
+                    onPressed: () => {showScan = true},
+                  ),
+                )
+              : const Text("")
+        ]),
+      ),
     ));
   }
 
@@ -97,13 +110,6 @@ class _ScanTreePageState extends State<ScanTreePage> {
       content: Text("QRcode non valido o albero non trovato"),
       duration: Duration(seconds: 2),
     ));
-  }
-
-  void resetView() {
-    setState(() {
-      result = null;
-      controller!.resumeCamera();
-    });
   }
 
   @override
