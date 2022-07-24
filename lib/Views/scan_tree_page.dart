@@ -19,7 +19,7 @@ class ScanTreePage extends StatefulWidget {
 class _ScanTreePageState extends State<ScanTreePage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  bool showScan = true;
+  bool showNewScanBtn = false;
   bool showErrorSnackBar = false;
   Barcode? result;
   bool qrCodeFound = false;
@@ -31,9 +31,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
   @override
   Widget build(BuildContext buildContext) {
     return Scaffold(
-        body: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(5),
+      body: SafeArea(
         child: Stack(children: [
           Consumer<DataManager>(
             builder: (context, dataMgr, child) {
@@ -42,13 +40,18 @@ class _ScanTreePageState extends State<ScanTreePage> {
               var loadFinished = dataMgr.loadHasFinished;
               dataMgr.resetCacheVars();
 
-              if (loadFinished && tree != null && proj != null) {
+              if (!showNewScanBtn &&
+                  loadFinished &&
+                  tree != null &&
+                  proj != null) {
+                showNewScanBtn = true;
                 return TreeViewInfoAr(
                   tree: tree,
                   proj: proj,
                 );
               } else {
                 //showSnackError(); //TODO: da un mega errore!!!!
+                showNewScanBtn = false;
                 return QRView(
                   key: qrKey,
                   onQRViewCreated: (controller) {
@@ -78,6 +81,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
             },
           ),
           Container(
+            margin: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
                 color: mainColor),
@@ -87,22 +91,9 @@ class _ScanTreePageState extends State<ScanTreePage> {
               onPressed: () => {Navigator.pop(context)},
             ),
           ),
-          qrCodeFound
-              ? Container(
-                  margin: const EdgeInsets.only(left: 20),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                      color: mainColor),
-                  child: IconButton(
-                    icon: const Icon(Icons.qr_code_scanner),
-                    tooltip: "Nuova scansione",
-                    onPressed: () => {showScan = true},
-                  ),
-                )
-              : const Text("")
         ]),
       ),
-    ));
+    );
   }
 
   void showSnackError() {
