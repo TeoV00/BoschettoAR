@@ -9,6 +9,7 @@ const userBadgeTable = "UserBadge";
 const userTable = "UserProfile";
 const projectTable = "Project";
 const treeTable = "Tree";
+const badgeTable = "Badge";
 
 var defaultUser = User(
   userId: DEFAULT_USER_ID,
