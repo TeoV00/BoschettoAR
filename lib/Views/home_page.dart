@@ -107,8 +107,6 @@ class _CustomListView extends State<CustomListView> {
         if (treeAndProj[InfoType.tree] != null &&
             treeAndProj[InfoType.project] != null &&
             treeAndProj[InfoType.tree]!.isNotEmpty) {
-          print("Lista alberi scansionati");
-
           return ListView.builder(
             scrollDirection: Axis.vertical,
             padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
@@ -120,7 +118,6 @@ class _CustomListView extends State<CustomListView> {
             },
           );
         } else {
-          print("Nessun albero scansionato");
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
