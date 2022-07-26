@@ -13,28 +13,31 @@ class UserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     bool dataRequest = false;
     return SafeArea(
-        child: Padding(
-            padding: pagePadding,
-            child:
-                Consumer<DataManager>(builder: (context, dataManager, child) {
-              if (!dataRequest) {
-                dataManager.getUserData();
-                dataRequest = true;
-              }
-              var data = dataManager.userData;
+      child: Padding(
+        padding: pagePadding,
+        child: Consumer<DataManager>(
+          builder: (context, dataManager, child) {
+            if (!dataRequest) {
+              dataManager.getUserData();
+              dataRequest = true;
+            }
+            var data = dataManager.userData;
 
-              if (data != null) {
-                return UserPageListView(
-                  user: data[UserData.info],
-                  stats: data[UserData.stats],
-                  badges: data[UserData.badge],
-                );
-              } else {
-                return const CircularProgressIndicator(
-                  color: mainColor,
-                );
-              }
-            })));
+            if (data != null) {
+              return UserPageListView(
+                user: data[UserData.info],
+                stats: data[UserData.stats],
+                badges: data[UserData.badge],
+              );
+            } else {
+              return const CircularProgressIndicator(
+                color: mainColor,
+              );
+            }
+          },
+        ),
+      ),
+    );
   }
 }
 
