@@ -60,6 +60,11 @@ class UserPageListView extends StatelessWidget {
       children: [
         Row(
           children: [
+            // GestureDetector(
+            //   onTap: () {},
+            //   child: ,
+            // )
+
             UserInfoBanner(usr: user),
           ],
         ),
@@ -233,6 +238,13 @@ class UserInfoBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+        child: GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditUserInfoPage(user: usr),
+        ),
+      ),
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(10),
@@ -285,11 +297,11 @@ class UserInfoBanner extends StatelessWidget {
                     ),
                     Text(
                       usr.course ?? "no course info",
-                      overflow: TextOverflow.visible,
                       style: const TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: darkGray),
+                        // fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: darkGray,
+                      ),
                     ),
                     Text(
                       "Immatricolato il: ${usr.registrationDate ?? 'no info'}",
@@ -305,7 +317,51 @@ class UserInfoBanner extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
+  }
+}
+
+class EditUserInfoPage extends StatefulWidget {
+  final User user;
+  const EditUserInfoPage({Key? key, required this.user}) : super(key: key);
+
+  @override
+  State<EditUserInfoPage> createState() => _EditUserInfoPageState();
+}
+
+class _EditUserInfoPageState extends State<EditUserInfoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          foregroundColor: Colors.black,
+          backgroundColor: secondColor,
+          title: const Text("Modifica Dati"),
+        ),
+        body: Column(
+          children: [
+            Row(
+              children: [
+                const Text("Nome"),
+                TextField(
+                  onChanged: (value) {
+                    print("nome");
+                  },
+                )
+              ],
+            ),
+            Row(
+              children: [
+                const Text("Cognome"),
+                TextField(
+                  onChanged: (value) {
+                    print("cognome");
+                  },
+                )
+              ],
+            ),
+          ],
+        ));
   }
 }
 
