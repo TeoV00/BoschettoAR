@@ -196,96 +196,86 @@ class BadgeCircle extends StatelessWidget {
   }
 }
 
-class UserInfoBanner extends StatefulWidget {
-  const UserInfoBanner({Key? key}) : super(key: key);
+class UserInfoBanner extends StatelessWidget {
+  final User usr;
+  const UserInfoBanner({Key? key, required this.usr}) : super(key: key);
 
-  @override
-  State<UserInfoBanner> createState() => _UserInfoBannerState();
-}
-
-class _UserInfoBannerState extends State<UserInfoBanner> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<DataManager>(builder: (context, dataManager, child) {
-      dataManager.getUser();
-      User? usr = dataManager.userData;
-      return Expanded(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.all(10),
-          decoration: const BoxDecoration(
-            color: secondColor,
-            borderRadius: BorderRadius.all(radiusCorner),
-          ),
-          child: Row(
-            children: [
-              ClipOval(
-                child: Image.asset(
-                  usr != null
-                      ? '$imagePath/${usr.userImageName}'
-                      : "$imagePath/userPlaceholder.jpeg",
-                  height: 90,
-                  errorBuilder: (BuildContext context, Object exception,
-                      StackTrace? stackTrace) {
-                    return Image.asset(
-                      "$imagePath/userPlaceholder.jpeg",
-                      height: 90,
-                    );
-                  },
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          color: secondColor,
+          borderRadius: BorderRadius.all(radiusCorner),
+        ),
+        child: Row(
+          children: [
+            //Profile image
+            ClipOval(
+              child: Image.asset(
+                usr.userImageName ?? "$imagePath/userPlaceholder.jpeg",
+                height: 90,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return Image.asset(
+                    "$imagePath/userPlaceholder.jpeg",
+                    height: 90,
+                  );
+                },
+              ),
+            ),
+            Flexible(
+              //User info
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            usr.getNameSurname(),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          Text(
+                            "Data Nascita: ${usr.dateBirth ?? "no data"}",
+                            style: const TextStyle(
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: darkGray),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      usr.course ?? "no course info",
+                      overflow: TextOverflow.visible,
+                      style: const TextStyle(
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: darkGray),
+                    ),
+                    Text(
+                      "Immatricolato il: ${usr.registrationDate ?? 'no info'}",
+                      style: const TextStyle(
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: darkGray),
+                    ),
+                  ],
                 ),
               ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              usr != null ? usr.getNameSurname() : "no info",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                            Text(
-                              "Data Nascita: ${usr != null ? usr.dateBirth : "no data"}",
-                              style: const TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: darkGray),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        usr != null && usr.course != null
-                            ? usr.course!
-                            : "no course info",
-                        overflow: TextOverflow.visible,
-                        style: const TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: darkGray),
-                      ),
-                      Text(
-                        "Immatricolato il: ${usr != null ? usr.registrationDate : 'no info'}",
-                        style: const TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: darkGray),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 }
 
