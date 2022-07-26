@@ -15,27 +15,27 @@ import 'package:provider/provider.dart';
 //   );
 // }
 
-class Repository extends InheritedWidget {
-  final DataManager dataManager;
-  const Repository(this.dataManager, {Key? key, required Widget child})
-      : super(key: key, child: child);
+// class Repository extends InheritedWidget {
+//   final DataManager dataManager;
+//   const Repository(this.dataManager, {Key? key, required Widget child})
+//       : super(key: key, child: child);
 
-  static Repository of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType(aspect: Repository)
-          as Repository;
+//   static Repository of(BuildContext context) =>
+//       context.dependOnInheritedWidgetOfExactType(aspect: Repository)
+//           as Repository;
 
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
-}
+//   @override
+//   bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
+// }
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // initFirebaseApp();
   DataManager dataManager = DataManager();
-  runApp(ChangeNotifierProvider(
-    create: (context) => dataManager,
-    child: Repository(dataManager, child: const MyApp()),
-  ));
+  runApp(
+    ChangeNotifierProvider(
+        create: (context) => dataManager, child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
