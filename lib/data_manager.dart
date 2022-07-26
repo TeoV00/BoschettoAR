@@ -26,22 +26,7 @@ class DataManager extends ChangeNotifier {
     pullTreeDataInDb();
   }
 
-  void pullTreeDataInDb() {
-    // dbProvider.insertTree(Tree(
-    //     treeId: 1,
-    //     name: "me",
-    //     descr: "descr",
-    //     height: 100,
-    //     diameter: 10,
-    //     co2: 203));
-    // dbProvider.insertTree(Tree(
-    //     treeId: 2,
-    //     name: "222",
-    //     descr: "222",
-    //     height: 222,
-    //     diameter: 22,
-    //     co2: 223));
-  }
+  void pullTreeDataInDb() {}
   //TODO: metodo che copia gli alberi da server online a db locale
   //TODO: save in user preferences user id
 
@@ -60,7 +45,6 @@ class DataManager extends ChangeNotifier {
       badges.addAll({domainBadge: userBadgesSet.contains(domainBadge.id)});
     }
 
-    print(badges.toString());
     //prendo tutti i badge poi li ordino e a ciascuno dico se l'utente l'ha sbloccato o no
     userData = {
       UserData.info: user,
@@ -124,8 +108,8 @@ class DataManager extends ChangeNotifier {
   }
 
   //SETTER methods
-  void addUserTree(int treeId) {
-    dbProvider.addUserTree(currentUserId, treeId);
+  void addUserTree(int treeId) async {
+    await dbProvider.addUserTree(currentUserId, treeId);
   }
 
   void unlockUserBadge(int idBadge) {
@@ -135,19 +119,28 @@ class DataManager extends ChangeNotifier {
 
   void isValidTreeCode(String qrData) async {
     var treeId = int.parse(qrData);
-    treeByQrCodeId = Tree(
-        treeId: 1,
-        name: "name",
-        descr: "descr",
-        height: 100,
-        diameter: 10,
-        co2: 252); //await dbProvider.getTree(treeId);
-    projByQrCodeId = Project(
-        projectId: 1,
-        treeId: 1,
-        name: "name",
-        descr: "descr",
-        link: "link"); //await dbProvider.getProject(treeId);
+    treeByQrCodeId =
+        // Tree(
+        //     treeId: 1,
+        //     name: "name",
+        //     descr: "descr",
+        //     height: 100,
+        //     diameter: 10,
+        //     co2: 252);
+        await dbProvider.getTree(treeId);
+    projByQrCodeId =
+        // Project(
+        //     projectId: 1,
+        //     treeId: 1,
+        //     name: "name",
+        //     descr: "descr",
+        //     link: "link");
+        await dbProvider.getProject(treeId);
+
+    if (treeByQrCodeId != null && projByQrCodeId != null) {
+      addUserTree(treeId);
+      print("add tree to user");
+    }
 
     loadHasFinished = true;
     notifyListeners();
