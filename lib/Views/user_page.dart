@@ -184,6 +184,7 @@ class BadgeContainer extends StatelessWidget {
       children: <Widget>[
         for (var i = 0; i < badges.length; i++) ...[
           BadgeCircle(
+              nameDescr: entries[i].key.descr,
               badgeImage: '$iconsPath/badge${entries[i].key.id}.png',
               isActive: entries[i].value),
         ]
@@ -194,23 +195,31 @@ class BadgeContainer extends StatelessWidget {
 
 class BadgeCircle extends StatelessWidget {
   final String badgeImage;
+  final String nameDescr;
   final bool isActive;
 
   const BadgeCircle(
-      {Key? key, required this.badgeImage, required this.isActive})
+      {Key? key,
+      required this.nameDescr,
+      required this.badgeImage,
+      required this.isActive})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ClipOval(
-        child: ColorFiltered(
-      colorFilter: ColorFilter.mode(
-          isActive ? badgeColor : disableBadge, BlendMode.color),
-      child: Image.asset(
-        badgeImage,
-        centerSlice: Rect.largest,
-      ),
-    ));
+    return Tooltip(
+      triggerMode: TooltipTriggerMode.tap,
+      message: nameDescr,
+      child: ClipOval(
+          child: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+            isActive ? badgeColor : disableBadge, BlendMode.color),
+        child: Image.asset(
+          badgeImage,
+          centerSlice: Rect.largest,
+        ),
+      )),
+    );
   }
 }
 
