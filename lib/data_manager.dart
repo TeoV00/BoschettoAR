@@ -27,20 +27,20 @@ class DataManager extends ChangeNotifier {
   }
 
   void pullTreeDataInDb() {
-    dbProvider.insertTree(Tree(
-        treeId: 1,
-        name: "me",
-        descr: "descr",
-        height: 100,
-        diameter: 10,
-        co2: 203));
-    dbProvider.insertTree(Tree(
-        treeId: 2,
-        name: "222",
-        descr: "222",
-        height: 222,
-        diameter: 22,
-        co2: 223));
+    // dbProvider.insertTree(Tree(
+    //     treeId: 1,
+    //     name: "me",
+    //     descr: "descr",
+    //     height: 100,
+    //     diameter: 10,
+    //     co2: 203));
+    // dbProvider.insertTree(Tree(
+    //     treeId: 2,
+    //     name: "222",
+    //     descr: "222",
+    //     height: 222,
+    //     diameter: 22,
+    //     co2: 223));
   }
   //TODO: metodo che copia gli alberi da server online a db locale
   //TODO: save in user preferences user id

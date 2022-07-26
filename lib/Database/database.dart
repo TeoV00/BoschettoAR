@@ -25,7 +25,7 @@ class DatabaseProvider {
   void _createDatabase() async {
     var path = await getDatabasesPath();
     _database = await openDatabase(
-      join(path, 'trenx&&xew.db'),
+      join(path, 'treyyew.db'),
       version: 1, //--> use oncreate
       onCreate: (db, version) async {
         //I tried to use a for-statement but queries ar not interpreted correctly
@@ -38,6 +38,27 @@ class DatabaseProvider {
         db.execute(creationQuery[5]); //Tree
         //insert default empty user profile
         _insert(db, userTable, defaultUser);
+        _insert(
+            db,
+            treeTable,
+            Tree(
+                treeId: 1,
+                name: "AlberoBello",
+                descr: "descr",
+                height: 100,
+                diameter: 10,
+                co2: 203));
+        _insert(
+            db,
+            projectTable,
+            Project(
+                projectId: 1,
+                treeId: 1,
+                name: "name",
+                descr: "descr",
+                link: "link"));
+        _insert(db, badgeTable,
+            Badge(id: 1, descr: "pollicino verde", imageName: "imageName"));
       },
     );
   }
