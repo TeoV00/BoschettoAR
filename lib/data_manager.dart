@@ -1,28 +1,30 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+// import 'package:path/path.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'Database/dataModel.dart';
 import 'Database/database_constant.dart';
 import 'UtilsModel.dart';
+import 'package:collection/collection.dart' as coll;
 
 class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
-
   int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
 
   //Snapshot Variables used as place of return vars of async method
   Map<UserData, dynamic>? userData; // snapshot user data from db
   Tree? treeByQrCodeId; // result of request treeById
   Project? projByQrCodeId;
-  late Map<InfoType, List> userTreeAndProj;
+  Map<InfoType, List<dynamic>> userTreeAndProj = {
+    InfoType.tree: List.empty(),
+    InfoType.project: List.empty(),
+  };
 
   bool loadHasFinished = false;
 
   DataManager() {
     resetCacheVars();
-    var emptyList = List.empty(growable: true);
-    userTreeAndProj = {InfoType.tree: emptyList, InfoType.project: emptyList};
     pullTreeDataInDb();
   }
 
@@ -32,6 +34,7 @@ class DataManager extends ChangeNotifier {
 
   ///get user info then when received, cache data to var then notify listeners
   getUserData() async {
+    print("getUser data");
     resetCacheVars();
     var user = await dbProvider.getUserInfo(currentUserId);
     Statistics stats = await _calculateStats();
@@ -89,18 +92,26 @@ class DataManager extends ChangeNotifier {
   }
 
   void getUserTreesProject() async {
-    resetCacheVars();
-
-    //from id of tree get information from source
+    //retrieve data saved in database - local memory
     List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
     List<Project> projc = await dbProvider.getUserProjects(currentUserId);
 
-    // set data manager snapshot
-    userTreeAndProj = {
-      InfoType.tree: trees,
-      InfoType.project: projc,
-    };
-    notifyListeners();
+    //unpack current user trees and project listes
+    List<Tree> currTrees = (userTreeAndProj[InfoType.tree] ?? []).cast<Tree>();
+    List<Project> currProj =
+        (userTreeAndProj[InfoType.project] ?? []).cast<Project>();
+
+    //compares list and update them only if current are older
+    if (trees.length != currTrees.length && projc.length != currProj.length) {
+      print("I dati mostrati vengono aggiiornati");
+      userTreeAndProj = {
+        InfoType.tree: trees,
+        InfoType.project: projc,
+      };
+      notifyListeners();
+    } else {
+      print("dati invariati");
+    }
   }
 
   Future<List<Badge>> getUnlockedBadges() {
@@ -118,6 +129,7 @@ class DataManager extends ChangeNotifier {
   }
 
   void isValidTreeCode(String qrData) async {
+    print("isValidtreeCode Called");
     var treeId = int.parse(qrData);
     treeByQrCodeId =
         // Tree(
@@ -139,7 +151,6 @@ class DataManager extends ChangeNotifier {
 
     if (treeByQrCodeId != null && projByQrCodeId != null) {
       addUserTree(treeId);
-      print("add tree to user");
     }
 
     loadHasFinished = true;
@@ -149,11 +160,11 @@ class DataManager extends ChangeNotifier {
   ///remember to call this method to reset return vars that can be used in other screen
   ///in order to make app work fine, its a workaround to return values of async functions
   void resetCacheVars() {
+    print("reset Chached vars");
     userData = null;
     treeByQrCodeId = null;
     projByQrCodeId = null;
     loadHasFinished = false;
     var emptyList = List.empty(growable: true);
-    userTreeAndProj = {InfoType.tree: emptyList, InfoType.project: emptyList};
   }
 }
