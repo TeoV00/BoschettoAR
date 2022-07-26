@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 
 import '../constant_vars.dart';
@@ -101,7 +102,7 @@ class _CustomListView extends State<CustomListView> {
   Widget build(BuildContext context) {
     return Consumer<DataManager>(
       builder: (context, dataManager, child) {
-        dataManager.getUserTreesProject;
+        dataManager.getUserTreesProject();
         var treeAndProj = dataManager.userTreeAndProj;
 
         if (treeAndProj[InfoType.tree] != null &&
@@ -187,7 +188,10 @@ class RowItem extends StatelessWidget {
               padding: margin5H,
               child: Text(
                 item.getDescr(),
-                style: const TextStyle(fontSize: 16),
+                //overflow: TextOverflow.visible,
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
           ],
