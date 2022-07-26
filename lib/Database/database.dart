@@ -200,12 +200,21 @@ class DatabaseProvider {
         whereArgs: [userId],
       );
 
-      for (var element in result) {
-        Badge badge = Badge.fromMap(element);
-        userBadges.add(badge);
-      }
+      userBadges = result.map((e) => Badge.fromMap(e)).toList();
     }
     return userBadges;
+  }
+
+  Future<List<Badge>> getAllBadges() async {
+    List<Badge> badges = List.empty(growable: true);
+    if (database != null) {
+      var db = database!;
+      var result = await db.query(
+        badgeTable,
+      );
+      badges = result.map((e) => Badge.fromMap(e)).toList();
+    }
+    return badges;
   }
 
   static bool isNull(dynamic elem) {
