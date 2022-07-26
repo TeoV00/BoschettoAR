@@ -6,7 +6,6 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tree_ar/data_manager.dart';
 
 import 'package:tree_ar/constant_vars.dart';
-import 'package:tree_ar/main.dart';
 import 'Ar_Views/ar_info_ar_screen.dart';
 
 class ScanTreePage extends StatefulWidget {
@@ -52,6 +51,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
                   proj: proj,
                 );
               } else {
+                print("Qr NON VALIDO");
                 //showSnackError(); //TODO: da un mega errore!!!!
                 showNewScanBtn = false;
 //TODO: check and fix that error
