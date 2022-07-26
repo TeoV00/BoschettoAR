@@ -151,11 +151,11 @@ class DatabaseProvider {
     List<Tree> userTrees = List.empty(growable: true);
     if (database != null) {
       var db = database!;
-      var result = await db.query(
-        userTreeTable,
-        where: "userId = ?",
-        whereArgs: [userId],
-      );
+      var result = await db.rawQuery('''SELECT T.* 
+          FROM $treeTable as T, $userTreeTable as U 
+          WHERE U.userId = $userId
+          AND T.treeId = U.treeId
+          ''');
 
       for (var element in result) {
         Tree tree = Tree.fromMap(element);
