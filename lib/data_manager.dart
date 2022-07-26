@@ -51,7 +51,22 @@ class DataManager extends ChangeNotifier {
     var user = await dbProvider.getUserInfo(currentUserId);
     Statistics stats = await _calculateStats();
 
-    userData = {UserData.info: user, UserData.stats: stats};
+    Map<Badge, bool> badges = {};
+    var userBadges = await getUnlockedBadges();
+    var allBadge = await dbProvider.getAllBadges();
+    Set<int> userBadgesSet = userBadges.map((e) => e.id).toSet();
+
+    for (var domainBadge in allBadge) {
+      badges.addAll({domainBadge: userBadgesSet.contains(domainBadge.id)});
+    }
+
+    print(badges.toString());
+    //prendo tutti i badge poi li ordino e a ciascuno dico se l'utente l'ha sbloccato o no
+    userData = {
+      UserData.info: user,
+      UserData.stats: stats,
+      UserData.badge: badges
+    };
     notifyListeners();
   }
 
@@ -72,7 +87,8 @@ class DataManager extends ChangeNotifier {
     //l'albero sarebbe in grado di catturare
     var papers = 202; //prendo
 
-    return Statistics(papers, totCo2);
+    var pogress = 0.8; //get that info from gameController
+    return Statistics(papers, totCo2, pogress);
   }
 
   void updateUserInfo(
@@ -94,7 +110,7 @@ class DataManager extends ChangeNotifier {
     //from id of tree get information from source
     List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
     List<Project> projc = await dbProvider.getUserProjects(currentUserId);
-    print(trees.toString());
+
     // set data manager snapshot
     userTreeAndProj = {
       InfoType.tree: trees,
@@ -103,17 +119,7 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void getTreeById(int id) {
-  //   dbProvider.getTree(id).then((tree) => {treeByQrCodeId = tree});
-  //   notifyListeners();
-  // }
-
-  // void getProjectById(int id) {
-  //   dbProvider.getProject(id).then((proj) => projByQrCodeId = proj);
-  //   notifyListeners();
-  // }
-
-  Future<List<Badge>> getBadges() {
+  Future<List<Badge>> getUnlockedBadges() {
     return dbProvider.getUserBadges(currentUserId);
   }
 

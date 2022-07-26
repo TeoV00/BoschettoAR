@@ -4,70 +4,89 @@ import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
 
-class UserPage extends StatefulWidget {
+import '../UtilsModel.dart';
+
+class UserPage extends StatelessWidget {
   const UserPage({Key? key}) : super(key: key);
 
   @override
-  State<UserPage> createState() => _UserPageState();
-}
-
-class _UserPageState extends State<UserPage> {
-  @override
   Widget build(BuildContext context) {
+    bool dataRequest = false;
     return SafeArea(
         child: Padding(
-      padding: pagePadding,
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        children: [
-          Row(
-            children: const [
-              UserInfoBanner(),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              UserStatisticCounter(type: "Co2", amount: 011313, unit: "Kg"),
-              TreeProgessBar(progress: 0.45), //TODO: here put the correct value
-              UserStatisticCounter(type: "Carta", amount: 230, unit: "Fogli"),
-            ],
-          ),
-          Row(
-            children: [
-              Text("Altre informazioni e statistiche su alberi e rpogetti")
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Text(
-                "Badge Ottenuti",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-              ),
-            ],
-          ),
-          const BadgeContainer(badgeEnabled: [
-            true,
-            false,
-            true,
-            true,
-            true,
-            false,
-            true,
-            true,
-            true,
-            false,
-            true,
-            true,
-            true,
-            false,
-            true
-          ]),
-          ImagesReferencesCopyright()
-        ],
-      ),
-    ));
+            padding: pagePadding,
+            child:
+                Consumer<DataManager>(builder: (context, dataManager, child) {
+              if (!dataRequest) {
+                dataManager.getUserData();
+                dataRequest = true;
+              }
+              var data = dataManager.userData;
+
+              if (data != null) {
+                return UserPageListView(
+                  user: data[UserData.info],
+                  stats: data[UserData.stats],
+                  badges: data[UserData.badge],
+                );
+              } else {
+                return const CircularProgressIndicator(
+                  color: mainColor,
+                );
+              }
+            })));
+  }
+}
+
+class UserPageListView extends StatelessWidget {
+  final User user;
+  final Statistics stats;
+  final Map<Badge, bool> badges;
+
+  const UserPageListView({
+    Key? key,
+    required this.user,
+    required this.stats,
+    required this.badges,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: [
+        Row(
+          children: [
+            UserInfoBanner(usr: user),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            UserStatisticCounter(type: "Co2", amount: stats.co2, unit: "Kg"),
+            TreeProgessBar(progress: stats.progress),
+            UserStatisticCounter(
+                type: "Carta", amount: stats.papers, unit: "Fogli"),
+          ],
+        ),
+        Row(
+          children: const [
+            Text("Altre informazioni e statistiche su alberi e rpogetti")
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const [
+            Text(
+              "Badge Ottenuti",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+            ),
+          ],
+        ),
+        BadgeContainer(badges: badges),
+        ImagesReferencesCopyright()
+      ],
+    );
   }
 }
 
@@ -150,14 +169,12 @@ class _TreeProgressBar extends State<TreeProgessBar> {
 }
 
 class BadgeContainer extends StatelessWidget {
-  const BadgeContainer({Key? key, required this.badgeEnabled})
-      : super(key: key);
-  final badgeCount = 15;
-  final List<bool> badgeEnabled;
+  const BadgeContainer({Key? key, required this.badges}) : super(key: key);
+  final Map<Badge, bool> badges;
 
   @override
   Widget build(BuildContext context) {
-    //TODO: apply pattern mvc in order to update color of badges when unlocked achievements
+    var entries = badges.entries.toList();
     return GridView.count(
       shrinkWrap: true,
       crossAxisSpacing: 5,
@@ -165,9 +182,10 @@ class BadgeContainer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       crossAxisCount: 5,
       children: <Widget>[
-        for (var i = 0; i < badgeCount; i++) ...[
+        for (var i = 0; i < badges.length; i++) ...[
           BadgeCircle(
-              badgeImage: '$iconsPath/badge$i.png', isActive: badgeEnabled[i]),
+              badgeImage: '$iconsPath/badge${entries[i].key.id}.png',
+              isActive: entries[i].value),
         ]
       ],
     );
