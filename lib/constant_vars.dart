@@ -26,6 +26,8 @@ enum StatsType {
   final int value;
 }
 
+enum UserData { info, stats, badge }
+
 const statsIcon = [
   Icons.local_gas_station, //StatsType.co2
   Icons.description, //StatsType.paper

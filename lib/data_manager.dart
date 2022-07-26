@@ -4,18 +4,20 @@ import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'Database/dataModel.dart';
 import 'Database/database_constant.dart';
+import 'UtilsModel.dart';
 
 class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
 
   int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
 
-  //Variables used as place of return vars of async method
-  User? userData; // var to chache user data from db
+  //Snapshot Variables used as place of return vars of async method
+  Map<UserData, dynamic>? userData; // snapshot user data from db
   Tree? treeByQrCodeId; // result of request treeById
   Project? projByQrCodeId;
-  bool loadHasFinished = false;
   late Map<InfoType, List> userTreeAndProj;
+
+  bool loadHasFinished = false;
 
   DataManager() {
     resetCacheVars();
@@ -44,10 +46,33 @@ class DataManager extends ChangeNotifier {
   //TODO: save in user preferences user id
 
   ///get user info then when received, cache data to var then notify listeners
-  getUser() async {
+  getUserData() async {
+    resetCacheVars();
     var user = await dbProvider.getUserInfo(currentUserId);
-    userData = user;
+    Statistics stats = await _calculateStats();
+
+    userData = {UserData.info: user, UserData.stats: stats};
     notifyListeners();
+  }
+
+  Future<Statistics> _calculateStats() async {
+    int totCo2 = 0;
+    try {
+      List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
+      totCo2 = trees
+          .map((e) => e.co2)
+          .reduce((co2Total, treeCo2) => co2Total += treeCo2);
+    } catch (e) {
+      totCo2 = 0;
+    }
+
+    //TODO: il numero di fogli di carta li prendo dalla stessa fonte della verione
+    //web cosi come i kg di co2 per ciascun progetto
+    //TODO: la carta prendo in considerazione quella del progetto e non quella che
+    //l'albero sarebbe in grado di catturare
+    var papers = 202; //prendo
+
+    return Statistics(papers, totCo2);
   }
 
   void updateUserInfo(
@@ -64,11 +89,13 @@ class DataManager extends ChangeNotifier {
   }
 
   void getUserTreesProject() async {
+    resetCacheVars();
+
     //from id of tree get information from source
     List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
     List<Project> projc = await dbProvider.getUserProjects(currentUserId);
-
-    // set data manager var
+    print(trees.toString());
+    // set data manager snapshot
     userTreeAndProj = {
       InfoType.tree: trees,
       InfoType.project: projc,
@@ -102,7 +129,13 @@ class DataManager extends ChangeNotifier {
 
   void isValidTreeCode(String qrData) async {
     var treeId = int.parse(qrData);
-    treeByQrCodeId = await dbProvider.getTree(treeId);
+    treeByQrCodeId = Tree(
+        treeId: 1,
+        name: "name",
+        descr: "descr",
+        height: 100,
+        diameter: 10,
+        co2: 252); //await dbProvider.getTree(treeId);
     projByQrCodeId = Project(
         projectId: 1,
         treeId: 1,
