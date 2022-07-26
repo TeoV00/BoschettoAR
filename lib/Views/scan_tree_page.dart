@@ -45,7 +45,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
                   proj != null) {
                 controller?.dispose();
                 showNewScanBtn = true;
-                //return Text("Schermata ar");
+
                 return TreeViewInfoAr(
                   tree: tree,
                   proj: proj,
