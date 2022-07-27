@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
+import 'package:tree_ar/Database/database_constant.dart';
+import 'package:tree_ar/Views/User/user_info_banner.dart';
 import 'package:tree_ar/Views/edit_user_page.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
@@ -26,7 +28,6 @@ class UserPage extends StatelessWidget {
 
             if (data != null) {
               return UserPageListView(
-                user: data[UserData.info],
                 stats: data[UserData.stats],
                 badges: data[UserData.badge],
               );
@@ -43,13 +44,11 @@ class UserPage extends StatelessWidget {
 }
 
 class UserPageListView extends StatelessWidget {
-  final User user;
   final Statistics stats;
   final Map<Badge, bool> badges;
 
   const UserPageListView({
     Key? key,
-    required this.user,
     required this.stats,
     required this.badges,
   }) : super(key: key);
@@ -60,13 +59,8 @@ class UserPageListView extends StatelessWidget {
       scrollDirection: Axis.vertical,
       children: [
         Row(
-          children: [
-            // GestureDetector(
-            //   onTap: () {},
-            //   child: ,
-            // )
-
-            UserInfoBanner(usr: user),
+          children: const [
+            UserInfoBanner(),
           ],
         ),
         Row(
@@ -229,96 +223,6 @@ class BadgeCircle extends StatelessWidget {
         ),
       )),
     );
-  }
-}
-
-class UserInfoBanner extends StatelessWidget {
-  final User usr;
-  const UserInfoBanner({Key? key, required this.usr}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        child: GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => EditUserInfoPage(user: usr),
-        ),
-      ),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-          color: secondColor,
-          borderRadius: BorderRadius.all(radiusCorner),
-        ),
-        child: Row(
-          children: [
-            //Profile image
-            ClipOval(
-              child: Image.asset(
-                usr.userImageName ?? "$imagePath/userPlaceholder.jpeg",
-                height: 90,
-                errorBuilder: (BuildContext context, Object exception,
-                    StackTrace? stackTrace) {
-                  return Image.asset(
-                    "$imagePath/userPlaceholder.jpeg",
-                    height: 90,
-                  );
-                },
-              ),
-            ),
-            Flexible(
-              //User info
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            usr.getNameSurname(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          Text(
-                            "Data Nascita: ${usr.dateBirth ?? "no data"}",
-                            style: const TextStyle(
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: darkGray),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      usr.course ?? "no course info",
-                      style: const TextStyle(
-                        // fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        color: darkGray,
-                      ),
-                    ),
-                    Text(
-                      "Immatricolato il: ${usr.registrationDate ?? 'no info'}",
-                      style: const TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: darkGray),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    ));
   }
 }
 
