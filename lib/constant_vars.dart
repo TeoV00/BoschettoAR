@@ -33,3 +33,9 @@ const statsIcon = [
   Icons.description, //StatsType.paper
   Icons.eco //StatsType.leafs
 ];
+
+// Edit user info Form style
+const labelStyle = TextStyle(
+  color: Color.fromARGB(255, 46, 128, 49),
+  fontSize: 20,
+);
