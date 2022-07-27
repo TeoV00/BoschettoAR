@@ -40,6 +40,7 @@ dependencies:
   ar_flutter_plugin: ^0.6.4
   qr_code_scanner: ^1.0.0
   firebase_core: ^1.20.0
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_test:
