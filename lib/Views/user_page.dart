@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
-import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/Views/User/user_info_banner.dart';
-import 'package:tree_ar/Views/edit_user_page.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
 
