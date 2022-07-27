@@ -18,7 +18,7 @@ class _UserInfoState extends State<UserInfoBanner> {
 
   void _refreshData(bool areUpdated) {
     if (areUpdated) {
-      print("Dari aggiornati allora aggiorna gui");
+      print("Dati aggiornati allora aggiorna gui");
       dataManager.getUserInfo();
     }
   }
@@ -34,6 +34,7 @@ class _UserInfoState extends State<UserInfoBanner> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   var usr = snapshot.data ?? defaultUser;
+
                   return Expanded(
                       child: GestureDetector(
                     onTap: () => {
