@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
@@ -56,18 +58,12 @@ class _UserInfoState extends State<UserInfoBanner> {
                         children: [
                           //Profile image
                           ClipOval(
-                            child: Image.asset(
-                              usr.userImageName ??
-                                  "$imagePath/userPlaceholder.jpeg",
-                              height: 90,
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace? stackTrace) {
-                                return Image.asset(
-                                  "$imagePath/userPlaceholder.jpeg",
-                                  height: 90,
-                                );
-                              },
-                            ),
+                            child: usr.userImageName != null
+                                ? Image.file(File(usr.userImageName!))
+                                : Image.asset(
+                                    "$imagePath/userPlaceholder.jpeg",
+                                    height: 90,
+                                  ),
                           ),
                           Flexible(
                             //User info

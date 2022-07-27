@@ -1,9 +1,12 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditUserInfoPage extends StatefulWidget {
   final User user;
@@ -67,6 +70,32 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Stack(
+                  children: [
+                    ClipOval(
+                      child: usr.userImageName != null
+                          ? Image.file(
+                              File(usr.userImageName!),
+                              height: 120,
+                            )
+                          : Image.asset(
+                              "$imagePath/userPlaceholder.jpeg",
+                              height: 120,
+                            ),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: mainColor),
+                      child: IconButton(
+                        iconSize: 30,
+                        icon: const Icon(Icons.edit),
+                        tooltip: 'Modifica immagine',
+                        onPressed: () => _changeUserImage(),
+                      ),
+                    )
+                  ],
+                ),
+                Text(usr.userImageName ?? "vuoto"),
                 fieldGroupForm("Dati Anagrafici"),
                 TextFormField(
                   autofocus: true,
@@ -130,10 +159,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: fieldGroupForm("Carriera Universitaria"),
-                ),
+                fieldGroupForm("Carriera Universitaria"),
                 TextFormField(
                   textInputAction: TextInputAction.next,
                   maxLines: 1,
@@ -182,12 +208,15 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     );
   }
 
-  Text fieldGroupForm(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
+  Widget fieldGroupForm(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 30),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -201,6 +230,20 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     dateBirthContr.dispose();
     courseContr.dispose();
     dateImmatricContr.dispose();
+  }
+
+  void _changeUserImage() async {
+    final XFile? imagePicked = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 2);
+    if (imagePicked != null) {
+      final File image = File(imagePicked.path);
+      final String path = (await getApplicationDocumentsDirectory()).path;
+      final File newImage = await image.copy('$path/user${usr.userId}.png');
+      setState(() {
+        formUser.userImageName = newImage.path;
+        print(formUser.userImageName);
+      });
+    }
   }
 
   void _showDialog(Widget child) {
@@ -252,6 +295,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
   void _saveChanges(BuildContext context) async {
     DataManager dm = DataManager();
+    
     dm.updateCurrentUserInfo(formUser).then((isDone) => {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
