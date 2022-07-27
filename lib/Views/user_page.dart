@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
+import 'package:tree_ar/Views/edit_user_page.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
 
@@ -318,50 +319,6 @@ class UserInfoBanner extends StatelessWidget {
         ),
       ),
     ));
-  }
-}
-
-class EditUserInfoPage extends StatefulWidget {
-  final User user;
-  const EditUserInfoPage({Key? key, required this.user}) : super(key: key);
-
-  @override
-  State<EditUserInfoPage> createState() => _EditUserInfoPageState();
-}
-
-class _EditUserInfoPageState extends State<EditUserInfoPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          foregroundColor: Colors.black,
-          backgroundColor: secondColor,
-          title: const Text("Modifica Dati"),
-        ),
-        body: Column(
-          children: [
-            Row(
-              children: [
-                const Text("Nome"),
-                TextField(
-                  onChanged: (value) {
-                    print("nome");
-                  },
-                )
-              ],
-            ),
-            Row(
-              children: [
-                const Text("Cognome"),
-                TextField(
-                  onChanged: (value) {
-                    print("cognome");
-                  },
-                )
-              ],
-            ),
-          ],
-        ));
   }
 }
 
