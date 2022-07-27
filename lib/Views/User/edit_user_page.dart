@@ -77,10 +77,12 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                           ? Image.file(
                               File(usr.userImageName!),
                               height: 120,
+                              width: 120,
                             )
                           : Image.asset(
                               "$imagePath/userPlaceholder.jpeg",
                               height: 120,
+                              width: 120,
                             ),
                     ),
                     Container(
@@ -95,7 +97,6 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                     )
                   ],
                 ),
-                Text(usr.userImageName ?? "vuoto"),
                 fieldGroupForm("Dati Anagrafici"),
                 TextFormField(
                   autofocus: true,
@@ -241,7 +242,6 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
       final File newImage = await image.copy('$path/user${usr.userId}.png');
       setState(() {
         formUser.userImageName = newImage.path;
-        print(formUser.userImageName);
       });
     }
   }
@@ -295,7 +295,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
   void _saveChanges(BuildContext context) async {
     DataManager dm = DataManager();
-    
+
     dm.updateCurrentUserInfo(formUser).then((isDone) => {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
