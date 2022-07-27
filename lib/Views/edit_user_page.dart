@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/Database/database_constant.dart';
@@ -13,6 +14,25 @@ class EditUserInfoPage extends StatefulWidget {
 
 class _EditUserInfoPageState extends State<EditUserInfoPage> {
   final _formKey = GlobalKey<FormState>();
+
+  late final TextEditingController nameContr;
+  late final TextEditingController surnameContr;
+  late final TextEditingController dateBirthContr;
+  late final TextEditingController courseContr;
+  late final TextEditingController dateImmatricContr;
+  late final User usr;
+
+  @override
+  void initState() {
+    super.initState();
+    usr = widget.user;
+    nameContr = TextEditingController(text: usr.name);
+    surnameContr = TextEditingController(text: usr.surname);
+    dateBirthContr = TextEditingController(text: usr.dateBirth);
+    courseContr = TextEditingController(text: usr.course);
+    dateImmatricContr = TextEditingController(text: usr.registrationDate);
+  }
+
   //if field is null -> not edited
   User formUser = User(
       userId: DEFAULT_USER_ID,
@@ -25,7 +45,6 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    User usr = widget.user;
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -48,8 +67,13 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
               children: [
                 fieldGroupForm("Dati Anagrafici"),
                 TextFormField(
+                  autofocus: true,
+                  textInputAction: TextInputAction.next,
+                  controller: nameContr,
                   maxLines: 1,
-                  initialValue: usr.name,
+                  onChanged: (value) {
+                    formUser.name = value;
+                  },
                   decoration: const InputDecoration(
                     labelStyle: labelStyle,
                     focusedBorder: UnderlineInputBorder(
@@ -60,7 +84,11 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                 ),
                 TextFormField(
                   maxLines: 1,
-                  initialValue: usr.surname,
+                  textInputAction: TextInputAction.next,
+                  controller: surnameContr,
+                  onChanged: (newVal) {
+                    formUser.surname = newVal;
+                  },
                   decoration: const InputDecoration(
                     labelStyle: labelStyle,
                     focusedBorder: UnderlineInputBorder(
@@ -70,23 +98,47 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                   ),
                 ),
                 TextFormField(
-                  initialValue: usr.dateBirth,
-                  keyboardType: TextInputType.none,
+                  textInputAction: TextInputAction.next,
+                  controller: dateBirthContr,
+                  readOnly: true,
+                  keyboardType: TextInputType.datetime,
+                  onChanged: (newVal) {
+                    formUser.dateBirth = newVal;
+                  },
                   decoration: const InputDecoration(
                     labelStyle: labelStyle,
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: mainColor)),
                     label: Text("Data Nascita"),
                   ),
-                  onTap: () => {},
+                  onTap: () => _showDialog(
+                    CupertinoDatePicker(
+                      dateOrder: DatePickerDateOrder.dmy,
+                      initialDateTime: DateTime.tryParse(usr.dateBirth ?? '') ??
+                          DateTime.now(),
+                      mode: CupertinoDatePickerMode.date,
+                      use24hFormat: true,
+                      // This is called when the user changes the date.
+                      onDateTimeChanged: (DateTime newDate) {
+                        var dateString =
+                            '${newDate.day}/${newDate.month}/${newDate.year}';
+                        dateBirthContr.text = dateString;
+                        setState(() => formUser.dateBirth = dateString);
+                      },
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: fieldGroupForm("Carriera Universitaria"),
                 ),
                 TextFormField(
+                  textInputAction: TextInputAction.next,
                   maxLines: 1,
-                  initialValue: usr.course,
+                  controller: courseContr,
+                  onChanged: (newVal) {
+                    formUser.course = newVal;
+                  },
                   decoration: const InputDecoration(
                     labelStyle: labelStyle,
                     focusedBorder: UnderlineInputBorder(
@@ -96,10 +148,14 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                   ),
                 ),
                 TextFormField(
+                  textInputAction: TextInputAction.done,
+                  controller: dateImmatricContr,
+                  onChanged: (newVal) {
+                    formUser.registrationDate = newVal;
+                  },
                   keyboardType: TextInputType.number,
                   maxLines: 1,
                   maxLength: 4,
-                  initialValue: usr.registrationDate,
                   decoration: const InputDecoration(
                     labelStyle: labelStyle,
                     focusedBorder: UnderlineInputBorder(
@@ -133,5 +189,38 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     );
   }
 
-  _saveChanges() {}
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    nameContr.dispose();
+    surnameContr.dispose();
+    dateBirthContr.dispose();
+    courseContr.dispose();
+    dateImmatricContr.dispose();
+    super.dispose();
+  }
+
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => Container(
+              height: 216,
+              padding: const EdgeInsets.only(top: 6.0),
+              // The Bottom margin is provided to align the popup above the system navigation bar.
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              // Provide a background color for the popup.
+              color: CupertinoColors.systemBackground.resolveFrom(context),
+              // Use a SafeArea widget to avoid system overlaps.
+              child: SafeArea(
+                top: false,
+                child: child,
+              ),
+            ));
+  }
+
+  void _saveChanges() {
+    print(formUser.toString());
+  }
 }
