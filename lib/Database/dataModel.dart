@@ -122,10 +122,10 @@ class User implements ObjToMapI {
   final int userId;
   String? name = 'Nome Assente';
   String? surname = 'Cognome Assente';
-  String? dateBirth = 'xx/xx/xxxx'; //Date
-  String? course = 'Corso non impostato'; // varchar(50) not null,
-  String? registrationDate = 'xxxx'; // date not null,
-  String? userImageName = ''; //varchar(20) not null --,
+  String? dateBirth = 'xx/xx/xxxx';
+  String? course = 'Corso non impostato';
+  String? registrationDate = 'xxxx';
+  String? userImageName = '';
 
   User(
       {required this.userId,
@@ -157,7 +157,7 @@ class User implements ObjToMapI {
         dateBirth: userDb['dateBirth'],
         course: userDb['course'],
         registrationDate: userDb['registrationDate'],
-        userImageName: userDb['userImageName)']);
+        userImageName: userDb['userImageName']);
   }
 
   String getNameSurname() {
