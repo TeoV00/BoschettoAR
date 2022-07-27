@@ -78,17 +78,21 @@ class DataManager extends ChangeNotifier {
     return Statistics(papers, totCo2, pogress);
   }
 
-  void updateUserInfo(
-    int userId,
-    String? name,
-    String? surname,
-    String? dateBirth,
-    String? course,
-    String? registrationDate,
-    String? userImageName,
-  ) async {
-    await dbProvider.updateUserInfo(userId, name, surname, dateBirth, course,
-        registrationDate, userImageName);
+  Future<bool> updateCurrentUserInfo(User user) async {
+    var res = await dbProvider.updateUserInfo(
+      currentUserId,
+      user.name,
+      user.surname,
+      user.dateBirth,
+      user.course,
+      user.registrationDate,
+      user.userImageName,
+    );
+    if (res && userData != null) {
+      userData![UserData.info] = dbProvider.getUserInfo(currentUserId);
+      notifyListeners();
+    }
+    return res;
   }
 
   void getUserTreesProject() async {
