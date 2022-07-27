@@ -14,6 +14,7 @@ class DataManager extends ChangeNotifier {
 
   //Snapshot Variables used as place of return vars of async method
   Map<UserData, dynamic>? userData; // snapshot user data from db
+
   Tree? treeByQrCodeId; // result of request treeById
   Project? projByQrCodeId;
   Map<InfoType, List<dynamic>> userTreeAndProj = {
@@ -36,7 +37,7 @@ class DataManager extends ChangeNotifier {
   getUserData() async {
     print("getUser data");
     resetCacheVars();
-    var user = await dbProvider.getUserInfo(currentUserId);
+
     Statistics stats = await _calculateStats();
 
     Map<Badge, bool> badges = {};
@@ -49,12 +50,16 @@ class DataManager extends ChangeNotifier {
     }
 
     //prendo tutti i badge poi li ordino e a ciascuno dico se l'utente l'ha sbloccato o no
-    userData = {
-      UserData.info: user,
-      UserData.stats: stats,
-      UserData.badge: badges
-    };
+    userData = {UserData.stats: stats, UserData.badge: badges};
     notifyListeners();
+  }
+
+  ///Update snapshot of userInfo from db
+  ///return true if data are on db and snapshot is updated
+  Future<User> getUserInfo() async {
+    var user = await dbProvider.getUserInfo(currentUserId);
+    notifyListeners();
+    return user ?? defaultUser;
   }
 
   Future<Statistics> _calculateStats() async {
@@ -165,7 +170,6 @@ class DataManager extends ChangeNotifier {
   ///in order to make app work fine, its a workaround to return values of async functions
   void resetCacheVars() {
     print("reset Chached vars");
-    userData = null;
     treeByQrCodeId = null;
     projByQrCodeId = null;
     loadHasFinished = false;
