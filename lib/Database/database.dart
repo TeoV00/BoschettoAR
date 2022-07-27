@@ -25,7 +25,7 @@ class DatabaseProvider {
   void _createDatabase() async {
     var path = await getDatabasesPath();
     _database = await openDatabase(
-      join(path, 'treyyew.db'),
+      join(path, 'treyyhhw.db'),
       version: 1, //--> use oncreate
       onCreate: (db, version) async {
         //I tried to use a for-statement but queries ar not interpreted correctly
@@ -56,6 +56,26 @@ class DatabaseProvider {
                 treeId: 1,
                 name: "name",
                 descr: "descr",
+                link: "link"));
+        _insert(
+            db,
+            treeTable,
+            Tree(
+                treeId: 2,
+                name: "pinkopalla",
+                descr: "descr",
+                height: 100,
+                diameter: 10,
+                co2: 203));
+        _insert(
+            db,
+            projectTable,
+            Project(
+                projectId: 2,
+                treeId: 2,
+                name: "progetto 2",
+                descr:
+                    "bellissimo progetto di sostenibilita delle cicale in sede",
                 link: "link"));
         _insert(db, badgeTable,
             Badge(id: 1, descr: "pollicino verde", imageName: "imageName"));
@@ -111,6 +131,7 @@ class DatabaseProvider {
   ) async {
     var result = 0;
     var usr = await getUserInfo(userId);
+    print(usr.toString());
 
     if (database != null && usr != null) {
       var db = database!;
@@ -129,6 +150,7 @@ class DatabaseProvider {
                 isNull(userImageName) ? usr.userImageName : userImageName!,
           ).toMap());
     }
+    print(result);
     return result > 0;
   }
 
