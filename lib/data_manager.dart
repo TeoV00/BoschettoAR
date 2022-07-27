@@ -84,6 +84,7 @@ class DataManager extends ChangeNotifier {
   }
 
   Future<bool> updateCurrentUserInfo(User user) async {
+    //print(user.userImageName);
     var res = await dbProvider.updateUserInfo(
       currentUserId,
       user.name,
@@ -93,8 +94,7 @@ class DataManager extends ChangeNotifier {
       user.registrationDate,
       user.userImageName,
     );
-    if (res && userData != null) {
-      userData![UserData.info] = dbProvider.getUserInfo(currentUserId);
+    if (res) {
       notifyListeners();
     }
     return res;
