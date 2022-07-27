@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/constant_vars.dart';
+import 'package:tree_ar/data_manager.dart';
 
 class EditUserInfoPage extends StatefulWidget {
   final User user;
@@ -50,6 +51,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
         foregroundColor: Colors.black,
         backgroundColor: secondColor,
         title: const Text("Modifica Dati"),
+        leading: BackButton(onPressed: () => _alertEditing(context)),
         actions: [
           IconButton(
             tooltip: 'Chiudi tastiera',
@@ -165,7 +167,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () => _saveChanges(), //call datamanager method
+                  onPressed: () async =>
+                      _saveChanges(context), //call datamanager method
                   style: ElevatedButton.styleFrom(
                     primary: mainColor,
                   ),
@@ -191,13 +194,13 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
   @override
   void dispose() {
+    super.dispose();
     // Clean up the controller when the widget is disposed.
     nameContr.dispose();
     surnameContr.dispose();
     dateBirthContr.dispose();
     courseContr.dispose();
     dateImmatricContr.dispose();
-    super.dispose();
   }
 
   void _showDialog(Widget child) {
@@ -220,7 +223,43 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
             ));
   }
 
-  void _saveChanges() {
-    print(formUser.toString());
+  void _alertEditing(context) {
+    showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Modifiche non salvate'),
+        content: const Text(
+            'Per continuare a modificare clicca "Continua" altrimenti per lasciare questa schemrata senza salvare clicca "Lascia"'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Continua'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Lascia'),
+          ),
+        ],
+      ),
+    ).then((answer) => {
+          if (answer == false) {_backPrevScreen(context, false)},
+        });
+  }
+
+  void _backPrevScreen(BuildContext context, bool isUpdated) {
+    Navigator.pop(context, isUpdated);
+  }
+
+  void _saveChanges(BuildContext context) async {
+    DataManager dm = DataManager();
+    dm.updateCurrentUserInfo(formUser).then((isDone) => {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: isDone
+                    ? const Text("Modifiche salvate")
+                    : const Text("Errore nel salvataggio")),
+          ),
+          _backPrevScreen(context, isDone)
+        });
   }
 }
