@@ -59,10 +59,15 @@ class _UserInfoState extends State<UserInfoBanner> {
                           //Profile image
                           ClipOval(
                             child: usr.userImageName != null
-                                ? Image.file(File(usr.userImageName!))
+                                ? Image.file(
+                                    File(usr.userImageName!),
+                                    height: 90,
+                                    width: 90,
+                                  )
                                 : Image.asset(
                                     "$imagePath/userPlaceholder.jpeg",
                                     height: 90,
+                                    width: 90,
                                   ),
                           ),
                           Flexible(
