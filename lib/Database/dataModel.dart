@@ -120,30 +120,21 @@ class Badge implements ObjToMapI {
 
 class User implements ObjToMapI {
   final int userId;
-  final String? name;
-  final String? surname;
-  final String? dateBirth; //Date
-  final String? course; // varchar(50) not null,
-  final String? registrationDate; // date not null,
-  final String? userImageName; //varchar(20) not null --,
-// --     check(exists(select * from userBadge
-// --                  where userBadge.userId = userId))
+  String? name = 'Nome Assente';
+  String? surname = 'Cognome Assente';
+  String? dateBirth = 'xx/xx/xxxx'; //Date
+  String? course = 'Corso non impostato'; // varchar(50) not null,
+  String? registrationDate = 'xxxx'; // date not null,
+  String? userImageName = ''; //varchar(20) not null --,
 
-// userId INTEGER PRIMARY KEY,
-//      name TEXT,
-//      surname TEXT,
-//      dateBirth TEXT ,
-//      course TEXT,
-//      registrationDate TEXT,
-//      userImageName TEXT );
   User(
       {required this.userId,
-      required this.name,
-      required this.surname,
-      required this.dateBirth,
-      required this.course,
-      required this.registrationDate,
-      required this.userImageName});
+      this.name,
+      this.surname,
+      this.dateBirth,
+      this.course,
+      this.registrationDate,
+      this.userImageName});
 
   @override
   Map<String, dynamic> toMap() {
