@@ -18,7 +18,7 @@ var defaultUser = User(
   dateBirth: "Data di nascita",
   course: "Corso universitario",
   registrationDate: "data Immatric.",
-  userImageName: "userPlaceholder.jpeg",
+  userImageName: null,
 );
 
 //list of SQL query for creation of tables in db
