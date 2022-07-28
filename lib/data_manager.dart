@@ -17,10 +17,6 @@ class DataManager extends ChangeNotifier {
 
   Tree? treeByQrCodeId; // result of request treeById
   Project? projByQrCodeId;
-  Map<InfoType, List<dynamic>> userTreeAndProj = {
-    InfoType.tree: List.empty(),
-    InfoType.project: List.empty(),
-  };
 
   bool loadHasFinished = false;
 
@@ -100,27 +96,18 @@ class DataManager extends ChangeNotifier {
     return res;
   }
 
-  void getUserTreesProject() async {
+  Future<Map<InfoType, List<dynamic>>> getUserTreesProject() async {
     //retrieve data saved in database - local memory
     List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
     List<Project> projc = await dbProvider.getUserProjects(currentUserId);
 
-    //unpack current user trees and project listes
-    List<Tree> currTrees = (userTreeAndProj[InfoType.tree] ?? []).cast<Tree>();
-    List<Project> currProj =
-        (userTreeAndProj[InfoType.project] ?? []).cast<Project>();
+    var userTreeAndProj = {
+      InfoType.tree: trees,
+      InfoType.project: projc,
+    };
 
-    //compares list and update them only if current are older
-    if (trees.length != currTrees.length && projc.length != currProj.length) {
-      print("I dati mostrati vengono aggiiornati");
-      userTreeAndProj = {
-        InfoType.tree: trees,
-        InfoType.project: projc,
-      };
-      notifyListeners();
-    } else {
-      print("dati invariati");
-    }
+    notifyListeners();
+    return userTreeAndProj;
   }
 
   Future<List<Badge>> getUnlockedBadges() {
