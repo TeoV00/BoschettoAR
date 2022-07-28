@@ -25,6 +25,16 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   late final TextEditingController courseContr;
   late final TextEditingController dateImmatricContr;
   late final User usr;
+  File? newFileImage;
+  //if field is null -> not edited
+  User formUser = User(
+      userId: DEFAULT_USER_ID,
+      name: null,
+      surname: null,
+      dateBirth: null,
+      course: null,
+      registrationDate: null,
+      userImageName: null);
 
   @override
   void initState() {
@@ -36,16 +46,6 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     courseContr = TextEditingController(text: usr.course);
     dateImmatricContr = TextEditingController(text: usr.registrationDate);
   }
-
-  //if field is null -> not edited
-  User formUser = User(
-      userId: DEFAULT_USER_ID,
-      name: null,
-      surname: null,
-      dateBirth: null,
-      course: null,
-      registrationDate: null,
-      userImageName: null);
 
   @override
   Widget build(BuildContext context) {
@@ -63,146 +63,157 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
           )
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-                    ClipOval(
-                      child: usr.userImageName != null
-                          ? Image.file(
-                              File(usr.userImageName!),
-                              height: 120,
-                              width: 120,
-                            )
-                          : Image.asset(
-                              "$imagePath/userPlaceholder.jpeg",
-                              height: 120,
-                              width: 120,
-                            ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  ClipOval(
+                    child: newFileImage != null
+                        ? Image.file(
+                            newFileImage!,
+                            height: 120,
+                            width: 120,
+                          )
+                        : (usr.userImageName != null
+                            ? Image.file(
+                                File(usr.userImageName!),
+                                height: 120,
+                                width: 120,
+                              )
+                            : Image.asset(
+                                "$imagePath/userPlaceholder.jpeg",
+                                height: 120,
+                                width: 120,
+                              )),
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: mainColor),
+                    child: IconButton(
+                      iconSize: 30,
+                      icon: const Icon(Icons.edit),
+                      tooltip: 'Modifica immagine',
+                      onPressed: () => _changeUserImage(),
                     ),
-                    Container(
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: mainColor),
-                      child: IconButton(
-                        iconSize: 30,
-                        icon: const Icon(Icons.edit),
-                        tooltip: 'Modifica immagine',
-                        onPressed: () => _changeUserImage(),
+                  )
+                ],
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    fieldGroupForm("Dati Anagrafici"),
+                    TextFormField(
+                      autofocus: true,
+                      textInputAction: TextInputAction.next,
+                      controller: nameContr,
+                      maxLines: 1,
+                      onChanged: (value) {
+                        formUser.name = value;
+                      },
+                      decoration: const InputDecoration(
+                        labelStyle: labelStyle,
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: mainColor)),
+                        hintText: 'Nome',
+                        label: Text('Nome'),
                       ),
-                    )
+                    ),
+                    TextFormField(
+                      maxLines: 1,
+                      textInputAction: TextInputAction.next,
+                      controller: surnameContr,
+                      onChanged: (newVal) {
+                        formUser.surname = newVal;
+                      },
+                      decoration: const InputDecoration(
+                        labelStyle: labelStyle,
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: mainColor)),
+                        hintText: 'Cognome',
+                        label: Text('Cognome'),
+                      ),
+                    ),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      controller: dateBirthContr,
+                      readOnly: true,
+                      keyboardType: TextInputType.datetime,
+                      onChanged: (newVal) {
+                        formUser.dateBirth = newVal;
+                      },
+                      decoration: const InputDecoration(
+                        labelStyle: labelStyle,
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: mainColor)),
+                        label: Text("Data Nascita"),
+                      ),
+                      onTap: () => _showDialog(
+                        CupertinoDatePicker(
+                          dateOrder: DatePickerDateOrder.dmy,
+                          initialDateTime:
+                              DateTime.tryParse(usr.dateBirth ?? '') ??
+                                  DateTime.now(),
+                          mode: CupertinoDatePickerMode.date,
+                          use24hFormat: true,
+                          // This is called when the user changes the date.
+                          onDateTimeChanged: (DateTime newDate) {
+                            var dateString =
+                                '${newDate.day}/${newDate.month}/${newDate.year}';
+                            dateBirthContr.text = dateString;
+                            setState(() => formUser.dateBirth = dateString);
+                          },
+                        ),
+                      ),
+                    ),
+                    fieldGroupForm("Carriera Universitaria"),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      maxLines: 1,
+                      controller: courseContr,
+                      onChanged: (newVal) {
+                        formUser.course = newVal;
+                      },
+                      decoration: const InputDecoration(
+                        labelStyle: labelStyle,
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: mainColor)),
+                        hintText: 'Corso Universitario',
+                        labelText: 'Corso Universitario',
+                      ),
+                    ),
+                    TextFormField(
+                      textInputAction: TextInputAction.done,
+                      controller: dateImmatricContr,
+                      onChanged: (newVal) {
+                        formUser.registrationDate = newVal;
+                      },
+                      keyboardType: TextInputType.number,
+                      maxLines: 1,
+                      maxLength: 4,
+                      decoration: const InputDecoration(
+                        labelStyle: labelStyle,
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: mainColor)),
+                        hintText: 'Anno Immatricolazione',
+                        labelText: 'Anno Immatricolazione',
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async =>
+                          _saveChanges(context), //call datamanager method
+                      style: ElevatedButton.styleFrom(
+                        primary: mainColor,
+                      ),
+                      child: const Text("Salva Modifiche"),
+                    ),
                   ],
                 ),
-                fieldGroupForm("Dati Anagrafici"),
-                TextFormField(
-                  autofocus: true,
-                  textInputAction: TextInputAction.next,
-                  controller: nameContr,
-                  maxLines: 1,
-                  onChanged: (value) {
-                    formUser.name = value;
-                  },
-                  decoration: const InputDecoration(
-                    labelStyle: labelStyle,
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: mainColor)),
-                    hintText: 'Nome',
-                    label: Text('Nome'),
-                  ),
-                ),
-                TextFormField(
-                  maxLines: 1,
-                  textInputAction: TextInputAction.next,
-                  controller: surnameContr,
-                  onChanged: (newVal) {
-                    formUser.surname = newVal;
-                  },
-                  decoration: const InputDecoration(
-                    labelStyle: labelStyle,
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: mainColor)),
-                    hintText: 'Cognome',
-                    label: Text('Cognome'),
-                  ),
-                ),
-                TextFormField(
-                  textInputAction: TextInputAction.next,
-                  controller: dateBirthContr,
-                  readOnly: true,
-                  keyboardType: TextInputType.datetime,
-                  onChanged: (newVal) {
-                    formUser.dateBirth = newVal;
-                  },
-                  decoration: const InputDecoration(
-                    labelStyle: labelStyle,
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: mainColor)),
-                    label: Text("Data Nascita"),
-                  ),
-                  onTap: () => _showDialog(
-                    CupertinoDatePicker(
-                      dateOrder: DatePickerDateOrder.dmy,
-                      initialDateTime: DateTime.tryParse(usr.dateBirth ?? '') ??
-                          DateTime.now(),
-                      mode: CupertinoDatePickerMode.date,
-                      use24hFormat: true,
-                      // This is called when the user changes the date.
-                      onDateTimeChanged: (DateTime newDate) {
-                        var dateString =
-                            '${newDate.day}/${newDate.month}/${newDate.year}';
-                        dateBirthContr.text = dateString;
-                        setState(() => formUser.dateBirth = dateString);
-                      },
-                    ),
-                  ),
-                ),
-                fieldGroupForm("Carriera Universitaria"),
-                TextFormField(
-                  textInputAction: TextInputAction.next,
-                  maxLines: 1,
-                  controller: courseContr,
-                  onChanged: (newVal) {
-                    formUser.course = newVal;
-                  },
-                  decoration: const InputDecoration(
-                    labelStyle: labelStyle,
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: mainColor)),
-                    hintText: 'Corso Universitario',
-                    labelText: 'Corso Universitario',
-                  ),
-                ),
-                TextFormField(
-                  textInputAction: TextInputAction.done,
-                  controller: dateImmatricContr,
-                  onChanged: (newVal) {
-                    formUser.registrationDate = newVal;
-                  },
-                  keyboardType: TextInputType.number,
-                  maxLines: 1,
-                  maxLength: 4,
-                  decoration: const InputDecoration(
-                    labelStyle: labelStyle,
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: mainColor)),
-                    hintText: 'Anno Immatricolazione',
-                    labelText: 'Anno Immatricolazione',
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () async =>
-                      _saveChanges(context), //call datamanager method
-                  style: ElevatedButton.styleFrom(
-                    primary: mainColor,
-                  ),
-                  child: const Text("Salva Modifiche"),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -234,13 +245,15 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   }
 
   void _changeUserImage() async {
-    final XFile? imagePicked = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 2);
+    final XFile? imagePicked =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (imagePicked != null) {
       final File image = File(imagePicked.path);
       final String path = (await getApplicationDocumentsDirectory()).path;
       final File newImage = await image.copy('$path/user${usr.userId}.png');
+
       setState(() {
+        newFileImage = newImage;
         formUser.userImageName = newImage.path;
       });
     }
