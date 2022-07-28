@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 
 import '../constant_vars.dart';
@@ -98,45 +97,74 @@ class CustomListView extends StatefulWidget {
 }
 
 class _CustomListView extends State<CustomListView> {
+  DataManager dataManager = DataManager();
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<DataManager>(
-      builder: (context, dataManager, child) {
-        dataManager.getUserTreesProject();
-        var treeAndProj = dataManager.userTreeAndProj;
+    return ChangeNotifierProvider(
+      create: (context) => dataManager,
+      child: Consumer<DataManager>(builder: (context, value, child) {
+        return FutureBuilder<Map<InfoType, List<dynamic>>>(
+          future: dataManager.getUserTreesProject(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var treeAndProj = snapshot.data!;
 
-        if (treeAndProj[InfoType.tree] != null &&
-            treeAndProj[InfoType.project] != null &&
-            treeAndProj[InfoType.tree]!.isNotEmpty) {
-          return ListView.builder(
-            scrollDirection: Axis.vertical,
-            padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
-            itemCount: treeAndProj[widget.dataType]!.length,
-            itemBuilder: (BuildContext context, int index) {
-              return RowItem(
-                  item: treeAndProj[widget.dataType]![index],
-                  type: widget.dataType);
-            },
-          );
-        } else {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "Ahi ahi!! Ancora nessun albero scansionato!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              )
-            ],
-          );
-        }
-      },
+              if (treeAndProj[InfoType.tree] != null &&
+                  treeAndProj[InfoType.project] != null &&
+                  treeAndProj[InfoType.tree]!.isNotEmpty &&
+                  treeAndProj[InfoType.project]!.isNotEmpty) {
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
+                  itemCount: treeAndProj[widget.dataType]!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return RowItem(
+                        item: treeAndProj[widget.dataType]![index],
+                        type: widget.dataType);
+                  },
+                );
+              } else {
+                return const CenteredWidget(
+                    widgetToCenter: Text(
+                  "Ahi ahi!! Ancora nessun albero scansionato!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ));
+              }
+            } else if (snapshot.hasError) {
+              return const CenteredWidget(
+                  widgetToCenter: Text("Errore caricamento dati"));
+            } else {
+              return const CenteredWidget(
+                widgetToCenter: CircularProgressIndicator(
+                  color: mainColor,
+                ),
+              );
+            }
+          },
+        );
+      }),
+    );
+  }
+}
+
+class CenteredWidget extends StatelessWidget {
+  final Widget widgetToCenter;
+
+  const CenteredWidget({Key? key, required this.widgetToCenter})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [widgetToCenter],
+        )
+      ],
     );
   }
 }
