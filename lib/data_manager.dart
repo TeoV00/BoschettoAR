@@ -50,14 +50,6 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///Update snapshot of userInfo from db
-  ///return true if data are on db and snapshot is updated
-  Future<User> getUserInfo() async {
-    var user = await dbProvider.getUserInfo(currentUserId);
-    notifyListeners();
-    return user ?? defaultUser;
-  }
-
   Future<Statistics> _calculateStats() async {
     int totCo2 = 0;
     try {
@@ -96,6 +88,13 @@ class DataManager extends ChangeNotifier {
     return res;
   }
 
+  ///Update snapshot of userInfo from db
+  ///return true if data are on db and snapshot is updated
+  Future<User> getUserInfo() async {
+    var user = await dbProvider.getUserInfo(currentUserId);
+    return user ?? defaultUser;
+  }
+
   Future<Map<InfoType, List<dynamic>>> getUserTreesProject() async {
     //retrieve data saved in database - local memory
     List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
@@ -106,7 +105,6 @@ class DataManager extends ChangeNotifier {
       InfoType.project: projc,
     };
 
-    notifyListeners();
     return userTreeAndProj;
   }
 

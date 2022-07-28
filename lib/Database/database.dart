@@ -5,26 +5,27 @@ import 'dataModel.dart';
 import 'database_constant.dart';
 
 class DatabaseProvider {
+  DatabaseProvider._();
+
   //Singleton pattern
-  static final DatabaseProvider dbp = DatabaseProvider();
+  static final DatabaseProvider dbp = DatabaseProvider._();
   static Database? _database;
 
   DatabaseProvider() {
     _createDatabase();
+    print("construcotr _databse is null = ${_database == null}");
   }
 
-  Database? get database {
-    if (_database == null) {
-      _createDatabase();
-    }
-    return _database;
+  Future<Database> get database async {
+    _database ??= await _createDatabase();
+    return _database!;
   }
 
   ///method to create database tables from file ddl generated from db-main
   ///all tables are created
-  void _createDatabase() async {
+  Future<Database> _createDatabase() async {
     var path = await getDatabasesPath();
-    _database = await openDatabase(
+    return await openDatabase(
       join(path, 'treyyhhw.db'),
       version: 1, //--> use oncreate
       onCreate: (db, version) async {
@@ -134,7 +135,7 @@ class DatabaseProvider {
     // print(usr.toString());
 
     if (database != null && usr != null) {
-      var db = database!;
+      var db = await database;
       result = await db.update(
           userTable,
           User(
@@ -157,77 +158,67 @@ class DatabaseProvider {
   ///it return null if the specified user by id doesn't exist
   Future<User?> getUserInfo(int userId) async {
     User? result;
-    if (database != null) {
-      var db = database!;
-      var resultQuery = await db.query(
-        userTable,
-        where: "userId = ?",
-        whereArgs: [userId],
-      );
-      result = resultQuery.isNotEmpty ? User.fromMap(resultQuery.first) : null;
-    }
+    var db = await database;
+    var resultQuery = await db.query(
+      userTable,
+      where: "userId = ?",
+      whereArgs: [userId],
+    );
+    result = resultQuery.isNotEmpty ? User.fromMap(resultQuery.first) : null;
     return result;
   }
 
   Future<List<Tree>> getUserTrees(int userId) async {
     List<Tree> userTrees = List.empty(growable: true);
-    if (database != null) {
-      var db = database!;
-      var result = await db.rawQuery('''SELECT T.* 
+    var db = await database;
+    var result = await db.rawQuery('''SELECT T.* 
           FROM $treeTable as T, $userTreeTable as U 
           WHERE U.userId = $userId
           AND T.treeId = U.treeId
           ''');
 
-      for (var element in result) {
-        Tree tree = Tree.fromMap(element);
-        userTrees.add(tree);
-      }
+    for (var element in result) {
+      Tree tree = Tree.fromMap(element);
+      userTrees.add(tree);
     }
+
     return userTrees;
   }
 
   Future<Tree?> getTree(int treeId) async {
-    if (database != null) {
-      var db = database!;
-      var result = await db.query(
-        treeTable,
-        where: "treeId = ?",
-        whereArgs: [treeId],
-      );
-      return result.isNotEmpty ? Tree.fromMap(result.first) : null;
-    }
-    return null;
+    var db = await database;
+    var result = await db.query(
+      treeTable,
+      where: "treeId = ?",
+      whereArgs: [treeId],
+    );
+    return result.isNotEmpty ? Tree.fromMap(result.first) : null;
   }
 
   Future<Project?> getProject(int treeId) async {
-    if (database != null) {
-      var db = database!;
-      var result = await db.query(
-        projectTable,
-        where: "treeId = ?",
-        whereArgs: [treeId],
-      );
-      return result.isNotEmpty ? Project.fromMap(result.first) : null;
-    }
-    return null;
+    var db = await database;
+    var result = await db.query(
+      projectTable,
+      where: "treeId = ?",
+      whereArgs: [treeId],
+    );
+    return result.isNotEmpty ? Project.fromMap(result.first) : null;
   }
 
   Future<List<Project>> getUserProjects(int userId) async {
+    var db = await database;
     //get all projects where treeId is in list
     final treeIds = (await getUserTrees(userId)).map((e) => e.treeId).toSet();
     List<Project> userProject = List.empty(growable: true);
-    if (database != null) {
-      var db = database!;
-      var result = await db.query(
-        projectTable,
-        where: "treeId IN (${treeIds.join(', ')})",
-      );
 
-      for (var element in result) {
-        Project projc = Project.fromMap(element);
-        userProject.add(projc);
-      }
+    var result = await db.query(
+      projectTable,
+      where: "treeId IN (${treeIds.join(', ')})",
+    );
+
+    for (var element in result) {
+      Project projc = Project.fromMap(element);
+      userProject.add(projc);
     }
 
     return userProject;
@@ -235,28 +226,26 @@ class DatabaseProvider {
 
   Future<List<Badge>> getUserBadges(int userId) async {
     List<Badge> userBadges = List.empty(growable: true);
-    if (database != null) {
-      var db = database!;
-      var result = await db.query(
-        userBadgeTable,
-        where: "userId = ?",
-        whereArgs: [userId],
-      );
+    var db = await database;
+    var result = await db.query(
+      userBadgeTable,
+      where: "userId = ?",
+      whereArgs: [userId],
+    );
 
-      userBadges = result.map((e) => Badge.fromMap(e)).toList();
-    }
+    userBadges = result.map((e) => Badge.fromMap(e)).toList();
+
     return userBadges;
   }
 
   Future<List<Badge>> getAllBadges() async {
     List<Badge> badges = List.empty(growable: true);
-    if (database != null) {
-      var db = database!;
-      var result = await db.query(
-        badgeTable,
-      );
-      badges = result.map((e) => Badge.fromMap(e)).toList();
-    }
+    var db = await database;
+    var result = await db.query(
+      badgeTable,
+    );
+    badges = result.map((e) => Badge.fromMap(e)).toList();
+
     return badges;
   }
 
