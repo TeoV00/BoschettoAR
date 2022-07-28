@@ -30,8 +30,18 @@ class UserPage extends StatelessWidget {
                 badges: data[UserData.badge],
               );
             } else {
-              return const CircularProgressIndicator(
-                color: mainColor,
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(
+                        color: mainColor,
+                      )
+                    ],
+                  )
+                ],
               );
             }
           },
