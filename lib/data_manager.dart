@@ -140,23 +140,8 @@ class DataManager extends ChangeNotifier {
   void isValidTreeCode(String qrData) async {
     print("isValidtreeCode Called");
     var treeId = int.parse(qrData);
-    treeByQrCodeId =
-        // Tree(
-        //     treeId: 1,
-        //     name: "name",
-        //     descr: "descr",
-        //     height: 100,
-        //     diameter: 10,
-        //     co2: 252);
-        await dbProvider.getTree(treeId);
-    projByQrCodeId =
-        // Project(
-        //     projectId: 1,
-        //     treeId: 1,
-        //     name: "name",
-        //     descr: "descr",
-        //     link: "link");
-        await dbProvider.getProject(treeId);
+    treeByQrCodeId = await dbProvider.getTree(treeId);
+    projByQrCodeId = await dbProvider.getProject(treeId);
 
     if (treeByQrCodeId != null && projByQrCodeId != null) {
       addUserTree(treeId);

@@ -131,7 +131,7 @@ class DatabaseProvider {
   ) async {
     var result = 0;
     var usr = await getUserInfo(userId);
-    print(usr.toString());
+    // print(usr.toString());
 
     if (database != null && usr != null) {
       var db = database!;
@@ -150,7 +150,7 @@ class DatabaseProvider {
                 isNull(userImageName) ? usr.userImageName : userImageName!,
           ).toMap());
     }
-    print(result);
+    // print(result);
     return result > 0;
   }
 
