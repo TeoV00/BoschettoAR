@@ -14,6 +14,7 @@ const radiusCorner = Radius.circular(15);
 
 const iconsPath = "assets/icons";
 const imagePath = "assets/images";
+const defualtUserImageName = "userPlaceholder.jpeg";
 
 enum InfoType { tree, project }
 
