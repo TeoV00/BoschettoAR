@@ -25,7 +25,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   late final TextEditingController courseContr;
   late final TextEditingController dateImmatricContr;
   late final User usr;
-  File? newFileImage;
+
   //if field is null -> not edited
   User formUser = User(
       userId: DEFAULT_USER_ID,
@@ -49,6 +49,13 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    File? imagePreview;
+    if (formUser.userImageName != null) {
+      imagePreview = File(formUser.userImageName!);
+    } else if (usr.userImageName != null) {
+      imagePreview = File(usr.userImageName!);
+    }
+
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -71,23 +78,17 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
               Stack(
                 children: [
                   ClipOval(
-                    child: newFileImage != null
+                    child: imagePreview != null
                         ? Image.file(
-                            newFileImage!,
+                            imagePreview,
                             height: 120,
                             width: 120,
                           )
-                        : (usr.userImageName != null
-                            ? Image.file(
-                                File(usr.userImageName!),
-                                height: 120,
-                                width: 120,
-                              )
-                            : Image.asset(
-                                "$imagePath/userPlaceholder.jpeg",
-                                height: 120,
-                                width: 120,
-                              )),
+                        : Image.asset(
+                            "$imagePath/userPlaceholder.jpeg",
+                            height: 120,
+                            width: 120,
+                          ),
                   ),
                   Container(
                     decoration: const BoxDecoration(
@@ -253,7 +254,6 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
       final File newImage = await image.copy('$path/user${usr.userId}.png');
 
       setState(() {
-        newFileImage = newImage;
         formUser.userImageName = newImage.path;
       });
     }
