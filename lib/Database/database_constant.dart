@@ -13,11 +13,11 @@ const badgeTable = "Badge";
 
 var defaultUser = User(
   userId: DEFAULT_USER_ID,
-  name: "Default",
-  surname: "cognome",
-  dateBirth: "Data di nascita",
+  name: "Nome",
+  surname: "Cognome",
+  dateBirth: "gg/mm/aaaa",
   course: "Corso universitario",
-  registrationDate: "data Immatric.",
+  registrationDate: "xxxx",
   userImageName: null,
 );
 
