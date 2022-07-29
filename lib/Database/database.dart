@@ -78,8 +78,12 @@ class DatabaseProvider {
                 descr:
                     "bellissimo progetto di sostenibilita delle cicale in sede",
                 link: "link"));
-        _insert(db, badgeTable,
-            Badge(id: 1, descr: "pollicino verde", imageName: "imageName"));
+
+        for (var bd in badges) {
+          _insert(db, badgeTable, bd);
+        }
+        // _insert(db, badgeTable,
+        //     Badge(id: 1, descr: "Pollicino verde", imageName: "badge1.png"))
       },
     );
   }
