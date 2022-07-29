@@ -5,7 +5,7 @@ import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'Database/dataModel.dart';
 import 'Database/database_constant.dart';
-import 'UtilsModel.dart';
+import 'utils.dart';
 import 'package:collection/collection.dart' as coll;
 
 class DataManager extends ChangeNotifier {
@@ -71,8 +71,10 @@ class DataManager extends ChangeNotifier {
     return Statistics(papers, totCo2, pogress);
   }
 
+  ///update current logged-in user's info
+  ///return true if any edit has been done, false if anything was not updated
+  /// or there was any problem
   Future<bool> updateCurrentUserInfo(User user) async {
-    //print(user.userImageName);
     var res = await dbProvider.updateUserInfo(
       currentUserId,
       user.name,
@@ -82,9 +84,6 @@ class DataManager extends ChangeNotifier {
       user.registrationDate,
       user.userImageName,
     );
-    if (res) {
-      notifyListeners();
-    }
     return res;
   }
 
