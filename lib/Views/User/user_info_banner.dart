@@ -18,10 +18,11 @@ class UserInfoBanner extends StatefulWidget {
 class _UserInfoState extends State<UserInfoBanner> {
   DataManager dataManager = DataManager();
 
-  void _refreshData(bool areUpdated) {
+  void _refreshData(bool areUpdated) async {
     if (areUpdated) {
       print("Dati aggiornati allora aggiorna gui");
-      dataManager.getUserInfo();
+
+      setState(() {});
     }
   }
 
