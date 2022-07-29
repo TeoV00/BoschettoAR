@@ -103,7 +103,7 @@ class UserDataViews extends StatelessWidget {
           ],
         ),
         BadgeContainer(badges: badges),
-        ImagesReferencesCopyright()
+        const ImagesReferencesCopyright()
       ],
     );
   }
@@ -196,6 +196,7 @@ class BadgeContainer extends StatelessWidget {
     var entries = badges.entries.toList();
     return GridView.count(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 5,
       mainAxisSpacing: 5,
       padding: const EdgeInsets.symmetric(vertical: 20),
