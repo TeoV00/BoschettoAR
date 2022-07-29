@@ -28,110 +28,103 @@ class _UserInfoState extends State<UserInfoBanner> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => dataManager,
-        child: Consumer<DataManager>(
-          builder: (context, value, child) {
-            return FutureBuilder<User>(
-              future: dataManager.getUserInfo(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var usr = snapshot.data ?? defaultUser;
+    return FutureBuilder<User>(
+      future: dataManager.getUserInfo(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          var usr = snapshot.data ?? defaultUser;
 
-                  return Expanded(
-                      child: GestureDetector(
-                    onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditUserInfoPage(user: usr),
-                        ),
-                      ).then((value) => _refreshData(value))
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                        color: secondColor,
-                        borderRadius: BorderRadius.all(radiusCorner),
-                      ),
-                      child: Row(
-                        children: [
-                          //Profile image
-                          ClipOval(
-                            child: usr.userImageName != null
-                                ? Image.file(
-                                    File(usr.userImageName!),
-                                    height: 90,
-                                    width: 90,
-                                  )
-                                : Image.asset(
-                                    "$imagePath/userPlaceholder.jpeg",
-                                    height: 90,
-                                    width: 90,
-                                  ),
+          return Expanded(
+              child: GestureDetector(
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditUserInfoPage(user: usr),
+                ),
+              ).then((value) => _refreshData(value))
+            },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: secondColor,
+                borderRadius: BorderRadius.all(radiusCorner),
+              ),
+              child: Row(
+                children: [
+                  //Profile image
+                  ClipOval(
+                    child: usr.userImageName != null
+                        ? Image.file(
+                            File(usr.userImageName!),
+                            height: 90,
+                            width: 90,
+                          )
+                        : Image.asset(
+                            "$imagePath/userPlaceholder.jpeg",
+                            height: 90,
+                            width: 90,
                           ),
-                          Flexible(
-                            //User info
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 5),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          usr.getNameSurname(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20),
-                                        ),
-                                        Text(
-                                          "Data Nascita: ${usr.dateBirth ?? "no data"}",
-                                          style: const TextStyle(
-                                              // fontWeight: FontWeight.bold,
-                                              fontSize: 15,
-                                              color: darkGray),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                    usr.course ?? "no course info",
-                                    style: const TextStyle(
+                  ),
+                  Flexible(
+                    //User info
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  usr.getNameSurname(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  "Data Nascita: ${usr.dateBirth ?? "no data"}",
+                                  style: const TextStyle(
                                       // fontWeight: FontWeight.bold,
                                       fontSize: 15,
-                                      color: darkGray,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Immatricolato il: ${usr.registrationDate ?? 'no info'}",
-                                    style: const TextStyle(
-                                        // fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: darkGray),
-                                  ),
-                                ],
-                              ),
+                                      color: darkGray),
+                                ),
+                              ],
                             ),
-                          )
+                          ),
+                          Text(
+                            usr.course ?? "no course info",
+                            style: const TextStyle(
+                              // fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: darkGray,
+                            ),
+                          ),
+                          Text(
+                            "Immatricolato il: ${usr.registrationDate ?? 'no info'}",
+                            style: const TextStyle(
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: darkGray),
+                          ),
                         ],
                       ),
                     ),
-                  ));
-                } else if (snapshot.hasError) {
-                  Text("errore nel caricamnot info utente");
-                } else {
-                  return Text("Loading...");
-                }
-                return Text("data");
-              },
-            );
-          },
-        ));
+                  )
+                ],
+              ),
+            ),
+          ));
+        } else if (snapshot.hasError) {
+          Text("errore nel caricamnot info utente");
+        } else {
+          return Text("Loading...");
+        }
+        return Text("data");
+      },
+    );
   }
 }
