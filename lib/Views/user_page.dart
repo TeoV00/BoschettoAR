@@ -196,7 +196,7 @@ class BadgeContainer extends StatelessWidget {
         for (var i = 0; i < badges.length; i++) ...[
           BadgeCircle(
               nameDescr: entries[i].key.descr,
-              badgeImage: '$iconsPath/badge${entries[i].key.id}.png',
+              badgeImage: '$iconsPath/${entries[i].key.imageName}',
               isActive: entries[i].value),
         ]
       ],
