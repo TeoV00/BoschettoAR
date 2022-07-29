@@ -61,3 +61,15 @@ List<String> creationQuery = [
      diameter INTEGER,
      co2 INTEGER );''',
 ];
+
+//List of badge
+List<Badge> badges = [
+  Badge(id: 1, descr: "Buon inizio", imageName: "badge1.png"),
+  Badge(
+      id: 2,
+      descr: "Un piccolo passo per l'uomo un grande passo per l'ambiente",
+      imageName: "badge2.png"),
+  Badge(id: 3, descr: "Sei un boss", imageName: "badge3.png"),
+  Badge(id: 4, descr: "Quante piante!", imageName: "badge4.png"),
+  Badge(id: 5, descr: "Sei diventato un fan!", imageName: "badge5.png"),
+];
