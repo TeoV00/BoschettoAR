@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tree_ar/utils.dart';
 
 const String newPhotoMsg =
-    "La nuova foto verra applicata alla prossima riapertura della app";
+    "Riavvia l'applicazione per visualizzare la nuova immagine";
 
 const alertEditNotSavedMsg =
     'Per continuare a modificare clicca "Continua" altrimenti per lasciare questa schemrata senza salvare clicca "Lascia"';
