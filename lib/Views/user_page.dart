@@ -1,61 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/Views/User/user_info_banner.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
-
-import '../UtilsModel.dart';
+import 'package:tree_ar/utils.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool dataRequest = false;
     return SafeArea(
       child: Padding(
         padding: pagePadding,
-        child: Consumer<DataManager>(
-          builder: (context, dataManager, child) {
-            if (!dataRequest) {
-              dataManager.getUserData();
-              dataRequest = true;
-            }
-            var data = dataManager.userData;
-
-            if (data != null) {
-              return UserPageListView(
-                stats: data[UserData.stats],
-                badges: data[UserData.badge],
-              );
-            } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      CircularProgressIndicator(
-                        color: mainColor,
-                      )
-                    ],
-                  )
-                ],
-              );
-            }
-          },
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              Row(
+                children: const [UserInfoBanner()],
+              ),
+              StatisticsAndBadges(),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class UserPageListView extends StatelessWidget {
+class StatisticsAndBadges extends StatefulWidget {
+  StatisticsAndBadges({Key? key}) : super(key: key);
+  final DataManager dataManager = DataManager();
+
+  @override
+  State<StatisticsAndBadges> createState() => _StatisticsAndBadgesState();
+}
+
+class _StatisticsAndBadgesState extends State<StatisticsAndBadges> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Map<UserData, dynamic>>(
+      future: widget.dataManager.getUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          var data = snapshot.data!;
+
+          return UserDataViews(
+            badges: data[UserData.badge],
+            stats: data[UserData.stats],
+          );
+        } else if (snapshot.hasError) {
+          return const CenteredWidget(
+            widgetToCenter: Text("Errore caricamento dati"),
+          );
+        } else {
+          return const CenteredWidget(
+              widgetToCenter: CircularProgressIndicator(
+            color: mainColor,
+          ));
+        }
+      },
+    );
+  }
+}
+
+class UserDataViews extends StatelessWidget {
   final Statistics stats;
   final Map<Badge, bool> badges;
 
-  const UserPageListView({
+  const UserDataViews({
     Key? key,
     required this.stats,
     required this.badges,
@@ -63,14 +77,8 @@ class UserPageListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
+    return Column(
       children: [
-        Row(
-          children: const [
-            UserInfoBanner(),
-          ],
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -235,12 +243,7 @@ class BadgeCircle extends StatelessWidget {
 }
 
 class ImagesReferencesCopyright extends StatelessWidget {
-  final linkRef = [
-    "it.freepik.com - Icone dei Badge",
-    "www.onlinewebfonts.com - Progress bar"
-  ];
-
-  ImagesReferencesCopyright({Key? key}) : super(key: key);
+  const ImagesReferencesCopyright({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
