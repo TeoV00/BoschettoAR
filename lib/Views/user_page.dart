@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/dataModel.dart';
+import 'package:tree_ar/Views/User/badge_view.dart';
+import 'package:tree_ar/Views/User/user_progress_banner.dart';
 import 'package:tree_ar/Views/User/user_info_banner.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
@@ -21,6 +23,7 @@ class UserPage extends StatelessWidget {
                 children: const [UserInfoBanner()],
               ),
               StatisticsAndBadges(),
+              const ImagesReferencesCopyright(),
             ],
           ),
         ),
@@ -88,10 +91,24 @@ class UserDataViews extends StatelessWidget {
                 type: "Carta", amount: stats.papers, unit: "Fogli"),
           ],
         ),
+        const Divider(
+          thickness: 1,
+        ),
         Row(
-          children: const [
-            Text("Altre informazioni e statistiche su alberi e rpogetti")
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            UserStatisticCounter(
+                type: "Altezza", amount: stats.co2, unit: "cm"),
+            UserStatisticCounter(
+                type: "Acqua", amount: stats.co2, unit: "litri"),
+            UserStatisticCounter(
+                type: "Anni medi", amount: stats.co2, unit: "anni"),
+            UserStatisticCounter(
+                type: "Petrolio", amount: stats.co2, unit: "barili"),
           ],
+        ),
+        const Divider(
+          thickness: 1,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -103,143 +120,7 @@ class UserDataViews extends StatelessWidget {
           ],
         ),
         BadgeContainer(badges: badges),
-        const ImagesReferencesCopyright()
       ],
-    );
-  }
-}
-
-class UserStatisticCounter extends StatelessWidget {
-  final String type;
-  final int amount;
-  final String unit;
-
-  const UserStatisticCounter(
-      {Key? key, required this.type, required this.amount, required this.unit})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          type,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Text(
-            amount.toString(),
-            style: const TextStyle(fontSize: 22),
-          ),
-        ),
-        Text(
-          unit,
-          style: const TextStyle(fontSize: 16),
-        )
-      ],
-    );
-  }
-}
-
-class TreeProgessBar extends StatefulWidget {
-  final double progress;
-  const TreeProgessBar({Key? key, required this.progress}) : super(key: key);
-
-  @override
-  State<TreeProgessBar> createState() => _TreeProgressBar();
-}
-
-class _TreeProgressBar extends State<TreeProgessBar> {
-  final double treeHeight = 130;
-  final double treeWidth = 120;
-
-  @override
-  Widget build(BuildContext context) {
-    final double percValue = (widget.progress / 100) * treeHeight;
-
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          alignment: Alignment.bottomCenter,
-          height:
-              treeHeight - 2, //sub 2 to remove green bar on right and bottom
-          width: treeWidth - 2,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: const [mainColor, Colors.transparent],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              stops: [percValue, percValue],
-            ),
-          ),
-        ),
-        Text("${widget.progress * 100} %",
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-        Image.asset(
-          '$imagePath/progressBarTree.png',
-          alignment: Alignment.bottomCenter,
-          height: treeHeight,
-        ),
-      ],
-    );
-  }
-}
-
-class BadgeContainer extends StatelessWidget {
-  const BadgeContainer({Key? key, required this.badges}) : super(key: key);
-  final Map<Badge, bool> badges;
-
-  @override
-  Widget build(BuildContext context) {
-    var entries = badges.entries.toList();
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: 5,
-      mainAxisSpacing: 5,
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      crossAxisCount: 5,
-      children: <Widget>[
-        for (var i = 0; i < badges.length; i++) ...[
-          BadgeCircle(
-              nameDescr: entries[i].key.descr,
-              badgeImage: '$iconsPath/${entries[i].key.imageName}',
-              isActive: entries[i].value),
-        ]
-      ],
-    );
-  }
-}
-
-class BadgeCircle extends StatelessWidget {
-  final String badgeImage;
-  final String nameDescr;
-  final bool isActive;
-
-  const BadgeCircle(
-      {Key? key,
-      required this.nameDescr,
-      required this.badgeImage,
-      required this.isActive})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      triggerMode: TooltipTriggerMode.tap,
-      message: nameDescr,
-      child: ClipOval(
-          child: ColorFiltered(
-        colorFilter: ColorFilter.mode(
-            isActive ? badgeColor : disableBadge, BlendMode.color),
-        child: Image.asset(
-          badgeImage,
-          centerSlice: Rect.largest,
-        ),
-      )),
     );
   }
 }
