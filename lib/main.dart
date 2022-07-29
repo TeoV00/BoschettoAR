@@ -92,7 +92,12 @@ class _TabViewState extends State<TabView> {
           child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          _appScreenPages[_selectionIndex],
+          Flex(
+            direction: Axis.vertical,
+            children: [
+              Expanded(child: _appScreenPages[_selectionIndex]),
+            ],
+          ),
           LayoutBuilder(builder: ((context, constraints) {
             var parentWidth = constraints.maxWidth;
             return SizedBox(
