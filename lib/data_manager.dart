@@ -12,9 +12,6 @@ class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
   int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
 
-  //Snapshot Variables used as place of return vars of async method
-  Map<UserData, dynamic>? userData; // snapshot user data from db
-
   Tree? treeByQrCodeId; // result of request treeById
   Project? projByQrCodeId;
 
@@ -30,9 +27,8 @@ class DataManager extends ChangeNotifier {
   //TODO: save in user preferences user id
 
   ///get user info then when received, cache data to var then notify listeners
-  getUserData() async {
+  Future<Map<UserData, dynamic>> getUserData() async {
     print("getUser data");
-    resetCacheVars();
 
     Statistics stats = await _calculateStats();
 
@@ -45,9 +41,10 @@ class DataManager extends ChangeNotifier {
       badges.addAll({domainBadge: userBadgesSet.contains(domainBadge.id)});
     }
 
-    //prendo tutti i badge poi li ordino e a ciascuno dico se l'utente l'ha sbloccato o no
-    userData = {UserData.stats: stats, UserData.badge: badges};
-    notifyListeners();
+    return {
+      UserData.stats: stats,
+      UserData.badge: badges,
+    };
   }
 
   Future<Statistics> _calculateStats() async {
@@ -142,6 +139,5 @@ class DataManager extends ChangeNotifier {
     treeByQrCodeId = null;
     projByQrCodeId = null;
     loadHasFinished = false;
-    var emptyList = List.empty(growable: true);
   }
 }
