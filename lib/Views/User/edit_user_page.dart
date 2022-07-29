@@ -7,6 +7,13 @@ import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tree_ar/utils.dart';
+
+const String newPhotoMsg =
+    "La nuova foto verra applicata alla prossima riapertura della app";
+
+const alertEditNotSavedMsg =
+    'Per continuare a modificare clicca "Continua" altrimenti per lasciare questa schemrata senza salvare clicca "Lascia"';
 
 class EditUserInfoPage extends StatefulWidget {
   final User user;
@@ -97,7 +104,10 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       iconSize: 30,
                       icon: const Icon(Icons.edit),
                       tooltip: 'Modifica immagine',
-                      onPressed: () => _changeUserImage(),
+                      onPressed: () => {
+                        _changeUserImage(),
+                        showSnackBar(context, const Text(newPhotoMsg), null)
+                      },
                     ),
                   )
                 ],
@@ -280,26 +290,32 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   }
 
   void _alertEditing(context) {
-    showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Modifiche non salvate'),
-        content: const Text(
-            'Per continuare a modificare clicca "Continua" altrimenti per lasciare questa schemrata senza salvare clicca "Lascia"'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Continua'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Lascia'),
-          ),
-        ],
-      ),
-    ).then((answer) => {
-          if (answer == false) {_backPrevScreen(context, false)},
-        });
+    if (formUser
+        .toMap()
+        .entries
+        .any((e) => e.key != 'userId' && e.value != null)) {
+      showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Modifiche non salvate'),
+          content: const Text(alertEditNotSavedMsg),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Continua'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Lascia'),
+            ),
+          ],
+        ),
+      ).then((answer) => {
+            if (answer == false) {_backPrevScreen(context, false)},
+          });
+    } else {
+      _backPrevScreen(context, false);
+    }
   }
 
   void _backPrevScreen(BuildContext context, bool isUpdated) {
@@ -310,12 +326,12 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     DataManager dm = DataManager();
 
     dm.updateCurrentUserInfo(formUser).then((isDone) => {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: isDone
-                    ? const Text("Modifiche salvate")
-                    : const Text("Errore nel salvataggio")),
-          ),
+          showSnackBar(
+              context,
+              isDone
+                  ? const Text("Modifiche salvate")
+                  : const Text("Errore nel salvataggio"),
+              null),
           _backPrevScreen(context, isDone)
         });
   }
