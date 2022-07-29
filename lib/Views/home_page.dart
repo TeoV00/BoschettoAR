@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
+import 'package:tree_ar/utils.dart';
 
 import '../constant_vars.dart';
 import '../data_manager.dart';
@@ -139,26 +140,6 @@ class _CustomListView extends State<CustomListView> {
           },
         );
       }),
-    );
-  }
-}
-
-class CenteredWidget extends StatelessWidget {
-  final Widget widgetToCenter;
-
-  const CenteredWidget({Key? key, required this.widgetToCenter})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [widgetToCenter],
-        )
-      ],
     );
   }
 }
