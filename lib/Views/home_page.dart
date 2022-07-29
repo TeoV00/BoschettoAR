@@ -29,14 +29,8 @@ class _MainPage extends State<MainPage> {
     return Scaffold(
       body: SafeArea(
         child: Stack(
-          //mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Flex(
-              direction: Axis.vertical,
-              children: [
-                Expanded(child: CustomListView(dataType: _selectedType))
-              ],
-            ),
+            CustomListView(dataType: _selectedType),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
