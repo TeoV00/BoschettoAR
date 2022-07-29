@@ -164,8 +164,9 @@ class _TreeProgressBar extends State<TreeProgessBar> {
       children: [
         Container(
           alignment: Alignment.bottomCenter,
-          height: treeHeight,
-          width: treeWidth,
+          height:
+              treeHeight - 2, //sub 2 to remove green bar on right and bottom
+          width: treeWidth - 2,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: const [mainColor, Colors.transparent],
