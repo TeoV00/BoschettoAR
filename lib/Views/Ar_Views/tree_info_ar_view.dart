@@ -64,6 +64,8 @@ class TreeInfoSheet extends StatelessWidget {
                   color: Colors.black,
                   fontSize: 25,
                   fontWeight: FontWeight.bold)),
+          Text(tree.descr),
+          const Divider(thickness: 1),
           Container(
             margin: const EdgeInsets.only(bottom: 5),
             child: Text("Progetto: ${project.name}",
@@ -75,7 +77,7 @@ class TreeInfoSheet extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 5),
             child: Text(
-              tree.descr,
+              project.descr,
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 15,
@@ -91,7 +93,7 @@ class TreeInfoSheet extends StatelessWidget {
           Row(
             children: [
               Text("Altezza: ${tree.height}"),
-              getIconIndicator(StatsType.paper, 9),
+              getIconIndicator(StatsType.paper, 5),
             ],
           ),
           Row(
