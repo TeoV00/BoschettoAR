@@ -55,16 +55,18 @@ class DatabaseProvider {
             Project(
                 projectId: 1,
                 treeId: 1,
-                name: "name",
-                descr: "descr",
+                name: "Tetti verdi",
+                descr:
+                    "L’intervento consiste nell'installazione di tetti verdi e micro giardini pensili sui piani di copertura orizzontali degli edifici universitari.",
                 link: "link"));
         _insert(
             db,
             treeTable,
             Tree(
                 treeId: 2,
-                name: "pinkopalla",
-                descr: "descr",
+                name: "abete bianco",
+                descr:
+                    "L'abete bianco è un albero maestoso, slanciato e longevo, e data anche la sua notevole altezza (in media 30 metri, alcuni esemplari possono superare 50 metri), è soprannominato il principe dei boschi.[3] Il più grande abete bianco d'Europa mai documentato era alto 50 metri e aveva una circonferenza di 4,8 metri[4]. Si trovava a Lavarone, in Trentino (abbattuto il giorno 13 novembre 2017 da una forte raffica di vento[5]), in località Malga Laghetto.",
                 height: 100,
                 diameter: 10,
                 co2: 203));
@@ -74,9 +76,9 @@ class DatabaseProvider {
             Project(
                 projectId: 2,
                 treeId: 2,
-                name: "progetto 2",
+                name: "Sun Addicted",
                 descr:
-                    "bellissimo progetto di sostenibilita delle cicale in sede",
+                    "Il progetto prevede l'installazione di impianti fotovoltaici per la produzione di energia elettrica mediante l'utilizzo di fonti rinnovabili per le esigenze dei sistemi di riscaldamento/raffrescamento e del fabbisogno energetico delle strutture di Ateneo",
                 link: "link"));
 
         for (var bd in badges) {
