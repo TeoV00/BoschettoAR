@@ -20,13 +20,12 @@ class _ScanTreePageState extends State<ScanTreePage> {
   final Duration timeoutScan = const Duration(seconds: 4);
 
   Barcode? result;
-  bool toRefreshData = false;
   QRViewController? controller;
 
   @override
   Widget build(BuildContext buildContext) {
-    log("build qr view");
     DateTime lastScanTime = DateTime.now();
+    bool toRefreshData = false;
 
     return Scaffold(
       body: SafeArea(
@@ -62,9 +61,16 @@ class _ScanTreePageState extends State<ScanTreePage> {
                       ),
                     ).then(
                       //when come back to scan page resume camera
-                      (newTreeAdded) => {
-                        controller.resumeCamera(),
-                        toRefreshData = newTreeAdded || toRefreshData
+                      (answer) => {
+                        if (answer == 'home')
+                          {
+                            controller.pauseCamera(),
+                            Navigator.pop(context),
+                          }
+                        else
+                          {
+                            controller.resumeCamera(),
+                          }
                       },
                     );
                   } else if (canShowSnackbar) {
