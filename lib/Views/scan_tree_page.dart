@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:tree_ar/Views/Ar_Views/tree_info_ar_view.dart';
 import 'package:tree_ar/data_manager.dart';
 
 import 'package:tree_ar/constant_vars.dart';
-import 'Ar_Views/ar_info_ar_screen.dart';
 
 class ScanTreePage extends StatefulWidget {
   const ScanTreePage({Key? key}) : super(key: key);
@@ -17,9 +17,8 @@ class ScanTreePage extends StatefulWidget {
 
 class _ScanTreePageState extends State<ScanTreePage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  final DataManager dataManager = DataManager();
 
-  bool showNewScanBtn = false;
-  bool showErrorSnackBar = false;
   Barcode? result;
   bool qrCodeFound = false;
   QRViewController? controller;
@@ -39,25 +38,14 @@ class _ScanTreePageState extends State<ScanTreePage> {
               var loadFinished = dataMgr.loadHasFinished;
               dataMgr.resetCacheVars();
 
-              if (!showNewScanBtn &&
-                  loadFinished &&
-                  tree != null &&
-                  proj != null) {
-                controller?.dispose();
-                showNewScanBtn = true;
-
+              if (loadFinished && tree != null && proj != null) {
                 return TreeViewInfoAr(
                   tree: tree,
                   proj: proj,
                 );
               } else {
                 print("Qr NON VALIDO");
-                //showSnackError(); //TODO: da un mega errore!!!!
-                showNewScanBtn = false;
-//TODO: check and fix that error
-                /*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', 
-                 * reason: 'Scan rect cannot be set when not (yet) scanning. You may want to set 
-                 * it within didStartScanningBlock.'*/
+
                 return QRView(
                   key: qrKey,
                   onQRViewCreated: (controller) {
@@ -65,6 +53,10 @@ class _ScanTreePageState extends State<ScanTreePage> {
                       this.controller = controller;
                     });
 
+                    //to fix black screen camera problem
+                    if (Platform.isAndroid) {
+                      controller.resumeCamera();
+                    }
                     controller.scannedDataStream.listen((scanData) {
                       if (DateTime.now().difference(lastScanTime) >
                           timeoutScan) {
@@ -94,7 +86,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
             child: IconButton(
               tooltip: "Torna in Home",
               icon: const Icon(Icons.arrow_back),
-              onPressed: () => {Navigator.pop(context)},
+              onPressed: () => {Navigator.pop(context, qrCodeFound)},
             ),
           ),
         ]),
@@ -102,19 +94,12 @@ class _ScanTreePageState extends State<ScanTreePage> {
     );
   }
 
-  void showSnackError() {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("QRcode non valido o albero non trovato"),
-      duration: Duration(seconds: 2),
-    ));
-  }
-
   @override
   void reassemble() {
     super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    }
+    // if (Platform.isAndroid) {
+    //   controller!.pauseCamera();
+    // }
     controller!.resumeCamera();
   }
 
