@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tree_ar/Views/ScanQr_views/ar_view_loader.dart';
-import 'package:tree_ar/data_manager.dart';
 
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
@@ -21,12 +20,8 @@ class _ScanTreePageState extends State<ScanTreePage> {
   final Duration timeoutScan = const Duration(seconds: 4);
 
   Barcode? result;
-  bool qrCodeFound = false;
+  bool toRefreshData = false;
   QRViewController? controller;
-
-  void goBack(BuildContext context) {
-    Navigator.pop(context, qrCodeFound);
-  }
 
   @override
   Widget build(BuildContext buildContext) {
@@ -67,7 +62,10 @@ class _ScanTreePageState extends State<ScanTreePage> {
                       ),
                     ).then(
                       //when come back to scan page resume camera
-                      (value) => controller.resumeCamera(),
+                      (newTreeAdded) => {
+                        controller.resumeCamera(),
+                        toRefreshData = newTreeAdded || toRefreshData
+                      },
                     );
                   } else if (canShowSnackbar) {
                     canShowSnackbar = false;
@@ -94,7 +92,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
               child: IconButton(
                 tooltip: "Torna in Home",
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context, qrCodeFound),
+                onPressed: () => Navigator.pop(context, toRefreshData),
               ),
             ),
           ],
