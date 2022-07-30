@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:tree_ar/Views/ScanQr_views/check_code_view.dart';
+import 'package:tree_ar/Views/ScanQr_views/ar_view_loader.dart';
 import 'package:tree_ar/data_manager.dart';
 
 import 'package:tree_ar/constant_vars.dart';
@@ -50,8 +50,13 @@ class _ScanTreePageState extends State<ScanTreePage> {
                   controller.resumeCamera();
                 }
 
+                bool canShowSnackbar = true;
+
                 controller.scannedDataStream.listen((scanData) {
-                  if (scanData.code != null) {
+                  if (scanData.code != null &&
+                      DateTime.now().difference(lastScanTime) > timeoutScan) {
+                    lastScanTime = DateTime.now();
+                    canShowSnackbar = true;
                     //when navigate to a new page stop scanning in order to prevent open multiple screens
                     controller.pauseCamera();
                     Navigator.push(
@@ -64,11 +69,13 @@ class _ScanTreePageState extends State<ScanTreePage> {
                       //when come back to scan page resume camera
                       (value) => controller.resumeCamera(),
                     );
-                  }
-
-                  if (DateTime.now().difference(lastScanTime) > timeoutScan) {
-                    lastScanTime = DateTime.now();
-                    log("scna");
+                  } else if (canShowSnackbar) {
+                    canShowSnackbar = false;
+                    showSnackBar(
+                        context,
+                        const Text(
+                            "Attendere un paio di secondi prima di una nuova scansione"),
+                        null);
                   }
                 });
               },
