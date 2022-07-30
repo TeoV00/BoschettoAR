@@ -1,5 +1,7 @@
 // import 'firebase_options.dart';
 // import 'package:firebase_core/firebase_core.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tree_ar/data_manager.dart';
@@ -13,19 +15,6 @@ import 'package:provider/provider.dart';
 //   await Firebase.initializeApp(
 //     options: DefaultFirebaseOptions.currentPlatform,
 //   );
-// }
-
-// class Repository extends InheritedWidget {
-//   final DataManager dataManager;
-//   const Repository(this.dataManager, {Key? key, required Widget child})
-//       : super(key: key, child: child);
-
-//   static Repository of(BuildContext context) =>
-//       context.dependOnInheritedWidgetOfExactType(aspect: Repository)
-//           as Repository;
-
-//   @override
-//   bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
 // }
 
 void main() {
@@ -137,7 +126,7 @@ class _TabViewState extends State<TabView> {
             MaterialPageRoute(
               builder: (context) => const ScanTreePage(),
             ),
-          )
+          ).then((value) => log(" da riaggiornare le gui ? $value")),
         },
         child: const ImageIcon(
           AssetImage('$iconsPath/ScanTreeIcon.png'),
