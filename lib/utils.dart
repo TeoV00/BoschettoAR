@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:tree_ar/constant_vars.dart';
 
 class Statistics {
@@ -34,26 +35,4 @@ class CenteredWidget extends StatelessWidget {
       ],
     );
   }
-}
-
-Widget scaffoldTopFloatingButton(
-    Widget pageWidget, BuildContext context, void onPressedFunc) {
-  return Scaffold(
-    body: SafeArea(
-      child: Stack(children: [
-        pageWidget,
-        Container(
-          margin: const EdgeInsets.all(10),
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(100)),
-              color: mainColor),
-          child: IconButton(
-            tooltip: "Indietro",
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => onPressedFunc,
-          ),
-        ),
-      ]),
-    ),
-  );
 }
