@@ -12,13 +12,7 @@ class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
   int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
 
-  Tree? treeByQrCodeId; // result of request treeById
-  Project? projByQrCodeId;
-
-  bool loadHasFinished = false;
-
   DataManager() {
-    resetCacheVars();
     pullTreeDataInDb();
   }
 
@@ -118,26 +112,20 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void isValidTreeCode(String qrData) async {
+  Future<Map<InfoType, dynamic>?> isValidTreeCode(String qrData) async {
     print("isValidtreeCode Called");
+    //TODO: get code id from maybe a possibile structured data info in qr
     var treeId = int.parse(qrData);
-    treeByQrCodeId = await dbProvider.getTree(treeId);
-    projByQrCodeId = await dbProvider.getProject(treeId);
 
-    if (treeByQrCodeId != null && projByQrCodeId != null) {
+    Tree? tree = await dbProvider.getTree(treeId);
+    Project? proj = await dbProvider.getProject(treeId);
+
+    if (tree != null && proj != null) {
       addUserTree(treeId);
+      return {InfoType.tree: tree, InfoType.project: proj};
+    } else {
+      //no data available and code is not valid
+      return null;
     }
-
-    loadHasFinished = true;
-    notifyListeners();
-  }
-
-  ///remember to call this method to reset return vars that can be used in other screen
-  ///in order to make app work fine, its a workaround to return values of async functions
-  void resetCacheVars() {
-    print("reset Chached vars");
-    treeByQrCodeId = null;
-    projByQrCodeId = null;
-    loadHasFinished = false;
   }
 }
