@@ -190,7 +190,9 @@ class RowItem extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 15),
               height: 57,
               width: 57,
-              //TODO: remove black square and put an image of tree or project logo
+              child: type == InfoType.tree
+                  ? const Icon(Icons.nature)
+                  : const Icon(Icons.construction),
             )
           ],
         ),
