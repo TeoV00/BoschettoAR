@@ -47,11 +47,13 @@ List<String> creationQuery = [
   //3
   '''CREATE TABLE UserTrees (
      userId INTEGER,
-     treeId INTEGER);''',
+     treeId INTEGER,
+     PRIMARY KEY (userId, treeId));''',
   //4
   '''CREATE TABLE UserBadge (
      idBadge INTEGER,
-     userId INTEGER );''',
+     userId INTEGER,
+     PRIMARY KEY (idBadge, userId));''',
   //5
   '''CREATE TABLE Tree (
      treeId INTEGER PRIMARY KEY,

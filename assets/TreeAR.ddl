@@ -20,8 +20,9 @@ CREATE TABLE Badge (
      imageName TEXT);
 
 CREATE TABLE UserTrees (
-     userId INTEGER,
-     treeId INTEGER);
+     userId INTEGER PRIMARY KEY,
+     treeId INTEGER PRIMARY KEY,
+     PRIMARY KEY (userId, treeId));
 
 CREATE TABLE Tree (
      treeId INTEGER PRIMARY KEY,
@@ -33,4 +34,5 @@ CREATE TABLE Tree (
 
 CREATE TABLE UserBadge (
      idBadge INTEGER,
-     userId INTEGER );
+     userId INTEGER,
+     PRIMARY KEY (idBadge, userId));
