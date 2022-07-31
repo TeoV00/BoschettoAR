@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dataModel.dart';
@@ -267,11 +268,16 @@ class DatabaseProvider {
     ObjToMapI objToInsert,
   ) async {
     var result = 0; //not inserted
-    result = await db.insert(
-      tableName,
-      objToInsert.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.abort,
-    );
+    try {
+      result = await db.insert(
+        tableName,
+        objToInsert.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.abort,
+      );
+    } catch (e) {
+      log('''Errore inserimento nel db:\n$e''');
+    }
+
     return result != 0;
   }
 }
