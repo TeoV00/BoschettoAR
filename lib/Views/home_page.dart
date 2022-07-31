@@ -167,7 +167,7 @@ class RowItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 19),
+              margin: const EdgeInsets.symmetric(horizontal: 15),
               height: 57,
               width: 57,
               //TODO: remove black square and put an image of tree or project logo
@@ -175,29 +175,42 @@ class RowItem extends StatelessWidget {
             )
           ],
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: margin5H,
-              child: Text(
-                item.getTitle(),
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flex(
+                direction: Axis.vertical,
+                children: [
+                  Padding(
+                    padding: margin5H,
+                    child: Text(
+                      item.getTitle(),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 17),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Padding(
-              padding: margin5H,
-              child: Text(
-                item.getDescr(),
-                //overflow: TextOverflow.visible,
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
+              Flex(
+                direction: Axis.vertical,
+                children: [
+                  Padding(
+                    padding: margin5H,
+                    child: Text(
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      item.getDescr(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ]),
     );
