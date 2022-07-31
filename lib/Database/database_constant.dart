@@ -74,4 +74,13 @@ List<Badge> badges = [
   Badge(id: 3, descr: "Sei un boss", imageName: "badge3.png"),
   Badge(id: 4, descr: "Quante piante!", imageName: "badge4.png"),
   Badge(id: 5, descr: "Sei diventato un fan!", imageName: "badge5.png"),
+  Badge(id: 6, descr: "Sei un boss", imageName: "badge6.png"),
+  Badge(id: 7, descr: "Quante piante!", imageName: "badge7.png"),
+  Badge(id: 8, descr: "Sei diventato un fan!", imageName: "badge8.png"),
+  Badge(id: 9, descr: "Sei un boss", imageName: "badge9.png"),
+  Badge(id: 10, descr: "Quante piante!", imageName: "badge10.png"),
+  Badge(id: 11, descr: "Sei diventato un fan!", imageName: "badge11.png"),
+  Badge(id: 12, descr: "Sei un boss", imageName: "badge12.png"),
+  Badge(id: 13, descr: "Quante piante!", imageName: "badge13.png"),
+  Badge(id: 14, descr: "Sei diventato un fan!", imageName: "badge14.png"),
 ];
