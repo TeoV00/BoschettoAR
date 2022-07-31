@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -54,19 +55,7 @@ class _UserInfoState extends State<UserInfoBanner> {
               child: Row(
                 children: [
                   //Profile image
-                  ClipOval(
-                    child: usr.userImageName != null
-                        ? Image.file(
-                            File(usr.userImageName!),
-                            height: 90,
-                            width: 90,
-                          )
-                        : Image.asset(
-                            "$imagePath/userPlaceholder.jpeg",
-                            height: 90,
-                            width: 90,
-                          ),
-                  ),
+                  getUserImageWidget(usr.userImageName),
                   Flexible(
                     //User info
                     child: Padding(
@@ -126,5 +115,29 @@ class _UserInfoState extends State<UserInfoBanner> {
         return Text("data");
       },
     );
+  }
+
+  Widget getUserImageWidget(String? userImgPath) {
+    Widget image = Image.asset(
+      "$imagePath/userPlaceholder.jpeg",
+      height: 90,
+      width: 90,
+    );
+
+    if (userImgPath != null) {
+      File(userImgPath).exists().then((exist) => {
+            if (exist)
+              {
+                log("Immagine esiste"),
+                image = Image.file(
+                  File(userImgPath),
+                  height: 90,
+                  width: 90,
+                )
+              }
+          });
+    }
+    log("Immagine default");
+    return ClipOval(child: image);
   }
 }
