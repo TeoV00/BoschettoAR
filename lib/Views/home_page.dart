@@ -185,7 +185,7 @@ class RowItem extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.black,
+                color: const Color.fromARGB(255, 217, 217, 217),
               ),
               margin: const EdgeInsets.symmetric(horizontal: 15),
               height: 57,
