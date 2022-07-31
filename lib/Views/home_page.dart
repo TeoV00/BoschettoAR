@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
@@ -109,15 +111,29 @@ class _CustomListView extends State<CustomListView> {
                   treeAndProj[InfoType.project] != null &&
                   treeAndProj[InfoType.tree]!.isNotEmpty &&
                   treeAndProj[InfoType.project]!.isNotEmpty) {
+                // return Padding(
+                //   padding: const EdgeInsets.only(bottom: grassBottomBarHeight),
+                // child:
+                int itemCount = treeAndProj[widget.dataType]!.length;
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
-                  itemCount: treeAndProj[widget.dataType]!.length,
+                  itemCount: itemCount,
                   itemBuilder: (BuildContext context, int index) {
-                    return RowItem(
+                    Widget rowItem = RowItem(
                         item: treeAndProj[widget.dataType]![index],
                         type: widget.dataType);
+
+                    if (index == itemCount - 1) {
+                      rowItem = Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: grassBottomBarHeight),
+                        child: rowItem,
+                      );
+                    }
+                    return rowItem;
                   },
+                  // ),
                 );
               } else {
                 return const CenteredWidget(
@@ -167,11 +183,14 @@ class RowItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.black,
+              ),
               margin: const EdgeInsets.symmetric(horizontal: 15),
               height: 57,
               width: 57,
               //TODO: remove black square and put an image of tree or project logo
-              color: Colors.black,
             )
           ],
         ),
@@ -184,7 +203,7 @@ class RowItem extends StatelessWidget {
                 direction: Axis.vertical,
                 children: [
                   Padding(
-                    padding: margin5H,
+                    padding: const EdgeInsets.only(right: 8),
                     child: Text(
                       item.getTitle(),
                       style: const TextStyle(
@@ -197,7 +216,7 @@ class RowItem extends StatelessWidget {
                 direction: Axis.vertical,
                 children: [
                   Padding(
-                    padding: margin5H,
+                    padding: const EdgeInsets.only(right: 8),
                     child: Text(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
