@@ -23,12 +23,17 @@ enum UserData { info, stats, badge }
 enum StatsType {
   co2,
   paper,
-  height;
+  height,
+  diameter,
+  water;
 }
 
 Map<StatsType, IconData> statsIcon = {
   StatsType.paper: Icons.description,
   StatsType.co2: Icons.local_gas_station,
+  StatsType.height: Icons.straighten,
+  StatsType.water: Icons.water_drop,
+  StatsType.diameter: Icons.circle
 };
 
 // Edit user info Form style
