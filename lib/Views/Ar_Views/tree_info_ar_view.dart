@@ -6,7 +6,6 @@ import 'package:tree_ar/constant_vars.dart';
 class TreeViewInfoAr extends StatelessWidget {
   final Tree tree;
   final Project proj;
-  static ARWidget arWidget = const ARWidget();
 
   const TreeViewInfoAr({Key? key, required this.tree, required this.proj})
       : super(key: key);
@@ -16,7 +15,7 @@ class TreeViewInfoAr extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          //arWidget, //AR view widget
+          const ARWidget(), //AR view widget
           DraggableScrollableSheet(
             //Bottom Sheet that show scanned tree info
             minChildSize: 0.10,
@@ -29,7 +28,7 @@ class TreeViewInfoAr extends StatelessWidget {
                 controller: scrollController,
               );
             },
-          )
+          ),
         ],
       ),
     );
