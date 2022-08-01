@@ -56,11 +56,11 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    File? imagePreview;
+    String? imagePreview;
     if (formUser.userImageName != null) {
-      imagePreview = File(formUser.userImageName!);
+      imagePreview = formUser.userImageName!;
     } else if (usr.userImageName != null) {
-      imagePreview = File(usr.userImageName!);
+      imagePreview = usr.userImageName!;
     }
 
     return Scaffold(
@@ -84,19 +84,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
             children: [
               Stack(
                 children: [
-                  ClipOval(
-                    child: imagePreview != null
-                        ? Image.file(
-                            imagePreview,
-                            height: 120,
-                            width: 120,
-                          )
-                        : Image.asset(
-                            "$imagePath/userPlaceholder.jpeg",
-                            height: 120,
-                            width: 120,
-                          ),
-                  ),
+                  getUserImageWidget(imagePreview),
                   Container(
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: mainColor),
