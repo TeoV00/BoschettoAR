@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:tree_ar/constant_vars.dart';
@@ -35,4 +38,28 @@ class CenteredWidget extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget getUserImageWidget(String? userImgPath) {
+  Widget image = Image.asset(
+    "$imagePath/userPlaceholder.jpeg",
+    height: 90,
+    width: 90,
+  );
+
+  if (userImgPath != null) {
+    File(userImgPath).exists().then((exist) => {
+          if (exist)
+            {
+              log("Immagine esiste"),
+              image = Image.file(
+                File(userImgPath),
+                height: 90,
+                width: 90,
+              )
+            }
+        });
+  }
+  log("Immagine default");
+  return ClipOval(child: image);
 }
