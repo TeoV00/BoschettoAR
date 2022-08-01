@@ -111,7 +111,7 @@ class TreeInfoSheet extends StatelessWidget {
     return Row(
       children: <Icon>[
         for (var i = 0; i < value; i++) ...[
-          Icon(statsIcon.elementAt(type.value)),
+          Icon(statsIcon[type]),
         ],
       ],
     );

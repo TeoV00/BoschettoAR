@@ -18,22 +18,18 @@ const defualtUserImageName = "userPlaceholder.jpeg";
 
 enum InfoType { tree, project }
 
-enum StatsType {
-  co2(0),
-  paper(1),
-  leafs(2);
-
-  const StatsType(this.value);
-  final int value;
-}
-
 enum UserData { info, stats, badge }
 
-const statsIcon = [
-  Icons.local_gas_station, //StatsType.co2
-  Icons.description, //StatsType.paper
-  Icons.eco //StatsType.leafs
-];
+enum StatsType {
+  co2,
+  paper,
+  height;
+}
+
+Map<StatsType, IconData> statsIcon = {
+  StatsType.paper: Icons.description,
+  StatsType.co2: Icons.local_gas_station,
+};
 
 // Edit user info Form style
 const labelStyle = TextStyle(
