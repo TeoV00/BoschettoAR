@@ -92,8 +92,6 @@ class CustomListView extends StatefulWidget {
 }
 
 class _CustomListView extends State<CustomListView> {
-  //DataManager dataManager = DataManager();
-
   @override
   Widget build(BuildContext context) {
     return Consumer<DataManager>(builder: (context, dataManager, child) {

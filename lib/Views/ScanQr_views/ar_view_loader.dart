@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tree_ar/Views/Ar_Views/tree_info_ar_view.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
@@ -16,8 +17,6 @@ class ArViewLoader extends StatefulWidget {
 }
 
 class _ArViewLoaderState extends State<ArViewLoader> {
-  final DataManager dataManager = DataManager();
-
   @override
   Widget build(BuildContext context) {
     bool anyNewScan = false;
@@ -25,36 +24,39 @@ class _ArViewLoaderState extends State<ArViewLoader> {
     return Scaffold(
       body: SafeArea(
         child: Stack(children: [
-          FutureBuilder<Map<InfoType, dynamic>?>(
-            future: dataManager.isValidTreeCode(widget.qrData),
-            builder: (context, snapshot) {
-              Widget child = const ShowMessagePage(
-                message: "Errore nello sviluppo schermata !!",
-              );
-
-              //log("hasData: ${snapshot.hasData} \n data: ${snapshot.data ?? "null"}");
-              if (snapshot.hasData) {
-                //new tree has been scanned --> when go back refresh prev screen
-
-                anyNewScan = true;
-
-                var data = snapshot.data!;
-
-                child = TreeViewInfoAr(
-                    tree: data[InfoType.tree], proj: data[InfoType.project]);
-              } else if (!snapshot.hasData &&
-                  snapshot.connectionState == ConnectionState.done) {
-                child =
-                    const ShowMessagePage(message: errorMessageInvalidQrCode);
-              } else {
-                child = const CenteredWidget(
-                  widgetToCenter: CircularProgressIndicator(
-                    color: mainColor,
-                  ),
+          Consumer<DataManager>(
+            builder: (context, dataManager, child) =>
+                FutureBuilder<Map<InfoType, dynamic>?>(
+              future: dataManager.isValidTreeCode(widget.qrData),
+              builder: (context, snapshot) {
+                Widget child = const ShowMessagePage(
+                  message: "Errore nello sviluppo schermata !!",
                 );
-              }
-              return child;
-            },
+
+                //log("hasData: ${snapshot.hasData} \n data: ${snapshot.data ?? "null"}");
+                if (snapshot.hasData) {
+                  //new tree has been scanned --> when go back refresh prev screen
+
+                  anyNewScan = true;
+
+                  var data = snapshot.data!;
+
+                  child = TreeViewInfoAr(
+                      tree: data[InfoType.tree], proj: data[InfoType.project]);
+                } else if (!snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  child =
+                      const ShowMessagePage(message: errorMessageInvalidQrCode);
+                } else {
+                  child = const CenteredWidget(
+                    widgetToCenter: CircularProgressIndicator(
+                      color: mainColor,
+                    ),
+                  );
+                }
+                return child;
+              },
+            ),
           ),
           Row(
             children: [
