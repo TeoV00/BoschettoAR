@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/Views/User/badge_view.dart';
 import 'package:tree_ar/Views/User/user_progress_banner.dart';
@@ -33,8 +34,7 @@ class UserPage extends StatelessWidget {
 }
 
 class StatisticsAndBadges extends StatefulWidget {
-  StatisticsAndBadges({Key? key}) : super(key: key);
-  final DataManager dataManager = DataManager();
+  const StatisticsAndBadges({Key? key}) : super(key: key);
 
   @override
   State<StatisticsAndBadges> createState() => _StatisticsAndBadgesState();
@@ -43,28 +43,30 @@ class StatisticsAndBadges extends StatefulWidget {
 class _StatisticsAndBadgesState extends State<StatisticsAndBadges> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<UserData, dynamic>>(
-      future: widget.dataManager.getUserData(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          var data = snapshot.data!;
+    return Consumer<DataManager>(builder: (context, dataManager, child) {
+      return FutureBuilder<Map<UserData, dynamic>>(
+        future: dataManager.getUserData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
 
-          return UserDataViews(
-            badges: data[UserData.badge],
-            stats: data[UserData.stats],
-          );
-        } else if (snapshot.hasError) {
-          return const CenteredWidget(
-            widgetToCenter: Text("Errore caricamento dati"),
-          );
-        } else {
-          return const CenteredWidget(
-              widgetToCenter: CircularProgressIndicator(
-            color: mainColor,
-          ));
-        }
-      },
-    );
+            return UserDataViews(
+              badges: data[UserData.badge],
+              stats: data[UserData.stats],
+            );
+          } else if (snapshot.hasError) {
+            return const CenteredWidget(
+              widgetToCenter: Text("Errore caricamento dati"),
+            );
+          } else {
+            return const CenteredWidget(
+                widgetToCenter: CircularProgressIndicator(
+              color: mainColor,
+            ));
+          }
+        },
+      );
+    });
   }
 }
 
