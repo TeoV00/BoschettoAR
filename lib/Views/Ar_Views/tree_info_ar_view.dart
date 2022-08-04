@@ -51,7 +51,7 @@ class TreeInfoSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String nameTree = tree.name;
-    final double pad = 10;
+    const double pad = 10;
     final double screenWidth = MediaQuery.of(context).size.width - (2 * pad);
 
     return Container(
@@ -60,7 +60,7 @@ class TreeInfoSheet extends StatelessWidget {
               BorderRadius.only(topLeft: radiusCorner, topRight: radiusCorner),
           color: secondColor),
       child: Padding(
-        padding: EdgeInsets.only(top: pad, left: pad, right: pad),
+        padding: const EdgeInsets.only(top: pad, left: pad, right: pad),
         child: ListView(controller: controller, children: [
           Text(nameTree,
               style: const TextStyle(
