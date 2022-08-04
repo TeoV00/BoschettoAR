@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
@@ -94,69 +92,66 @@ class CustomListView extends StatefulWidget {
 }
 
 class _CustomListView extends State<CustomListView> {
-  DataManager dataManager = DataManager();
+  //DataManager dataManager = DataManager();
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => dataManager,
-      child: Consumer<DataManager>(builder: (context, value, child) {
-        return FutureBuilder<Map<InfoType, List<dynamic>>>(
-          future: dataManager.getUserTreesProject(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              var treeAndProj = snapshot.data!;
+    return Consumer<DataManager>(builder: (context, dataManager, child) {
+      return FutureBuilder<Map<InfoType, List<dynamic>>>(
+        future: dataManager.getUserTreesProject(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var treeAndProj = snapshot.data!;
 
-              if (treeAndProj[InfoType.tree] != null &&
-                  treeAndProj[InfoType.project] != null &&
-                  treeAndProj[InfoType.tree]!.isNotEmpty &&
-                  treeAndProj[InfoType.project]!.isNotEmpty) {
-                // return Padding(
-                //   padding: const EdgeInsets.only(bottom: grassBottomBarHeight),
-                // child:
-                int itemCount = treeAndProj[widget.dataType]!.length;
-                return ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
-                  itemCount: itemCount,
-                  itemBuilder: (BuildContext context, int index) {
-                    Widget rowItem = RowItem(
-                        item: treeAndProj[widget.dataType]![index],
-                        type: widget.dataType);
+            if (treeAndProj[InfoType.tree] != null &&
+                treeAndProj[InfoType.project] != null &&
+                treeAndProj[InfoType.tree]!.isNotEmpty &&
+                treeAndProj[InfoType.project]!.isNotEmpty) {
+              // return Padding(
+              //   padding: const EdgeInsets.only(bottom: grassBottomBarHeight),
+              // child:
+              int itemCount = treeAndProj[widget.dataType]!.length;
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
+                itemCount: itemCount,
+                itemBuilder: (BuildContext context, int index) {
+                  Widget rowItem = RowItem(
+                      item: treeAndProj[widget.dataType]![index],
+                      type: widget.dataType);
 
-                    if (index == itemCount - 1) {
-                      rowItem = Padding(
-                        padding:
-                            const EdgeInsets.only(bottom: grassBottomBarHeight),
-                        child: rowItem,
-                      );
-                    }
-                    return rowItem;
-                  },
-                  // ),
-                );
-              } else {
-                return const CenteredWidget(
-                    widgetToCenter: Text(
-                  "Ahi ahi!! Ancora nessun albero scansionato!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ));
-              }
-            } else if (snapshot.hasError) {
-              return const CenteredWidget(
-                  widgetToCenter: Text("Errore caricamento dati"));
+                  if (index == itemCount - 1) {
+                    rowItem = Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: grassBottomBarHeight),
+                      child: rowItem,
+                    );
+                  }
+                  return rowItem;
+                },
+                // ),
+              );
             } else {
               return const CenteredWidget(
-                widgetToCenter: CircularProgressIndicator(
-                  color: mainColor,
-                ),
-              );
+                  widgetToCenter: Text(
+                "Ahi ahi!! Ancora nessun albero scansionato!",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ));
             }
-          },
-        );
-      }),
-    );
+          } else if (snapshot.hasError) {
+            return const CenteredWidget(
+                widgetToCenter: Text("Errore caricamento dati"));
+          } else {
+            return const CenteredWidget(
+              widgetToCenter: CircularProgressIndicator(
+                color: mainColor,
+              ),
+            );
+          }
+        },
+      );
+    });
   }
 }
 

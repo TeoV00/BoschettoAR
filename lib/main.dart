@@ -23,7 +23,9 @@ void main() {
   DataManager dataManager = DataManager();
   runApp(
     ChangeNotifierProvider(
-        create: (context) => dataManager, child: const MyApp()),
+      create: (context) => dataManager,
+      child: const MyApp(),
+    ),
   );
 }
 
