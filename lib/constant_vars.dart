@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//url to fetch project info
+const urlProjectInfo = '';
+
 const mainColor = Color(0xFF96BB7C);
 const secondColor = Color(0xFFD6EFC7);
 const badgeColor = Color.fromARGB(255, 216, 238, 215);
