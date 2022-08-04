@@ -34,11 +34,15 @@ List<String> creationQuery = [
      userImageName TEXT );''',
   //1
   '''CREATE TABLE Project (
-     name TEXT,
      projectId INTEGER PRIMARY KEY,
      treeId INTEGER,
+     name TEXT,
+     category TEXT,
      descr TEXT,
-     link TEXT );''',
+     paper INTEGER,
+     treesCount INTEGER,
+     years INTEGER,
+     co2Saved INTEGER);''',
   //2
   '''CREATE TABLE Badge (
      id INTEGER PRIMARY KEY,

@@ -103,7 +103,7 @@ class DataManager extends ChangeNotifier {
   }
 
   void unlockUserBadge() async {
-    var userBadges = await dbProvider.getUserBadges(currentUserId);
+    Set<int> userBadges = await dbProvider.getUserBadges(currentUserId);
 
     if (userBadges.isEmpty) {
       //add first badge (idBadge = 0)
@@ -120,6 +120,7 @@ class DataManager extends ChangeNotifier {
         log("All badge unlocked");
       }
     }
+    notifyListeners();
   }
 
   Future<Map<InfoType, dynamic>?> isValidTreeCode(String qrData) async {

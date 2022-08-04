@@ -52,16 +52,24 @@ class Tree implements ListItemInterface, ObjToMapI {
 class Project implements ListItemInterface, ObjToMapI {
   final int projectId;
   final int treeId;
-  final String name;
-  final String descr;
-  final String link;
+  final String name; //projectName from json file
+  final String descr; //description from json
+  final int treesCount; // trees from json
+  final int years;
+  final String category;
+  final int paper;
+  final int co2Saved;
 
   Project(
       {required this.projectId,
       required this.treeId,
       required this.name,
+      required this.category,
       required this.descr,
-      required this.link});
+      required this.paper,
+      required this.treesCount,
+      required this.years,
+      required this.co2Saved});
 
   @override
   Map<String, dynamic> toMap() {
@@ -69,18 +77,27 @@ class Project implements ListItemInterface, ObjToMapI {
       'projectId': projectId,
       'treeId': treeId,
       'name': name,
+      'category': category,
       'descr': descr,
-      'link': link
+      'paper': paper,
+      'treesCount': treesCount,
+      'years': years,
+      'co2Saved': co2Saved
     };
   }
 
   factory Project.fromMap(Map<String, dynamic> projectDb) {
     return Project(
-        projectId: projectDb['projectId'],
-        treeId: projectDb['treeId'],
-        name: projectDb['name'],
-        descr: projectDb['descr'],
-        link: projectDb['link']);
+      projectId: projectDb['projectId'],
+      treeId: projectDb['treeId'],
+      name: projectDb['name'],
+      descr: projectDb['descr'],
+      paper: projectDb['paper'],
+      category: projectDb['category'],
+      treesCount: projectDb['treesCount'],
+      years: projectDb['years'],
+      co2Saved: projectDb['co2Saved'],
+    );
   }
 
   @override

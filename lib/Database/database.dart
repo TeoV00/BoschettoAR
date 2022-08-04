@@ -52,16 +52,6 @@ class DatabaseProvider {
                 co2: 203));
         _insert(
             db,
-            projectTable,
-            Project(
-                projectId: 1,
-                treeId: 1,
-                name: "Tetti verdi",
-                descr:
-                    "L’intervento consiste nell'installazione di tetti verdi e micro giardini pensili sui piani di copertura orizzontali degli edifici universitari.",
-                link: "link"));
-        _insert(
-            db,
             treeTable,
             Tree(
                 treeId: 2,
@@ -71,16 +61,6 @@ class DatabaseProvider {
                 height: 100,
                 diameter: 10,
                 co2: 203));
-        _insert(
-            db,
-            projectTable,
-            Project(
-                projectId: 2,
-                treeId: 2,
-                name: "Sun Addicted",
-                descr:
-                    "Il progetto prevede l'installazione di impianti fotovoltaici per la produzione di energia elettrica mediante l'utilizzo di fonti rinnovabili per le esigenze dei sistemi di riscaldamento/raffrescamento e del fabbisogno energetico delle strutture di Ateneo",
-                link: "link"));
 
         for (var bd in appBadges) {
           _insert(db, badgeTable, bd);
@@ -139,9 +119,8 @@ class DatabaseProvider {
   ) async {
     var result = 0;
     var usr = await getUserInfo(userId);
-    // print(usr.toString());
 
-    if (database != null && usr != null) {
+    if (usr != null) {
       var db = await database;
       result = await db.update(
           userTable,
