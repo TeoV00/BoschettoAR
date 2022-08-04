@@ -65,7 +65,7 @@ List<String> creationQuery = [
 ];
 
 //List of badge
-List<Badge> badges = [
+List<Badge> appBadges = [
   Badge(id: 1, descr: "Buon inizio", imageName: "badge1.png"),
   Badge(
       id: 2,
