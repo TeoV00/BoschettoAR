@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
-// import 'package:path/path.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'Database/dataModel.dart';
@@ -22,17 +22,16 @@ class DataManager extends ChangeNotifier {
 
   ///get user info then when received, cache data to var then notify listeners
   Future<Map<UserData, dynamic>> getUserData() async {
-    print("getUser data");
+    log("getUser data");
 
     Statistics stats = await _calculateStats();
 
     Map<Badge, bool> badges = {};
-    var userBadges = await getUnlockedBadges();
-    var allBadge = await dbProvider.getAllBadges();
-    Set<int> userBadgesSet = userBadges.map((e) => e.id).toSet();
+    Set<int> userBadges = await dbProvider.getUserBadges(currentUserId);
 
-    for (var domainBadge in allBadge) {
-      badges.addAll({domainBadge: userBadgesSet.contains(domainBadge.id)});
+    for (var domainBadge in appBadges) {
+      badges.putIfAbsent(
+          domainBadge, () => userBadges.contains(domainBadge.id));
     }
 
     return {
@@ -98,22 +97,32 @@ class DataManager extends ChangeNotifier {
     return userTreeAndProj;
   }
 
-  Future<List<Badge>> getUnlockedBadges() {
-    return dbProvider.getUserBadges(currentUserId);
-  }
-
   //SETTER methods
   void addUserTree(int treeId) async {
     await dbProvider.addUserTree(currentUserId, treeId);
   }
 
-  void unlockUserBadge(int idBadge) {
-    dbProvider.addUserBadge(currentUserId, idBadge);
+  void unlockUserBadge() async {
+    var userBadges = await dbProvider.getUserBadges(currentUserId);
+
+    if (userBadges.isEmpty) {
+      //add first badge (idBadge = 0)
+      dbProvider.addUserBadge(currentUserId, 0);
+    } else {
+      int maxBadgeId = userBadges.max;
+      //appBadges are defined in database_constant file, is better than get badges from db
+      if (maxBadgeId + 1 < appBadges.length) {
+        dbProvider.addUserBadge(currentUserId, maxBadgeId + 1);
+      } else {
+        log("All badge unlocked");
+      }
+    }
+    //dbProvider.addUserBadge(currentUserId, idBadge);
     notifyListeners();
   }
 
   Future<Map<InfoType, dynamic>?> isValidTreeCode(String qrData) async {
-    print("isValidtreeCode Called");
+    log("isValidtreeCode Called");
     //TODO: get code id from maybe a possibile structured data info in qr
     var treeId = int.parse(qrData);
 
@@ -121,6 +130,7 @@ class DataManager extends ChangeNotifier {
     Project? proj = await dbProvider.getProject(treeId);
 
     if (tree != null && proj != null) {
+      unlockUserBadge();
       addUserTree(treeId);
       return {InfoType.tree: tree, InfoType.project: proj};
     } else {

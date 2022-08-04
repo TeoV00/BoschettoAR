@@ -14,7 +14,7 @@ class DatabaseProvider {
 
   DatabaseProvider() {
     _createDatabase();
-    print("construcotr _databse is null = ${_database == null}");
+    log("construcotr _databse is null = ${_database == null}");
   }
 
   Future<Database> get database async {
@@ -82,7 +82,7 @@ class DatabaseProvider {
                     "Il progetto prevede l'installazione di impianti fotovoltaici per la produzione di energia elettrica mediante l'utilizzo di fonti rinnovabili per le esigenze dei sistemi di riscaldamento/raffrescamento e del fabbisogno energetico delle strutture di Ateneo",
                 link: "link"));
 
-        for (var bd in badges) {
+        for (var bd in appBadges) {
           _insert(db, badgeTable, bd);
         }
         // _insert(db, badgeTable,
@@ -231,8 +231,8 @@ class DatabaseProvider {
     return userProject;
   }
 
-  Future<List<Badge>> getUserBadges(int userId) async {
-    List<Badge> userBadges = List.empty(growable: true);
+  Future<Set<int>> getUserBadges(int userId) async {
+    Set<int> userBadges = {};
     var db = await database;
     var result = await db.query(
       userBadgeTable,
@@ -240,8 +240,7 @@ class DatabaseProvider {
       whereArgs: [userId],
     );
 
-    userBadges = result.map((e) => Badge.fromMap(e)).toList();
-
+    userBadges = result.map((e) => e['idBadge'] as int).toSet();
     return userBadges;
   }
 
