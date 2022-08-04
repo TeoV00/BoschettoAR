@@ -69,7 +69,6 @@ class _TabViewState extends State<TabView> {
 
   void _onItemTapped(int index) {
     setState(() {
-      //That method inform that has changed state of gui
       _selectionIndex = index;
     });
   }

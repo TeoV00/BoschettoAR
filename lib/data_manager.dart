@@ -108,28 +108,30 @@ class DataManager extends ChangeNotifier {
     if (userBadges.isEmpty) {
       //add first badge (idBadge = 0)
       dbProvider.addUserBadge(currentUserId, 0);
+      log("Added fisrt badge");
     } else {
+      log("more badges unlocked");
       int maxBadgeId = userBadges.max;
       //appBadges are defined in database_constant file, is better than get badges from db
       if (maxBadgeId + 1 < appBadges.length) {
+        log("unlock badge num. ${maxBadgeId + 1}");
         dbProvider.addUserBadge(currentUserId, maxBadgeId + 1);
       } else {
         log("All badge unlocked");
       }
     }
-    //dbProvider.addUserBadge(currentUserId, idBadge);
-    notifyListeners();
   }
 
   Future<Map<InfoType, dynamic>?> isValidTreeCode(String qrData) async {
     log("isValidtreeCode Called");
-    //TODO: get code id from maybe a possibile structured data info in qr
     var treeId = int.parse(qrData);
 
     Tree? tree = await dbProvider.getTree(treeId);
     Project? proj = await dbProvider.getProject(treeId);
+    List<Tree> userTrees = await dbProvider.getUserTrees(currentUserId);
+    bool isNewTree = userTrees.where((tree) => tree.treeId == treeId).isEmpty;
 
-    if (tree != null && proj != null) {
+    if (tree != null && proj != null && isNewTree) {
       unlockUserBadge();
       addUserTree(treeId);
       return {InfoType.tree: tree, InfoType.project: proj};
