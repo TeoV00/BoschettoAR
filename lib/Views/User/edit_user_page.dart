@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -201,13 +202,15 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                         labelText: 'Anno Immatricolazione',
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () async =>
-                          _saveChanges(context), //call datamanager method
-                      style: ElevatedButton.styleFrom(
-                        primary: mainColor,
+                    Consumer<DataManager>(
+                      builder: (context, dataManager, child) => ElevatedButton(
+                        onPressed: () async => _saveChanges(
+                            context, dataManager), //call datamanager method
+                        style: ElevatedButton.styleFrom(
+                          primary: mainColor,
+                        ),
+                        child: const Text("Salva Modifiche"),
                       ),
-                      child: const Text("Salva Modifiche"),
                     ),
                   ],
                 ),
@@ -310,9 +313,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     Navigator.pop(context, isUpdated);
   }
 
-  void _saveChanges(BuildContext context) async {
-    DataManager dm = DataManager();
-
+  void _saveChanges(BuildContext context, DataManager dm) async {
     dm.updateCurrentUserInfo(formUser).then((isDone) => {
           showSnackBar(
               context,
