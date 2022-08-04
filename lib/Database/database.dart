@@ -27,7 +27,7 @@ class DatabaseProvider {
   Future<Database> _createDatabase() async {
     var path = await getDatabasesPath();
     return await openDatabase(
-      join(path, 'treyyhhw.db'),
+      join(path, 'trwweyw.db'),
       version: 1, //--> use oncreate
       onCreate: (db, version) async {
         //I tried to use a for-statement but queries ar not interpreted correctly
@@ -65,8 +65,6 @@ class DatabaseProvider {
         for (var bd in appBadges) {
           _insert(db, badgeTable, bd);
         }
-        // _insert(db, badgeTable,
-        //     Badge(id: 1, descr: "Pollicino verde", imageName: "badge1.png"))
       },
     );
   }
@@ -74,6 +72,12 @@ class DatabaseProvider {
   void insertTree(Tree tree) {
     if (_database != null) {
       _insert(_database!, treeTable, tree);
+    }
+  }
+
+  void insertProject(Project proj) {
+    if (_database != null) {
+      _insert(_database!, projectTable, proj);
     }
   }
 
