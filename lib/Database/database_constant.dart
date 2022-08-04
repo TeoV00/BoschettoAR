@@ -39,10 +39,10 @@ List<String> creationQuery = [
      name TEXT,
      category TEXT,
      descr TEXT,
-     paper INTEGER,
-     treesCount INTEGER,
+     paper REAL,
+     treesCount REAL,
      years INTEGER,
-     co2Saved INTEGER);''',
+     co2Saved REAL);''',
   //2
   '''CREATE TABLE Badge (
      id INTEGER PRIMARY KEY,
