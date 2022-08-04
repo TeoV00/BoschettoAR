@@ -1,5 +1,7 @@
 //File containing all classes that correspond to entities/tables in db
 
+import 'dart:developer';
+
 class Tree implements ListItemInterface, ObjToMapI {
   final int treeId;
   final String name;
@@ -54,11 +56,11 @@ class Project implements ListItemInterface, ObjToMapI {
   final int treeId;
   final String name; //projectName from json file
   final String descr; //description from json
-  final int treesCount; // trees from json
+  final double treesCount; // trees from json
   final int years;
   final String category;
-  final int paper;
-  final int co2Saved;
+  final double paper;
+  final double co2Saved;
 
   Project(
       {required this.projectId,
