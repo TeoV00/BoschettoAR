@@ -1,24 +1,60 @@
 import 'dart:async';
+import 'dart:collection';
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'Database/dataModel.dart';
 import 'Database/database_constant.dart';
 import 'utils.dart';
 import 'package:collection/collection.dart' as coll;
+import 'package:http/http.dart' as http;
 
 class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
   int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
 
   DataManager() {
-    pullTreeDataInDb();
+    fetchDataInDb();
+    fetchProjects();
   }
 
-  void pullTreeDataInDb() {}
-  //TODO: metodo che copia gli alberi da server online a db locale
-  //TODO: save in user preferences user id
+  void fetchDataInDb() {
+    //get project data json from existing web service
+
+    //dbProvider.insertProject();
+  }
+
+  Future<List<Project>> fetchProjects() async {
+    //final response = await http.get(Uri.parse(urlProjectInfo));
+    String text = await rootBundle.loadString('assets/projects.json');
+
+    var decoded = jsonDecode(text) as List;
+    int id = 0;
+
+    for (var e in decoded) {
+      dbProvider.insertProject(Project(
+        projectId:
+            id, //da decidere come assegnare gli id in bae alle associazioni proj-tree
+        treeId: id,
+        name: e['projectName'],
+        category: e['category'],
+        descr: e['description'],
+        paper: double.parse(e['carta'].toString()),
+        treesCount: double.parse(e['trees'].toString()),
+        years: e['years'],
+        co2Saved: double.parse(e['co2risparmiata'].toString()),
+      ));
+      id++;
+    }
+
+    // if (response.statusCode == 200) {
+    //   Project.fromMap(jsonDecode(response.body));
+    // } else {}
+    return List.empty();
+  }
 
   ///get user info then when received, cache data to var then notify listeners
   Future<Map<UserData, dynamic>> getUserData() async {
@@ -132,9 +168,11 @@ class DataManager extends ChangeNotifier {
     List<Tree> userTrees = await dbProvider.getUserTrees(currentUserId);
     bool isNewTree = userTrees.where((tree) => tree.treeId == treeId).isEmpty;
 
-    if (tree != null && proj != null && isNewTree) {
-      unlockUserBadge();
-      addUserTree(treeId);
+    if (tree != null && proj != null) {
+      if (isNewTree) {
+        unlockUserBadge();
+        addUserTree(treeId);
+      }
       return {InfoType.tree: tree, InfoType.project: proj};
     } else {
       //no data available and code is not valid
