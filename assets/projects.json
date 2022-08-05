@@ -1,0 +1,82 @@
+[
+    {
+        "projectName": "Almaorienta",
+        "trees": 312,
+        "years": 1,
+        "category": "Comunicazione Digitale",
+        "description": "Il principale evento dell’Università di Bologna dedicato all’orientamento dei ragazzi e delle ragazze ai Corsi di Studio.Dal 2019 l’app myAlmaorienta ha sostituito le brochures distribuite durante le giornate dell’orientamento.",
+        "carta": 2600000,
+        "co2assorbita": 0,
+        "co2risparmiata": 0
+    },
+    {
+        "projectName": "Questionario Opinione Studenti",
+        "trees": 32.4,
+        "years": 2,
+        "category": "Dematerializzazione",
+        "description": "Periodicamente l’Università di Bologna raccoglie in forma anonima le opinioni degli studenti e delle studentesse sulle attività didattiche.Dal 2016 il questionario online ha sostituito quello cartaceo.",
+        "carta": 270000,
+        "co2assorbita": 0,
+        "co2risparmiata": 0
+    },
+    {
+        "projectName": "Passaggio Nuova Firma Digitale",
+        "trees": 8.64,
+        "years": 1,
+        "category": "Innovazione del Processo",
+        "description": "Nel 2018 il passaggio dal vecchio sistema di firma remota alla nuova firma digitale è stato gestito da un applicativo che ha rimosso completamente la necessità di stampare i contratti per richiedere la nuova firma digitale.",
+        "carta": 72000,
+        "co2assorbita": 190.08,
+        "co2risparmiata": 2934.743
+    },
+    {
+        "projectName": "Contratti Di Docenza",
+        "trees": 12,
+        "years": 2,
+        "category": "Dematerializzazione",
+        "description": "La gestione degli incarichi di insegnamento coinvolge ogni anno circa 4.000 persone.Dal 2017 il nuovo applicativo permette al personale docente dell’Università di bologna di gestire online tutta la fase di stipula dei contratti.",
+        "carta": 100000,
+        "co2assorbita": 0,
+        "co2risparmiata": 0
+    },
+    {
+        "projectName": "Contratti Per RTD",
+        "trees": 7.2,
+        "years": 2,
+        "category": "Dematerializzazione",
+        "description": "",
+        "carta": 60000,
+        "co2assorbita": 0,
+        "co2risparmiata": 0
+    },
+    {
+        "projectName": "Unatantum",
+        "trees": 1.2,
+        "years": 1,
+        "category": "Innovazione del Processo",
+        "description": "",
+        "carta": 10000,
+        "co2assorbita": 0,
+        "co2risparmiata": 0
+    },
+    {
+        "projectName": "Atti Organi Ateneo",
+        "trees": 59.4,
+        "years": 4,
+        "category": "Dematerializzazione",
+        "description": "",
+        "carta": 495000,
+        "co2assorbita": 0,
+        "co2risparmiata": 0
+    },
+    {
+        "projectName": "Tesi Digitali",
+        "trees": 236.4,
+        "years": 4,
+        "category": "Dematerializzazione",
+        "description": "I laureandi e le laureande dell’Università di Bologna consegnano le tesi di laurea solo in formato digitale.AMS Tesi di Laurea è il servizio che raccoglie e conserva le tesi di laurea in formato digitale.",
+        "carta": 1970000,
+        "co2assorbita": 0,
+        "co2risparmiata": 0
+    }
+]
