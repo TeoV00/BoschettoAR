@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
-
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tree_ar/Views/ScanQr_views/ar_view_loader.dart';
 
