@@ -68,7 +68,7 @@ class _TreeProgressBar extends State<TreeProgessBar> {
             ),
           ),
         ),
-        Text("${widget.progress * 100} %",
+        Text("${(widget.progress * 100).truncate()} %",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
         Image.asset(
           '$imagePath/progressBarTree.png',
