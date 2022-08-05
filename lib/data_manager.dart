@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tree_ar/Database/database.dart';
@@ -70,13 +71,15 @@ class DataManager extends ChangeNotifier {
     //web cosi come i kg di co2 per ciascun progetto
     //TODO: la carta prendo in considerazione quella del progetto e non quella che
     //l'albero sarebbe in grado di catturare
-    var papers = 202; //prendo
+
+    var userProject = await dbProvider.getUserProjects(currentUserId);
+    int papers =
+        userProject.map((e) => e.paper).reduce((val, e) => val += e).toInt();
 
     var unlockedBadge = await dbProvider.getUserBadges(currentUserId);
     double pogress = double.parse(
             '0.${(((unlockedBadge.length / appBadges.length) * 100).truncate())}') +
         0.01;
-    log(pogress.toString());
 
     return Statistics(papers, totCo2, pogress);
   }
