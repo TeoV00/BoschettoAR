@@ -27,7 +27,7 @@ class DatabaseProvider {
   Future<Database> _createDatabase() async {
     var path = await getDatabasesPath();
     return await openDatabase(
-      join(path, 'tbbeyw.db'),
+      join(path, 'tbbew.db'),
       version: 1, //--> use oncreate
       onCreate: (db, version) async {
         //I tried to use a for-statement but queries ar not interpreted correctly
@@ -66,9 +66,21 @@ class DatabaseProvider {
                 height: 100,
                 diameter: 10,
                 co2: 203));
+        _insert(
+            db,
+            treeTable,
+            Tree(
+                treeId: 3,
+                name: "Pino Mugo",
+                descr:
+                    "possono superare 50 metri), è soprannominato il principe dei boschi.[3] Il più grande abete bianco d'Europa mai documentato era alto 50 metri e aveva una circonferenza di 4,8 metri[4]. Si trovava a Lavarone, in Trentino (abbattuto il giorno 13 novembre 2017 da una forte raffica di vento[5]), in località Malga Laghetto.",
+                height: 100,
+                diameter: 54,
+                co2: 200));
 
         for (var bd in appBadges) {
-          _insert(db, badgeTable, bd);
+          batch.insert(badgeTable, bd.toMap(),
+              conflictAlgorithm: ConflictAlgorithm.ignore);
         }
       },
     );
