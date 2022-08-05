@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
@@ -16,44 +15,24 @@ class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
   int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
 
-  DataManager() {
-    fetchDataInDb();
-    fetchProjects();
-  }
-
   void fetchDataInDb() {
     //get project data json from existing web service
 
     //dbProvider.insertProject();
   }
 
-  Future<List<Project>> fetchProjects() async {
+  void fetchProjectsInDatabase() async {
+    log("Fetch dati progetti");
     //final response = await http.get(Uri.parse(urlProjectInfo));
     String text = await rootBundle.loadString('assets/projects.json');
 
     var decoded = jsonDecode(text) as List;
-    int id = 0;
 
-    for (var e in decoded) {
-      dbProvider.insertProject(Project(
-        projectId:
-            id, //da decidere come assegnare gli id in bae alle associazioni proj-tree
-        treeId: id,
-        name: e['projectName'],
-        category: e['category'],
-        descr: e['description'],
-        paper: double.parse(e['carta'].toString()),
-        treesCount: double.parse(e['trees'].toString()),
-        years: e['years'],
-        co2Saved: double.parse(e['co2risparmiata'].toString()),
-      ));
-      id++;
-    }
+    dbProvider.insertBatchProjects(decoded);
 
     // if (response.statusCode == 200) {
     //   Project.fromMap(jsonDecode(response.body));
     // } else {}
-    return List.empty();
   }
 
   ///get user info then when received, cache data to var then notify listeners
@@ -93,7 +72,12 @@ class DataManager extends ChangeNotifier {
     //l'albero sarebbe in grado di catturare
     var papers = 202; //prendo
 
-    var pogress = 0.8; //get that info from gameController
+    var unlockedBadge = await dbProvider.getUserBadges(currentUserId);
+    double pogress = double.parse(
+            '0.${(((unlockedBadge.length / appBadges.length) * 100).truncate())}') +
+        0.01;
+    log(pogress.toString());
+
     return Statistics(papers, totCo2, pogress);
   }
 
@@ -142,8 +126,8 @@ class DataManager extends ChangeNotifier {
     Set<int> userBadges = await dbProvider.getUserBadges(currentUserId);
 
     if (userBadges.isEmpty) {
-      //add first badge (idBadge = 0)
-      dbProvider.addUserBadge(currentUserId, 0);
+      //add first badge (idBadge = 1)
+      dbProvider.addUserBadge(currentUserId, 1);
       log("Added fisrt badge");
     } else {
       log("more badges unlocked");
@@ -167,6 +151,8 @@ class DataManager extends ChangeNotifier {
     Project? proj = await dbProvider.getProject(treeId);
     List<Tree> userTrees = await dbProvider.getUserTrees(currentUserId);
     bool isNewTree = userTrees.where((tree) => tree.treeId == treeId).isEmpty;
+    log("Albero: ${tree == null ? 'Null' : 'presente'}");
+    log("Progetto: ${proj == null ? 'Null' : 'presente'}");
 
     if (tree != null && proj != null) {
       if (isNewTree) {
