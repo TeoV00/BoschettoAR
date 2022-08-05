@@ -27,17 +27,22 @@ class DatabaseProvider {
   Future<Database> _createDatabase() async {
     var path = await getDatabasesPath();
     return await openDatabase(
-      join(path, 'trwweyw.db'),
+      join(path, 'tbbeyw.db'),
       version: 1, //--> use oncreate
       onCreate: (db, version) async {
         //I tried to use a for-statement but queries ar not interpreted correctly
         //i dont like it
-        db.execute(creationQuery[0]); //UserProfile
-        db.execute(creationQuery[1]); //project
-        db.execute(creationQuery[2]); //Badge
-        db.execute(creationQuery[3]); //UserTrees
-        db.execute(creationQuery[4]); //UserBadge
-        db.execute(creationQuery[5]); //Tree
+        Batch batch = db.batch();
+
+        batch.execute(creationQuery[0]); //UserProfile
+        batch.execute(creationQuery[1]); //project
+        batch.execute(creationQuery[2]); //Badge
+        batch.execute(creationQuery[3]); //UserTrees
+        batch.execute(creationQuery[4]); //UserBadge
+        batch.execute(creationQuery[5]); //Tree
+
+        batch.commit(noResult: true);
+
         //insert default empty user profile
         _insert(db, userTable, defaultUser);
         _insert(
@@ -242,6 +247,46 @@ class DatabaseProvider {
     return elem == null;
   }
 
+  void insertBatchProjects(List<dynamic> listObj) {
+    int id = 0;
+    List<Project> listProj = [];
+
+    for (var e in listObj) {
+      listProj.add(Project(
+        projectId:
+            id, //da decidere come assegnare gli id in bae alle associazioni proj-tree
+        treeId: id,
+        name: e['projectName'],
+        category: e['category'],
+        descr: e['description'],
+        paper: double.parse(e['carta'].toString()),
+        treesCount: double.parse(e['trees'].toString()),
+        years: e['years'],
+        co2Saved: double.parse(e['co2risparmiata'].toString()),
+      ));
+      id++;
+    }
+
+    log(listProj.toString());
+    _batchInsertion(projectTable, listProj);
+  }
+
+  ///insert in same atomic transaction a group of object to database
+  void _batchInsertion(String tableName, List<ObjToMapI> listObj) async {
+    Database db = await database;
+    db.transaction(
+      (txn) async {
+        Batch batch = txn.batch();
+
+        for (var objMap in listObj) {
+          batch.insert(tableName, objMap.toMap(),
+              conflictAlgorithm: ConflictAlgorithm.ignore);
+        }
+        batch.commit(noResult: true);
+      },
+    );
+  }
+
   //true --> transaction goes done
   //false --> somethings goes wrong
   Future<bool> _insert(
@@ -254,7 +299,7 @@ class DatabaseProvider {
       result = await db.insert(
         tableName,
         objToInsert.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.abort,
+        conflictAlgorithm: ConflictAlgorithm.ignore,
       );
     } catch (e) {
       log('''Errore inserimento nel db:\n$e''');
