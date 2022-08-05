@@ -6,7 +6,7 @@ import 'package:tree_ar/data_manager.dart';
 import 'package:tree_ar/utils.dart';
 
 const errorMessageInvalidQrCode =
-    "Il QRcode è già stato scansionato\n o non valido";
+    "Il QRcode non è valido\nalbero o progetto non trovato";
 
 class ArViewLoader extends StatefulWidget {
   final String qrData;
