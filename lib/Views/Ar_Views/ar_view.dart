@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
@@ -24,8 +26,21 @@ class _ARWidgetState extends State<ARWidget> {
   late ARObjectManager arObjectManager;
   late ARAnchorManager arAnchorManager;
 
+  late ARView arView;
+
   List<ARNode> nodes = [];
   List<ARAnchor> anchors = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    arView = ARView(
+        onARViewCreated: onARViewCreated,
+        planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
+        permissionPromptButtonText: 'Permesso fotocamera',
+        showPlatformType: true);
+  }
 
   @override
   void dispose() {
@@ -35,10 +50,7 @@ class _ARWidgetState extends State<ARWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ARView(
-        onARViewCreated: onARViewCreated,
-        planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
-        showPlatformType: false);
+    return arView;
   }
 
   void onARViewCreated(
@@ -51,30 +63,47 @@ class _ARWidgetState extends State<ARWidget> {
     this.arAnchorManager = arAnchorManager;
 
     this.arSessionManager.onInitialize(
-        showAnimatedGuide: false,
-        handlePans: false,
-        showFeaturePoints: true,
-        handleRotation: false,
-        showWorldOrigin: false);
+          showFeaturePoints: false,
+          showPlanes: true,
+          showWorldOrigin: false,
+          handleTaps: true,
+        );
     this.arObjectManager.onInitialize();
+
+    this.arSessionManager.onPlaneOrPointTap = onPlaneOrPointTapped;
+    this.arObjectManager.onNodeTap = onNodeTapped;
   }
 
-  void onPlaneOrPointTapped(List<ARHitTestResult> hitTestResults) {
+  Future<void> onNodeTapped(List<String> nodes) async {
+    var number = nodes.length;
+    arSessionManager.onError("Tapped $number node(s)");
+  }
+
+  Future<void> onPlaneOrPointTapped(
+      List<ARHitTestResult> hitTestResults) async {
     var singleHitTestResult = hitTestResults.firstWhere(
         (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
+
     var newAnchor =
         ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
-    arAnchorManager.addAnchor(newAnchor);
-    anchors.add(newAnchor);
-    // Add note to anchor
-    var newNode = ARNode(
-        type: NodeType.webGLB,
-        uri:
-            "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF-Binary/Duck.glb",
-        scale: Vector3(0.5, 0.5, 0.5),
-        position: Vector3(0.0, 0.0, 0.0),
-        rotation: Vector4(1.0, 0.0, 0.0, 0.0));
+    bool didAddAnchor = (await arAnchorManager.addAnchor(newAnchor))!;
 
-    arObjectManager.addNode(newNode, planeAnchor: newAnchor);
+    if (didAddAnchor) {
+      anchors.add(newAnchor);
+      // Add note to anchor
+      var newNode = ARNode(
+          type: NodeType.localGLTF2,
+          uri: 'A4Paper.gltf',
+          //scale: Vector3(0.2, 0.2, 0.2),
+          transformation: singleHitTestResult.worldTransform);
+
+      bool didAddWebNode = (await arObjectManager.addNode(newNode))!;
+
+      if (didAddWebNode) {
+        nodes.add(newNode);
+      }
+    } else {
+      arSessionManager.onError("Adding Anchor failed");
+    }
   }
 }
