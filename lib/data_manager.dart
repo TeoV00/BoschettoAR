@@ -73,8 +73,9 @@ class DataManager extends ChangeNotifier {
     //l'albero sarebbe in grado di catturare
 
     var userProject = await dbProvider.getUserProjects(currentUserId);
-    int papers =
-        userProject.map((e) => e.paper).reduce((val, e) => val += e).toInt();
+    int papers = userProject.length > 1
+        ? userProject.map((e) => e.paper).reduce((val, e) => val += e).toInt()
+        : 0;
 
     var unlockedBadge = await dbProvider.getUserBadges(currentUserId);
     double pogress = double.parse(
