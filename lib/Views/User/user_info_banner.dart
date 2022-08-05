@@ -17,8 +17,6 @@ class UserInfoBanner extends StatefulWidget {
 class _UserInfoState extends State<UserInfoBanner> {
   void _refreshData(bool areUpdated) async {
     if (areUpdated) {
-      print("Dati aggiornati allora aggiorna gui");
-
       setState(() {});
     }
   }

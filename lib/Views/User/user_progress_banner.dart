@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tree_ar/constant_vars.dart';
+import 'package:tree_ar/utils.dart';
 
 class UserStatisticCounter extends StatelessWidget {
   final String type;
@@ -12,6 +13,8 @@ class UserStatisticCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Pair<int, String?> valueAndUnit = _getMultiplierString(amount);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -22,16 +25,36 @@ class UserStatisticCounter extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Text(
-            amount.toString(),
+            valueAndUnit.elem1.toString(),
             style: const TextStyle(fontSize: 22),
           ),
         ),
+        valueAndUnit.elem2 != null
+            ? Text(
+                valueAndUnit.elem2!,
+                style: const TextStyle(fontSize: 16),
+              )
+            : Container(),
         Text(
           unit,
           style: const TextStyle(fontSize: 16),
-        )
+        ),
       ],
     );
+  }
+
+  Pair<int, String?> _getMultiplierString(int value) {
+    int amountCifer = value.toString().length;
+
+    if (amountCifer > 3 && amountCifer <= 6) {
+      return Pair(value ~/ 1000, 'x10^3');
+    } else if (amountCifer > 6 && amountCifer <= 9) {
+      return Pair(value ~/ 1000000, 'x10^6');
+    } else if (amountCifer > 9 && amountCifer <= 12) {
+      return Pair(value ~/ 1000000000, 'x10^9');
+    } else {
+      return Pair(value, null);
+    }
   }
 }
 
