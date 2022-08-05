@@ -16,7 +16,7 @@ class TreeViewInfoAr extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          //const ARWidget(), //AR view widget
+          const ARWidget(), //AR view widget
           DraggableScrollableSheet(
             //Bottom Sheet that show scanned tree info
             minChildSize: 0.10,
