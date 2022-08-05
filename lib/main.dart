@@ -21,6 +21,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // initFirebaseApp();
   DataManager dataManager = DataManager();
+  dataManager.fetchProjectsInDatabase();
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => dataManager,
