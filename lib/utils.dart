@@ -5,6 +5,16 @@ import 'package:flutter/material.dart';
 
 import 'package:tree_ar/constant_vars.dart';
 
+class Pair<T, R> {
+  late T elem1;
+  late R elem2;
+
+  Pair(T e1, R e2) {
+    elem1 = e1;
+    elem2 = e2;
+  }
+}
+
 class Statistics {
   int papers;
   int co2;
