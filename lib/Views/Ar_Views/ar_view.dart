@@ -94,7 +94,7 @@ class _ARWidgetState extends State<ARWidget> {
       var newNode = ARNode(
           type: NodeType.localGLTF2,
           uri: 'A4Paper.gltf',
-          //scale: Vector3(0.2, 0.2, 0.2),
+          scale: Vector3(0.2, 0.2, 0.2),
           transformation: singleHitTestResult.worldTransform);
 
       bool didAddWebNode = (await arObjectManager.addNode(newNode))!;
