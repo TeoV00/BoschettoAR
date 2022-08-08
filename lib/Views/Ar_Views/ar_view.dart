@@ -39,7 +39,7 @@ class _ARWidgetState extends State<ARWidget> {
         onARViewCreated: onARViewCreated,
         planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
         permissionPromptButtonText: 'Permesso fotocamera',
-        showPlatformType: true);
+        showPlatformType: false);
   }
 
   @override
@@ -63,11 +63,11 @@ class _ARWidgetState extends State<ARWidget> {
     this.arAnchorManager = arAnchorManager;
 
     this.arSessionManager.onInitialize(
-          showFeaturePoints: false,
-          showPlanes: true,
-          showWorldOrigin: false,
-          handleTaps: true,
-        );
+        showFeaturePoints: false,
+        showPlanes: true,
+        showWorldOrigin: false,
+        handleTaps: true,
+        showAnimatedGuide: false);
     this.arObjectManager.onInitialize();
 
     this.arSessionManager.onPlaneOrPointTap = onPlaneOrPointTapped;
@@ -93,8 +93,10 @@ class _ARWidgetState extends State<ARWidget> {
       // Add note to anchor
       var newNode = ARNode(
           type: NodeType.localGLTF2,
-          uri: 'A4Paper.gltf',
-          scale: Vector3(0.2, 0.2, 0.2),
+          uri: 'assets/arModel/Scene.gltf',
+          scale: Vector3(0.5, 0.5, 0.5),
+          position: Vector3(0.0, 0.1, 0.0), // (axis-x,axis-z,axis-y)
+          rotation: Vector4(1.0, 0.0, 0.0, 0.0),
           transformation: singleHitTestResult.worldTransform);
 
       bool didAddWebNode = (await arObjectManager.addNode(newNode))!;
