@@ -279,7 +279,7 @@ class DatabaseProvider {
       id++;
     }
 
-    log(listProj.toString());
+    // log(listProj.toString());
     _batchInsertion(projectTable, listProj);
   }
 
