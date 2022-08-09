@@ -1,0 +1,50 @@
+{
+  "projOfTree": [
+    {
+      "projName": "Almaorienta",
+      "treeId": 1
+    },
+    {
+      "projName": "Questionario Opinione Studenti",
+      "treeId": 2
+    },
+    {
+      "projName": "Passaggio Nuova Firma Digitale",
+      "treeId": 3
+    }
+  ],
+  "trees": [
+    {
+      "co2": 190,
+      "descr": "L'acero riccio o platanoide (Acer platanoides L.), appartenente alla famiglia delle Sapindaceae, è una pianta spontanea in molti boschi di latifoglie umidi e riparati. Si accompagna ad altri aceri, specialmente Acer pseudoplatanus (entrambi hanno portamenti simili), nelle forre mesofile centro-settentrionali. Viene spesso coltivato a scopo ornamentale.",
+      "diameter": 0,
+      "height": 25,
+      "nome": "Acero Riccio",
+      "treeId": 1
+    },
+    {
+      "co2": 155,
+      "descr": "Betula L., 1753 è un genere di piante della famiglia delle Betulacee,[1] genericamente note come betulle.  Il genere comprende oltre 40 specie originarie dell'emisfero boreale.",
+      "diameter": 0,
+      "height": 30,
+      "name": "Betulla verrucosa",
+      "treeId": 2
+    },
+    {
+      "co2": 155,
+      "descr": "Il cerro (Quercus cerris L., 1753) è un albero a foglie caduche appartenente alla famiglia delle Fagaceae.[1]",
+      "diameter": 0,
+      "height": 35,
+      "name": "Cerro",
+      "treeId": 3
+    },
+    {
+      "co2": 140,
+      "descr": "Il tiglio selvatico (Tilia cordata Mill.) è un albero caducifoglio della famiglia delle Malvacee, con areale eurasiatico.",
+      "diameter": 0,
+      "height": 25,
+      "name": "Tiglio selvatico",
+      "treeId": 4
+    }
+  ]
+}
