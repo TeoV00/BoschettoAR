@@ -54,7 +54,7 @@ class Tree implements ListItemInterface, ObjToMapI {
 class Project implements ListItemInterface, ObjToMapI {
   final int projectId;
   final int treeId;
-  final String name; //projectName from json file
+  final String projectName; //projectName from json file
   final String descr; //description from json
   final double treesCount; // trees from json
   final int years;
@@ -65,7 +65,7 @@ class Project implements ListItemInterface, ObjToMapI {
   Project(
       {required this.projectId,
       required this.treeId,
-      required this.name,
+      required this.projectName,
       required this.category,
       required this.descr,
       required this.paper,
@@ -78,7 +78,7 @@ class Project implements ListItemInterface, ObjToMapI {
     return {
       'projectId': projectId,
       'treeId': treeId,
-      'name': name,
+      'projectName': projectName,
       'category': category,
       'descr': descr,
       'paper': paper,
@@ -92,7 +92,7 @@ class Project implements ListItemInterface, ObjToMapI {
     return Project(
       projectId: projectDb['projectId'],
       treeId: projectDb['treeId'],
-      name: projectDb['name'],
+      projectName: projectDb['projectName'],
       descr: projectDb['descr'],
       paper: projectDb['paper'],
       category: projectDb['category'],
@@ -109,7 +109,7 @@ class Project implements ListItemInterface, ObjToMapI {
 
   @override
   String getTitle() {
-    return name;
+    return projectName;
   }
 }
 
