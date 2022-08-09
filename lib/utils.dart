@@ -13,6 +13,11 @@ class Pair<T, R> {
     elem1 = e1;
     elem2 = e2;
   }
+
+  @override
+  String toString() {
+    return '(${elem1.toString()}, ${elem2.toString()})';
+  }
 }
 
 class Statistics {
