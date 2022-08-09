@@ -23,7 +23,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   DataManager dataManager = DataManager();
-  dataManager.fetchProjectsInDatabase();
+  dataManager.fetchOnlineData();
 
   runApp(
     ChangeNotifierProvider(
