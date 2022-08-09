@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
-import 'package:tree_ar/firebase_manager.dart';
+import 'package:tree_ar/firebase_provider.dart';
 import 'Database/dataModel.dart';
 import 'Database/database_constant.dart';
 import 'utils.dart';
@@ -26,21 +26,21 @@ class DataManager extends ChangeNotifier {
       dbProvider.insertBatchTrees(trees);
     }
 
-    List<Project>? projs = await _fetchProjectsFromWeb();
+    List<dynamic>? projs = await _fetchProjectsFromWeb();
     if (projs != null) {
       dbProvider.insertBatchProjects(projs);
     }
   }
 
-  Future<List<Project>?> _fetchProjectsFromWeb() async {
+  Future<List<dynamic>?> _fetchProjectsFromWeb() async {
     log("Fetch dati progetti");
 
     //final response = await http.get(Uri.parse(urlProjectInfo));
     String text = await rootBundle.loadString('assets/projects.json');
 
-    var decoded = jsonDecode(text) as List;
+    var decoded = jsonDecode(text);
 
-    return decoded as List<Project>;
+    return decoded;
 
     // if (response.statusCode == 200) {
     //
