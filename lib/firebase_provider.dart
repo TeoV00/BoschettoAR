@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
-
 import 'Database/dataModel.dart';
 
 class FirebaseProvider {
@@ -17,5 +14,18 @@ class FirebaseProvider {
           .toList();
     }
     return treeList;
+  }
+
+  Future<Map<String, int>?> getRelationshipProjAndTree() async {
+    Map<String, int>? relationships = {};
+    DataSnapshot snap = await ref.child('projOfTree').get();
+
+    if (snap.exists) {
+      snap.children.map((snap) => snap.value as Map).forEach((elemMap) {
+        relationships[elemMap['projName'] as String] = elemMap['treeId'] as int;
+      });
+    }
+
+    return relationships.isEmpty ? null : relationships;
   }
 }
