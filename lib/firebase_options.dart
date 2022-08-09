@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -46,20 +49,12 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC7Wkg1Xy935JhBK66oyYRVcy-xNm7jwdo',
-    appId: '1:853041049978:web:c675a3189f45d23924e6c3',
-    messagingSenderId: '853041049978',
-    projectId: 'boschetto-unibo-cesena',
-    authDomain: 'boschetto-unibo-cesena.firebaseapp.com',
-    storageBucket: 'boschetto-unibo-cesena.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAExV_MkSOQgPXAzNOIEAcyfELWRtXj_uw',
     appId: '1:853041049978:android:24a67f834f652e1624e6c3',
     messagingSenderId: '853041049978',
     projectId: 'boschetto-unibo-cesena',
+    databaseURL: 'https://boschetto-unibo-cesena-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'boschetto-unibo-cesena.appspot.com',
   );
 
@@ -68,9 +63,9 @@ class DefaultFirebaseOptions {
     appId: '1:853041049978:ios:32b4e83db66093aa24e6c3',
     messagingSenderId: '853041049978',
     projectId: 'boschetto-unibo-cesena',
+    databaseURL: 'https://boschetto-unibo-cesena-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'boschetto-unibo-cesena.appspot.com',
-    iosClientId:
-        '853041049978-lvdbqji81l18c5382vtn902cobffjtuq.apps.googleusercontent.com',
+    iosClientId: '853041049978-lvdbqji81l18c5382vtn902cobffjtuq.apps.googleusercontent.com',
     iosBundleId: 'it.unibo.treeAr',
   );
 }

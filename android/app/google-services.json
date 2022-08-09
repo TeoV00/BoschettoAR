@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "853041049978",
+    "firebase_url": "https://boschetto-unibo-cesena-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "boschetto-unibo-cesena",
     "storage_bucket": "boschetto-unibo-cesena.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "853041049978-1401f6oam7ji400m7cg8gbds1f7vvgmb.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "853041049978-lvdbqji81l18c5382vtn902cobffjtuq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "it.unibo.treeAr"
+              }
             }
           ]
         }

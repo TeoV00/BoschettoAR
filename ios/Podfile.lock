@@ -22,11 +22,18 @@ PODS:
   - BlueRSA (1.0.200)
   - Firebase/CoreOnly (8.15.0):
     - FirebaseCore (= 8.15.0)
+  - Firebase/Database (8.15.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (~> 8.15.0)
   - Firebase/RemoteConfig (8.15.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 8.15.0)
   - firebase_core (1.20.0):
     - Firebase/CoreOnly (= 8.15.0)
+    - Flutter
+  - firebase_database (9.1.0):
+    - Firebase/Database (= 8.15.0)
+    - firebase_core
     - Flutter
   - FirebaseABTesting (8.15.0):
     - FirebaseCore (~> 8.0)
@@ -39,6 +46,9 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (~> 2.30908.0)
+  - FirebaseDatabase (8.15.0):
+    - FirebaseCore (~> 8.0)
+    - leveldb-library (~> 1.22)
   - FirebaseInstallations (8.15.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
@@ -78,6 +88,7 @@ PODS:
     - Flutter
   - KituraContracts (1.2.1):
     - LoggerAPI (~> 1.7)
+  - leveldb-library (1.22.1)
   - LoggerAPI (1.9.200):
     - Logging (~> 1.1)
   - Logging (1.4.0)
@@ -108,6 +119,7 @@ PODS:
 DEPENDENCIES:
   - ar_flutter_plugin (from `.symlinks/plugins/ar_flutter_plugin/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - Flutter (from `Flutter`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -126,6 +138,7 @@ SPEC REPOS:
     - FirebaseABTesting
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseDatabase
     - FirebaseInstallations
     - FirebaseRemoteConfig
     - FMDB
@@ -135,6 +148,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - KituraContracts
+    - leveldb-library
     - LoggerAPI
     - Logging
     - MTBBarcodeScanner
@@ -147,6 +161,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/ar_flutter_plugin/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_database:
+    :path: ".symlinks/plugins/firebase_database/ios"
   Flutter:
     :path: Flutter
   geolocator_apple:
@@ -170,9 +186,11 @@ SPEC CHECKSUMS:
   BlueRSA: dfeef51db96bcc4edec654956c1581adbda4e6a3
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
   firebase_core: c4f1766beba4a9767ed7ba87e03a7857440ee923
+  firebase_database: 901fe3b58a23caa043dbf4e9e01bee064db5f0a7
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
   FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
+  FirebaseDatabase: f567afd233e54a303d84423207736590a6feb419
   FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
   FirebaseRemoteConfig: 2d6e2cfdb49af79535c8af8a80a4a5009038ec2b
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
@@ -185,6 +203,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   KituraContracts: e845e60dc8627ad0a76fa55ef20a45451d8f830b
+  leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   LoggerAPI: ad9c4a6f1e32f518fdb43a1347ac14d765ab5e3d
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
