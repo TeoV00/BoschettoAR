@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
+import 'package:tree_ar/firebase_manager.dart';
 import 'Database/dataModel.dart';
 import 'Database/database_constant.dart';
 import 'utils.dart';
@@ -14,25 +15,35 @@ import 'package:http/http.dart' as http;
 
 class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
+  FirebaseProvider firebaseProvider = FirebaseProvider();
+
   int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
 
-  void fetchDataInDb() {
+  void fetchOnlineData() async {
     //get project data json from existing web service
+    List<Tree>? trees = await firebaseProvider.getTrees();
+    if (trees != null) {
+      dbProvider.insertBatchTrees(trees);
+    }
 
-    //dbProvider.insertProject();
+    List<Project>? projs = await _fetchProjectsFromWeb();
+    if (projs != null) {
+      dbProvider.insertBatchProjects(projs);
+    }
   }
 
-  void fetchProjectsInDatabase() async {
+  Future<List<Project>?> _fetchProjectsFromWeb() async {
     log("Fetch dati progetti");
+
     //final response = await http.get(Uri.parse(urlProjectInfo));
     String text = await rootBundle.loadString('assets/projects.json');
 
     var decoded = jsonDecode(text) as List;
 
-    dbProvider.insertBatchProjects(decoded);
+    return decoded as List<Project>;
 
     // if (response.statusCode == 200) {
-    //   Project.fromMap(jsonDecode(response.body));
+    //
     // } else {}
   }
 
