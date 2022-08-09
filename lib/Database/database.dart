@@ -27,7 +27,7 @@ class DatabaseProvider {
   Future<Database> _createDatabase() async {
     var path = await getDatabasesPath();
     return await openDatabase(
-      join(path, 'demo_firebase.db'),
+      join(path, 'demo_firebase2.db'),
       version: 1, //--> use oncreate
       onCreate: (db, version) async {
         //I tried to use a for-statement but queries ar not interpreted correctly
