@@ -92,12 +92,12 @@ class _ARWidgetState extends State<ARWidget> {
       anchors.add(newAnchor);
       // Add note to anchor
       var newNode = ARNode(
-          type: NodeType.localGLTF2,
-          uri: 'assets/arModel/Scene.gltf',
-          scale: Vector3(0.5, 0.5, 0.5),
-          position: Vector3(0.0, 0.1, 0.0), // (axis-x,axis-z,axis-y)
-          rotation: Vector4(0.0, 0.0, 0.0, 0.0),
-          transformation: singleHitTestResult.worldTransform);
+        type: NodeType.localGLTF2,
+        uri: 'assets/arModel/A4_Lined_Paper.gltf',
+        scale: Vector3(0.5, 0.5, 0.5),
+        position: Vector3(0.0, 0.1, 0.0), // (axis-x,axis-z,axis-y)
+        rotation: Vector4(0.0, 0.0, 0.0, 0.0),
+      );
 
       bool didAddWebNode = (await arObjectManager.addNode(newNode))!;
 
