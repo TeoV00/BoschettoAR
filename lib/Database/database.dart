@@ -27,7 +27,7 @@ class DatabaseProvider {
   Future<Database> _createDatabase() async {
     var path = await getDatabasesPath();
     return await openDatabase(
-      join(path, 'tbbew.db'),
+      join(path, 'demo_firebase.db'),
       version: 1, //--> use oncreate
       onCreate: (db, version) async {
         //I tried to use a for-statement but queries ar not interpreted correctly
@@ -231,28 +231,8 @@ class DatabaseProvider {
     _batchInsertion(treeTable, listObj);
   }
 
-  void insertBatchProjects(List<dynamic> listObj) {
-    int id = 0;
-    List<Project> listProj = [];
-
-    for (var e in listObj) {
-      listProj.add(Project(
-        projectId:
-            id, //da decidere come assegnare gli id in bae alle associazioni proj-tree
-        treeId: id,
-        name: e['projectName'],
-        category: e['category'],
-        descr: e['description'],
-        paper: double.parse(e['carta'].toString()),
-        treesCount: double.parse(e['trees'].toString()),
-        years: e['years'],
-        co2Saved: double.parse(e['co2risparmiata'].toString()),
-      ));
-      id++;
-    }
-
-    // log(listProj.toString());
-    _batchInsertion(projectTable, listProj);
+  void insertBatchProjects(List<Project> listObj) {
+    _batchInsertion(projectTable, listObj);
   }
 
   ///insert in same atomic transaction a group of object to database
