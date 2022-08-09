@@ -51,10 +51,10 @@ class DataManager extends ChangeNotifier {
                 projectName: elem['projectName'],
                 category: elem['category'],
                 descr: elem['description'],
-                paper: elem['carta'] as double,
-                treesCount: elem['carta'],
+                paper: double.parse(elem['carta'].toString()),
+                treesCount: double.parse(elem['trees'].toString()),
                 years: elem['years'],
-                co2Saved: elem['co2risparmiata']),
+                co2Saved: double.parse(elem['co2risparmiata'].toString())),
           );
         }
       }
