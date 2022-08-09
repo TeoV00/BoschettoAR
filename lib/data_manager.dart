@@ -19,32 +19,54 @@ class DataManager extends ChangeNotifier {
 
   int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
 
+  ///Download and get from web or cloud db data used by the app
   void fetchOnlineData() async {
     //get project data json from existing web service
     List<Tree>? trees = await firebaseProvider.getTrees();
     if (trees != null) {
       dbProvider.insertBatchTrees(trees);
     }
-
-    List<dynamic>? projs = await _fetchProjectsFromWeb();
+    List<Project>? projs = await _fetchProjects();
     if (projs != null) {
       dbProvider.insertBatchProjects(projs);
     }
   }
 
-  Future<List<dynamic>?> _fetchProjectsFromWeb() async {
+  Future<List<Project>?> _fetchProjects() async {
+    Map<String, int>? treeIdByProjName =
+        await firebaseProvider.getRelationshipProjAndTree();
+
+    List<Map<String, dynamic>>? projWeb = await _fetchProjectsFromWeb();
+    List<Project>? projs;
+
+    if (projWeb != null && treeIdByProjName != null) {
+      // List<Project> projects =
+      for (var elem in projWeb) {
+        int? idOfTree = treeIdByProjName[elem['projectName']];
+        if (idOfTree != null) {
+          elem['treeId'] = idOfTree;
+        }
+      }
+
+      projs = projWeb.map((e) => Project.fromMap(e)).toList();
+    }
+    return projs;
+  }
+
+  Future<List<Map<String, dynamic>>?> _fetchProjectsFromWeb() async {
     log("Fetch dati progetti");
+    List<Map<String, dynamic>>? projFromWeb;
 
     //final response = await http.get(Uri.parse(urlProjectInfo));
     String text = await rootBundle.loadString('assets/projects.json');
 
-    var decoded = jsonDecode(text);
-
-    return decoded;
-
     // if (response.statusCode == 200) {
-    //
-    // } else {}
+    projFromWeb = (jsonDecode(text) as List)
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
+    // }
+
+    return projFromWeb;
   }
 
   ///get user info then when received, cache data to var then notify listeners
