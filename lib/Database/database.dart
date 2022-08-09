@@ -259,6 +259,10 @@ class DatabaseProvider {
     return elem == null;
   }
 
+  void insertBatchTrees(List<Tree> listObj) {
+    _batchInsertion(treeTable, listObj);
+  }
+
   void insertBatchProjects(List<dynamic> listObj) {
     int id = 0;
     List<Project> listProj = [];
