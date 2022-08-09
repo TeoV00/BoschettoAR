@@ -71,7 +71,7 @@ class TreeInfoSheet extends StatelessWidget {
           const Divider(thickness: 1),
           Container(
             margin: const EdgeInsets.only(bottom: 5),
-            child: Text("Progetto: ${project.name}",
+            child: Text("Progetto: ${project.projectName}",
                 style: const TextStyle(
                   color: Colors.black54,
                   fontSize: 18,
