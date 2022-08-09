@@ -45,38 +45,6 @@ class DatabaseProvider {
 
         //insert default empty user profile
         _insert(db, userTable, defaultUser);
-        _insert(
-            db,
-            treeTable,
-            Tree(
-                treeId: 1,
-                name: "AlberoBello",
-                descr: "descr",
-                height: 100,
-                diameter: 10,
-                co2: 203));
-        _insert(
-            db,
-            treeTable,
-            Tree(
-                treeId: 2,
-                name: "abete bianco",
-                descr:
-                    "L'abete bianco è un albero maestoso, slanciato e longevo, e data anche la sua notevole altezza (in media 30 metri, alcuni esemplari possono superare 50 metri), è soprannominato il principe dei boschi.[3] Il più grande abete bianco d'Europa mai documentato era alto 50 metri e aveva una circonferenza di 4,8 metri[4]. Si trovava a Lavarone, in Trentino (abbattuto il giorno 13 novembre 2017 da una forte raffica di vento[5]), in località Malga Laghetto.",
-                height: 100,
-                diameter: 10,
-                co2: 203));
-        _insert(
-            db,
-            treeTable,
-            Tree(
-                treeId: 3,
-                name: "Pino Mugo",
-                descr:
-                    "possono superare 50 metri), è soprannominato il principe dei boschi.[3] Il più grande abete bianco d'Europa mai documentato era alto 50 metri e aveva una circonferenza di 4,8 metri[4]. Si trovava a Lavarone, in Trentino (abbattuto il giorno 13 novembre 2017 da una forte raffica di vento[5]), in località Malga Laghetto.",
-                height: 100,
-                diameter: 54,
-                co2: 200));
 
         for (var bd in appBadges) {
           batch.insert(badgeTable, bd.toMap(),
