@@ -36,7 +36,7 @@ List<String> creationQuery = [
   '''CREATE TABLE Project (
      projectId INTEGER PRIMARY KEY,
      treeId INTEGER,
-     name TEXT,
+     projectName TEXT,
      category TEXT,
      descr TEXT,
      paper REAL,
