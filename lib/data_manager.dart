@@ -37,20 +37,30 @@ class DataManager extends ChangeNotifier {
         await firebaseProvider.getRelationshipProjAndTree();
 
     List<Map<String, dynamic>>? projWeb = await _fetchProjectsFromWeb();
-    List<Project>? projs;
+    List<Project> projs = [];
 
     if (projWeb != null && treeIdByProjName != null) {
-      // List<Project> projects =
       for (var elem in projWeb) {
         int? idOfTree = treeIdByProjName[elem['projectName']];
+
         if (idOfTree != null) {
-          elem['treeId'] = idOfTree;
+          projs.add(
+            Project(
+                projectId: idOfTree,
+                treeId: idOfTree,
+                projectName: elem['projectName'],
+                category: elem['category'],
+                descr: elem['description'],
+                paper: elem['carta'] as double,
+                treesCount: elem['carta'],
+                years: elem['years'],
+                co2Saved: elem['co2risparmiata']),
+          );
         }
       }
-
-      projs = projWeb.map((e) => Project.fromMap(e)).toList();
     }
-    return projs;
+
+    return projs.isEmpty ? null : projs;
   }
 
   Future<List<Map<String, dynamic>>?> _fetchProjectsFromWeb() async {
