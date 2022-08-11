@@ -76,7 +76,7 @@ flutter:
     - assets/arModel/paper_stack/stack1/
     - assets/arModel/paper_stack/stack2/
     - assets/arModel/paper_stack/stack3/
-    - assets/grass.png
+    - assets/arModel/grass.png
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
