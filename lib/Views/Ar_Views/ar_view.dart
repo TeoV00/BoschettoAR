@@ -37,7 +37,7 @@ class _ARWidgetState extends State<ARWidget> {
 
     arView = ARView(
         onARViewCreated: onARViewCreated,
-        planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
+        planeDetectionConfig: PlaneDetectionConfig.horizontal,
         permissionPromptButtonText: 'Permesso fotocamera',
         showPlatformType: false);
   }
@@ -67,6 +67,7 @@ class _ARWidgetState extends State<ARWidget> {
         showPlanes: true,
         showWorldOrigin: false,
         handleTaps: true,
+        customPlaneTexturePath: "assets/grass.png",
         showAnimatedGuide: false);
     this.arObjectManager.onInitialize();
 
@@ -81,28 +82,78 @@ class _ARWidgetState extends State<ARWidget> {
 
   Future<void> onPlaneOrPointTapped(
       List<ARHitTestResult> hitTestResults) async {
+    //if anchor is not already set
+
     var singleHitTestResult = hitTestResults.firstWhere(
         (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
 
-    var newAnchor =
+    var anchor =
         ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
-    bool didAddAnchor = (await arAnchorManager.addAnchor(newAnchor))!;
 
-    if (didAddAnchor) {
-      anchors.add(newAnchor);
-      // Add note to anchor
-      var newNode = ARNode(
-        type: NodeType.localGLTF2,
-        uri: 'assets/arModel/A4_Lined_Paper.gltf',
-        scale: Vector3(0.5, 0.5, 0.5),
-        position: Vector3(0.0, 0.1, 0.0), // (axis-x,axis-z,axis-y)
-        rotation: Vector4(0.0, 0.0, 0.0, 0.0),
-      );
+    // log(anchor.transformation.toString());
 
-      bool didAddWebNode = (await arObjectManager.addNode(newNode))!;
+    _addNodesToARWorld(
+      anchor,
+      0.5,
+      "assets/arModel/paper_stack/stack3/stack3.gltf",
+      4,
+      0.05,
+    );
 
-      if (didAddWebNode) {
-        nodes.add(newNode);
+    // _addNodesToARWorld(
+    //   anchor,
+    //   2.0,
+    //   "assets/arModel/petrol_barrel/petrol_barrel.gltf",
+    //   4,
+    //   0.05,
+    // );
+  }
+
+  double _calcSpaceBtwObj(int idx, double scale) {
+    return 0.01 * idx * 5 / scale;
+  }
+
+  void _addNodesToARWorld(ARPlaneAnchor anchor, double scale, String modelUri,
+      int objAmount, double vMargin) async {
+    bool? didAddAnchor = (await arAnchorManager.addAnchor(anchor));
+
+    if (didAddAnchor != null && didAddAnchor) {
+      log("ancora aggiunta");
+
+      int xCount = objAmount ~/ 2;
+      int yCount = objAmount % 2 == 0 ? xCount : xCount + 1;
+
+      if (xCount == 0) {
+        xCount = 1;
+      }
+
+      double y = 0.0;
+      double h = 0.02;
+
+      for (int j = 0; j < yCount; j++) {
+        double x = 0.0;
+        y += _calcSpaceBtwObj(j, scale) + vMargin;
+
+        for (int i = 0; i < xCount; i++) {
+          x = _calcSpaceBtwObj(i + 1, scale);
+
+          var newNode = ARNode(
+            type: NodeType.localGLTF2,
+            uri: modelUri,
+            scale: Vector3(scale, scale, scale),
+            //left-right offet(x), vertical-offset (z), (y)
+            position: Vector3(x, h, y),
+          );
+
+          bool? didAddWebNode =
+              (await arObjectManager.addNode(newNode, planeAnchor: anchor));
+
+          if (didAddWebNode != null && didAddWebNode) {
+            log("nodo aggiunto");
+            nodes.add(newNode);
+            anchors.add(anchor);
+          }
+        }
       }
     } else {
       arSessionManager.onError("Adding Anchor failed");
