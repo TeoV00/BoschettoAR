@@ -67,7 +67,7 @@ class _ARWidgetState extends State<ARWidget> {
         showPlanes: true,
         showWorldOrigin: false,
         handleTaps: true,
-        customPlaneTexturePath: "assets/grass.png",
+        customPlaneTexturePath: "assets/arModel/grass.png",
         showAnimatedGuide: false);
     this.arObjectManager.onInitialize();
 
@@ -89,8 +89,6 @@ class _ARWidgetState extends State<ARWidget> {
 
     var anchor =
         ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
-
-    // log(anchor.transformation.toString());
 
     _addNodesToARWorld(
       anchor,
