@@ -11,12 +11,13 @@ import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/datatypes/hittest_result_types.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:ar_flutter_plugin/models/ar_anchor.dart';
+import 'package:tree_ar/utils.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3, Vector4;
 
 //normal stack of papaer for printing contains 500 papers
 // 3d model for ar Stack3 contains 12 stack of paper in a column
-// => 500 * 12 = 6000
-final double paperCountInStack = 6000;
+// => 500 * 12 = 6000 * coeff
+const double paperCountInStack = 500000;
 
 class ARWidget extends StatefulWidget {
   final double savedPaperProj;
@@ -27,6 +28,8 @@ class ARWidget extends StatefulWidget {
 }
 
 class _ARWidgetState extends State<ARWidget> {
+  bool objShowed = false;
+
   late ARSessionManager arSessionManager;
   late ARObjectManager arObjectManager;
   late ARAnchorManager arAnchorManager;
@@ -81,36 +84,44 @@ class _ARWidgetState extends State<ARWidget> {
   }
 
   Future<void> onNodeTapped(List<String> nodes) async {
-    var number = nodes.length;
-    arSessionManager.onError("Tapped $number node(s)");
+    double realPaperPerStack =
+        widget.savedPaperProj / (widget.savedPaperProj ~/ paperCountInStack);
+    Pair<int, String?> pairVal = getMultiplierString(realPaperPerStack.toInt());
+
+    arSessionManager
+        .onError("Plico di ${pairVal.elem1} ${pairVal.elem2} folgi di carta");
   }
 
   Future<void> onPlaneOrPointTapped(
       List<ARHitTestResult> hitTestResults) async {
     //if anchor is not already set
 
-    var singleHitTestResult = hitTestResults.firstWhere(
-        (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
+    //show only one time ar objects stats
+    if (!objShowed) {
+      objShowed = true;
 
-    var anchor =
-        ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
+      var singleHitTestResult = hitTestResults.firstWhere(
+          (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
 
-    _addNodesToARWorld(
-      anchor,
-      0.5,
-      "assets/arModel/paper_stack/stack3/stack3.gltf",
-      widget.savedPaperProj ~/
-          paperCountInStack, //HEre put number of stacks to show in relation with number of papers
-      0.05,
-    );
+      var anchor =
+          ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
 
-    // _addNodesToARWorld(
-    //   anchor,
-    //   2.0,
-    //   "assets/arModel/petrol_barrel/petrol_barrel.gltf",
-    //   4,
-    //   0.05,
-    // );
+      _addNodesToARWorld(
+        anchor,
+        0.5,
+        "assets/arModel/paper_stack/stack3/stack3.gltf",
+        widget.savedPaperProj ~/ paperCountInStack,
+        0.05,
+      );
+
+      // _addNodesToARWorld(
+      //   anchor,
+      //   2.0,
+      //   "assets/arModel/petrol_barrel/petrol_barrel.gltf",
+      //   4,
+      //   0.05,
+      // );
+    }
   }
 
   double _calcSpaceBtwObj(int idx, double scale) {
@@ -124,8 +135,10 @@ class _ARWidgetState extends State<ARWidget> {
     if (didAddAnchor != null && didAddAnchor) {
       log("ancora aggiunta");
 
-      int xCount = objAmount ~/ 2;
-      int yCount = objAmount % 2 == 0 ? xCount : xCount + 1;
+      int yCount = objAmount ~/ 2;
+      int xCount = objAmount % 2 == 0 ? yCount : yCount + 1;
+
+      log(xCount.toString());
 
       if (xCount == 0) {
         xCount = 1;
@@ -133,10 +146,12 @@ class _ARWidgetState extends State<ARWidget> {
 
       double y = 0.0;
       double h = 0.02;
+      double offset = 0.0;
 
       for (int j = 0; j < yCount; j++) {
         double x = 0.0;
-        y += _calcSpaceBtwObj(j, scale) + vMargin;
+        y = _calcSpaceBtwObj(j, scale) + offset;
+        offset += vMargin;
 
         for (int i = 0; i < xCount; i++) {
           x = _calcSpaceBtwObj(i + 1, scale);
