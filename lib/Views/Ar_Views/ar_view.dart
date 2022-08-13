@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
@@ -14,8 +13,14 @@ import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:ar_flutter_plugin/models/ar_anchor.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3, Vector4;
 
+//normal stack of papaer for printing contains 500 papers
+// 3d model for ar Stack3 contains 12 stack of paper in a column
+// => 500 * 12 = 6000
+final double paperCountInStack = 6000;
+
 class ARWidget extends StatefulWidget {
-  const ARWidget({Key? key}) : super(key: key);
+  final double savedPaperProj;
+  const ARWidget({Key? key, required this.savedPaperProj}) : super(key: key);
 
   @override
   State<ARWidget> createState() => _ARWidgetState();
@@ -94,7 +99,8 @@ class _ARWidgetState extends State<ARWidget> {
       anchor,
       0.5,
       "assets/arModel/paper_stack/stack3/stack3.gltf",
-      4,
+      widget.savedPaperProj ~/
+          paperCountInStack, //HEre put number of stacks to show in relation with number of papers
       0.05,
     );
 
