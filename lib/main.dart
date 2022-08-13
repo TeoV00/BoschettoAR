@@ -131,7 +131,7 @@ class _TabViewState extends State<TabView> {
             MaterialPageRoute(
               builder: (context) => const ScanTreePage(),
             ),
-          ).then((value) => log(" da riaggiornare le gui ? $value")),
+          ),
         },
         child: const ImageIcon(
           AssetImage('$iconsPath/ScanTreeIcon.png'),
