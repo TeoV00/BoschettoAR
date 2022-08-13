@@ -78,3 +78,17 @@ Widget getUserImageWidget(String? userImgPath) {
   log("Immagine default");
   return ClipOval(child: image);
 }
+
+Pair<int, String?> getMultiplierString(int value) {
+  int amountCifer = value.toString().length;
+
+  if (amountCifer > 3 && amountCifer <= 6) {
+    return Pair(value ~/ 1000, 'x10^3');
+  } else if (amountCifer > 6 && amountCifer <= 9) {
+    return Pair(value ~/ 1000000, 'x10^6');
+  } else if (amountCifer > 9 && amountCifer <= 12) {
+    return Pair(value ~/ 1000000000, 'x10^9');
+  } else {
+    return Pair(value, null);
+  }
+}
