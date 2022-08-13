@@ -20,7 +20,7 @@ class DataManager extends ChangeNotifier {
   int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
 
   ///Download and get from web or cloud db data used by the app
-  void fetchOnlineData() async {
+  Future<void> fetchOnlineData() async {
     //get project data json from existing web service
     List<Tree>? trees = await firebaseProvider.getTrees();
     if (trees != null) {
@@ -110,13 +110,8 @@ class DataManager extends ChangeNotifier {
       totCo2 = 0;
     }
 
-    //TODO: il numero di fogli di carta li prendo dalla stessa fonte della verione
-    //web cosi come i kg di co2 per ciascun progetto
-    //TODO: la carta prendo in considerazione quella del progetto e non quella che
-    //l'albero sarebbe in grado di catturare
-
     var userProject = await dbProvider.getUserProjects(currentUserId);
-    int papers = userProject.length > 1
+    int papers = userProject.isNotEmpty
         ? userProject.map((e) => e.paper).reduce((val, e) => val += e).toInt()
         : 0;
 
