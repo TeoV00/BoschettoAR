@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
+import 'package:tree_ar/Views/infoPageView.dart/info_item_page.dart';
 import 'package:tree_ar/utils.dart';
 
 import '../constant_vars.dart';
@@ -105,30 +106,36 @@ class _CustomListView extends State<CustomListView> {
                 treeAndProj[InfoType.project] != null &&
                 treeAndProj[InfoType.tree]!.isNotEmpty &&
                 treeAndProj[InfoType.project]!.isNotEmpty) {
-              // return Padding(
-              //   padding: const EdgeInsets.only(bottom: grassBottomBarHeight),
-              // child:
               int itemCount = treeAndProj[widget.dataType]!.length;
               return ListView.builder(
-                scrollDirection: Axis.vertical,
-                padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
-                itemCount: itemCount,
-                itemBuilder: (BuildContext context, int index) {
-                  Widget rowItem = RowItem(
-                      item: treeAndProj[widget.dataType]![index],
-                      type: widget.dataType);
+                  scrollDirection: Axis.vertical,
+                  padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
+                  itemCount: itemCount,
+                  itemBuilder: (BuildContext context, int index) {
+                    var item = treeAndProj[widget.dataType]![index];
 
-                  if (index == itemCount - 1) {
-                    rowItem = Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: grassBottomBarHeight),
-                      child: rowItem,
-                    );
-                  }
-                  return rowItem;
-                },
-                // ),
-              );
+                    Widget rowItem = RowItem(item: item, type: widget.dataType);
+
+                    if (index == itemCount - 1) {
+                      rowItem = Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: grassBottomBarHeight),
+                        child: rowItem,
+                      );
+                    }
+
+                    return GestureDetector(
+                        child: rowItem,
+                        onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return InfoItemPage(
+                                  item: item,
+                                  dataType: widget.dataType,
+                                );
+                              }),
+                            ));
+                  });
             } else {
               return const CenteredWidget(
                   widgetToCenter: Text(
