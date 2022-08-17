@@ -24,14 +24,14 @@ class InfoItemPage extends StatelessWidget {
 
       itemDetailsView = ScrollableListOfDetailsBoxes(
         item: proj,
-        childrenSections: [],
+        childrenSections: [ProjectDetailsBox(proj: proj)],
       );
     } else if (item.runtimeType == Tree) {
       Tree tree = (item as Tree);
       titlePage = tree.name;
       itemDetailsView = ScrollableListOfDetailsBoxes(
         item: tree,
-        childrenSections: [],
+        childrenSections: [TreeDetailsBox(tree: tree)],
       );
     }
 
@@ -154,6 +154,46 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: childs,
+      ),
+    );
+  }
+}
+
+class TreeDetailsBox extends StatelessWidget {
+  final Tree tree;
+  const TreeDetailsBox({Key? key, required this.tree}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const double pad = 10;
+    final double screenWidth = MediaQuery.of(context).size.width - (2 * pad);
+
+    return DetailsBox(
+      headerTitle: 'Dettagli',
+      childBox: Column(
+        children: [
+          rowIndicator('Co2', StatsType.co2, tree.co2, 1000, screenWidth),
+          rowIndicator(
+              'Altezza (cm) ', StatsType.height, tree.height, 100, screenWidth),
+          rowIndicator('Tronco (cm)', StatsType.diameter, tree.diameter, 90,
+              screenWidth),
+          rowIndicator('Acqua', StatsType.water, 30, 300, screenWidth),
+        ],
+      ),
+    );
+  }
+}
+
+class ProjectDetailsBox extends StatelessWidget {
+  final Project proj;
+  const ProjectDetailsBox({Key? key, required this.proj}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DetailsBox(
+      headerTitle: 'Dettagli',
+      childBox: Column(
+        children: [],
       ),
     );
   }
