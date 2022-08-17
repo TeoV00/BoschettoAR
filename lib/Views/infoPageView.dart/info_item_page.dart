@@ -94,35 +94,38 @@ class DetailsBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(radiusCorner),
-        color: Color.fromARGB(255, 244, 244, 244),
-      ),
-      child: Column(children: [
-        Row(
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Text(
-                  headerTitle,
-                  style: const TextStyle(
-                      fontSize: 16, color: Color.fromARGB(153, 0, 0, 0)),
-                )),
-          ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 5, bottom: 5),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(radiusCorner),
+          color: Color.fromARGB(255, 244, 244, 244),
         ),
-        Row(
-          children: [
-            Expanded(
-              child: Flex(
-                direction: Axis.vertical,
-                children: [childBox],
-              ),
-            )
-          ],
-        )
-      ]),
+        child: Column(children: [
+          Row(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Text(
+                    headerTitle,
+                    style: const TextStyle(
+                        fontSize: 16, color: Color.fromARGB(153, 0, 0, 0)),
+                  )),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: [childBox],
+                ),
+              )
+            ],
+          )
+        ]),
+      ),
     );
   }
 }
@@ -152,7 +155,6 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: childs,
       ),
     );
@@ -193,7 +195,13 @@ class ProjectDetailsBox extends StatelessWidget {
     return DetailsBox(
       headerTitle: 'Dettagli',
       childBox: Column(
-        children: [],
+        children: [
+          rowLabelValue('Anni', proj.years.toString()),
+          rowLabelValue('Alberi piantati', proj.treesCount.toString()),
+          rowLabelValue('Carta risparmiata', proj.paper.toString()),
+          rowLabelValue('Co2 assorbita', proj.co2Saved.toString()),
+          rowLabelValue('Categoria', proj.category.toString()),
+        ],
       ),
     );
   }

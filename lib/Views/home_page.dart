@@ -125,16 +125,17 @@ class _CustomListView extends State<CustomListView> {
                     }
 
                     return GestureDetector(
-                        child: rowItem,
-                        onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return InfoItemPage(
-                                  item: item,
-                                  dataType: widget.dataType,
-                                );
-                              }),
-                            ));
+                      child: rowItem,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return InfoItemPage(
+                            item: item,
+                            dataType: widget.dataType,
+                          );
+                        }),
+                      ),
+                    );
                   });
             } else {
               return const CenteredWidget(

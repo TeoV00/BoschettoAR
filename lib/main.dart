@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:tree_ar/utils.dart';
+
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'dart:developer';
@@ -11,14 +15,9 @@ import 'Views/home_page.dart';
 import 'Views/ScanQr_views/scan_qr_page.dart';
 import 'package:provider/provider.dart';
 
-// initFirebaseApp() async {
-//   await Firebase.initializeApp(
-//     options: DefaultFirebaseOptions.currentPlatform,
-//   );
-// }
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -28,17 +27,29 @@ void main() async {
   runApp(
     ChangeNotifierProvider(
       create: (context) => dataManager,
-      child: const MyApp(),
+      child: const MyApp(
+          // dataManager: dataManager,
+          ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  // final DataManager dataManager;
+  const MyApp({
+    Key? key,
+    // required this.dataManager
+  }) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // log("Myapp build function");
+
+    //   dataManager.fetchOnlineData().timeout(
+    //       const Duration(milliseconds: 1000),
+    //     );
+
     return MaterialApp(
       title: 'Unibo Tree AR',
       theme: ThemeData(
