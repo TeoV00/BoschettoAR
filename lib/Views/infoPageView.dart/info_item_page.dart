@@ -22,25 +22,17 @@ class InfoItemPage extends StatelessWidget {
       Project proj = (item as Project);
       titlePage = proj.projectName;
 
-      itemDetailsView = Column(
-        children: [
-          DetailsBox(
-            childBox: Text(
-              proj.descr,
-              style: const TextStyle(color: Colors.black),
-            ),
-            headerTitle: 'Descrizione',
-          ),
-          DetailsBox(
-            childBox: Text(proj.category),
-            headerTitle: 'Dettagli',
-          )
-        ],
+      itemDetailsView = ScrollableListOfDetailsBoxes(
+        item: proj,
+        childrenSections: [],
       );
     } else if (item.runtimeType == Tree) {
       Tree tree = (item as Tree);
-      itemDetailsView = Text('corpo');
       titlePage = tree.name;
+      itemDetailsView = ScrollableListOfDetailsBoxes(
+        item: tree,
+        childrenSections: [],
+      );
     }
 
     return Scaffold(
@@ -106,7 +98,7 @@ class DetailsBox extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(radiusCorner),
-        color: grayColor,
+        color: Color.fromARGB(255, 244, 244, 244),
       ),
       child: Column(children: [
         Row(
@@ -131,6 +123,38 @@ class DetailsBox extends StatelessWidget {
           ],
         )
       ]),
+    );
+  }
+}
+
+class ScrollableListOfDetailsBoxes extends StatelessWidget {
+  final ListItemInterface item;
+  final List<Widget> childrenSections;
+
+  const ScrollableListOfDetailsBoxes(
+      {Key? key, required this.item, required this.childrenSections})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> childs = [
+      DetailsBox(
+        childBox: Text(
+          item.getDescr(),
+          style: const TextStyle(color: Colors.black, fontSize: 16),
+        ),
+        headerTitle: 'Descrizione',
+      ),
+    ];
+
+    childs.addAll(childrenSections);
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: childs,
+      ),
     );
   }
 }
