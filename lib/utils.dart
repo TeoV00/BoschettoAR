@@ -143,7 +143,8 @@ Widget rowLabelValue(String label, String value) {
         child: Text('$label:',
             style: const TextStyle(fontSize: textLabelDetailsSize)),
       ),
-      Text(value),
+      Text(value,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
     ],
   );
 }
