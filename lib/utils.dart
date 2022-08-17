@@ -93,6 +93,8 @@ Pair<int, String?> getMultiplierString(int value) {
   }
 }
 
+const double textLabelDetailsSize = 15;
+
 Widget rowIndicator(
   String label,
   StatsType type,
@@ -101,14 +103,13 @@ Widget rowIndicator(
   double screenWidth,
 ) {
   const double iconSizeDefault = 24;
-  const double textSize = 15;
   String labelValue = "$label: $value";
 
   if (value > maxValue) {
     value = maxValue;
   }
 
-  double textPixel = textSize * labelValue.length;
+  double textPixel = textLabelDetailsSize * labelValue.length;
   int maxIconCount = ((screenWidth - textPixel) / iconSizeDefault).ceil();
   int mappedVal = (maxIconCount * value) ~/ maxValue + 1;
 
@@ -116,7 +117,8 @@ Widget rowIndicator(
     children: [
       Padding(
         padding: const EdgeInsets.only(right: 5),
-        child: Text(labelValue, style: const TextStyle(fontSize: textSize)),
+        child: Text(labelValue,
+            style: const TextStyle(fontSize: textLabelDetailsSize)),
       ),
       getIconIndicator(type, mappedVal),
     ],
@@ -129,6 +131,19 @@ Widget getIconIndicator(StatsType type, int value) {
       for (var i = 0; i < value; i++) ...[
         Icon(statsIcon[type]),
       ],
+    ],
+  );
+}
+
+Widget rowLabelValue(String label, String value) {
+  return Row(
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(right: 5),
+        child: Text('$label:',
+            style: const TextStyle(fontSize: textLabelDetailsSize)),
+      ),
+      Text(value),
     ],
   );
 }
