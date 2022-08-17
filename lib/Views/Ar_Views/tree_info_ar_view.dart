@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/Views/Ar_Views/ar_view.dart';
 import 'package:tree_ar/constant_vars.dart';
+import 'package:tree_ar/utils.dart';
 
 class TreeViewInfoAr extends StatelessWidget {
   final Tree tree;
@@ -98,43 +99,4 @@ class TreeInfoSheet extends StatelessWidget {
     );
   }
 
-  Widget rowIndicator(
-    String label,
-    StatsType type,
-    int value,
-    int maxValue,
-    double screenWidth,
-  ) {
-    const double iconSizeDefault = 24;
-    const double textSize = 15;
-    String labelValue = "$label: $value";
-
-    if (value > maxValue) {
-      value = maxValue;
-    }
-
-    double textPixel = textSize * labelValue.length;
-    int maxIconCount = ((screenWidth - textPixel) / iconSizeDefault).ceil();
-    int mappedVal = (maxIconCount * value) ~/ maxValue + 1;
-
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: Text(labelValue, style: const TextStyle(fontSize: textSize)),
-        ),
-        getIconIndicator(type, mappedVal),
-      ],
-    );
-  }
-
-  Widget getIconIndicator(StatsType type, int value) {
-    return Row(
-      children: <Icon>[
-        for (var i = 0; i < value; i++) ...[
-          Icon(statsIcon[type]),
-        ],
-      ],
-    );
-  }
 }
