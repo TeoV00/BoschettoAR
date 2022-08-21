@@ -54,15 +54,19 @@ class _MyAppState extends State<MyApp> {
         primaryColor: mainColor,
       ),
       home: FutureBuilder<void>(
-          initialData: null,
-          future: widget.dataManager.fetchOnlineData().timeout(
+          future: widget.dataManager
+              .fetchOnlineData()
+              .timeout(
                 const Duration(seconds: 5),
                 onTimeout: () => {isLoading = false, timeExpired = true},
+              )
+              .then(
+                (value) => isLoading = false,
               ),
           builder: (context, snapshot) {
             if (!isLoading) {
               return TabView(timeExpired: timeExpired);
-            } else if (isLoading == true || !snapshot.hasData) {
+            } else if (isLoading == true) {
               return const LoadingAppScreen();
             } else {
               throw Exception();
