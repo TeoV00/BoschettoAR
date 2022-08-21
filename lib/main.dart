@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:tree_ar/utils.dart';
 
 import 'firebase_options.dart';
@@ -41,50 +43,68 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // bool _isLoading = true;
-  bool _dataLoaded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    dataLoadFunction();
-  }
-
-  dataLoadFunction() async {
-    //if it takes more than 8 second load app without updated-fetched data
-    // await widget.dataManager
-    //     .fetchOnlineData()
-    //     .timeout(
-    //       const Duration(seconds: 8),
-    //       onTimeout: () => () {
-    //         setState(() {
-    //           _dataLoaded = false;
-    //         });
-    //       },
-    //     )
-    //     .then((value) => {
-    //           setState(() {
-    //             _dataLoaded = true;
-    //           })
-    //         });
-  }
-
   @override
   Widget build(BuildContext context) {
+    bool isLoading = true;
+    bool timeExpired = false;
+
     return MaterialApp(
       title: 'Unibo Tree AR',
       theme: ThemeData(
         primaryColor: mainColor,
       ),
-      home: TabView(dataLoadedCorrectly: _dataLoaded),
+      home: FutureBuilder<void>(
+          initialData: null,
+          future: widget.dataManager.fetchOnlineData().timeout(
+                const Duration(seconds: 5),
+                onTimeout: () => {isLoading = false, timeExpired = true},
+              ),
+          builder: (context, snapshot) {
+            if (!isLoading) {
+              return TabView(timeExpired: timeExpired);
+            } else if (isLoading == true || !snapshot.hasData) {
+              return const LoadingAppScreen();
+            } else {
+              throw Exception();
+              // return const Text('Caso non gestito ');
+            }
+          }),
+    );
+  }
+}
+
+class LoadingAppScreen extends StatelessWidget {
+  const LoadingAppScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CenteredWidget(
+          widgetToCenter: Column(
+        children: const [
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              'Boschetto Cesena - Unibo',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+          CircularProgressIndicator(
+            color: mainColor,
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Text('Aggiornamento dati locali'),
+          )
+        ],
+      )),
     );
   }
 }
 
 class TabView extends StatefulWidget {
-  final bool dataLoadedCorrectly;
-  const TabView({Key? key, required this.dataLoadedCorrectly})
-      : super(key: key);
+  final bool timeExpired;
+  const TabView({Key? key, required this.timeExpired}) : super(key: key);
 
   @override
   State<TabView> createState() => _TabViewState();
@@ -179,12 +199,13 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
   }
 
   @override
-  void afterFirstLayout(BuildContext context) {
-    // Calling the same function "after layout" to resolve the issue.
-    dev.log('data loaded: ${widget.dataLoadedCorrectly}');
-
-    if (!widget.dataLoadedCorrectly) {
-      showSnackBar(context, Text("bubu"), null);
+  FutureOr<void> afterFirstLayout(BuildContext context) {
+    if (widget.timeExpired) {
+      showSnackBar(
+          context,
+          const Text(
+              "Non è stato possibile aggironare i dati locali, controllare connessione ad internet"),
+          const Duration(seconds: 5));
     }
   }
 }
