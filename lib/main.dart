@@ -1,10 +1,9 @@
-import 'dart:ui';
-
 import 'package:tree_ar/utils.dart';
 
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'dart:developer';
+import 'dart:developer' as dev;
+import 'package:after_layout/after_layout.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,46 +21,70 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   DataManager dataManager = DataManager();
-  dataManager.fetchOnlineData();
 
   runApp(
     ChangeNotifierProvider(
       create: (context) => dataManager,
-      child: const MyApp(
-          // dataManager: dataManager,
-          ),
+      child: MyApp(
+        dataManager: dataManager,
+      ),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  // final DataManager dataManager;
-  const MyApp({
-    Key? key,
-    // required this.dataManager
-  }) : super(key: key);
+class MyApp extends StatefulWidget {
+  final DataManager dataManager;
+  const MyApp({Key? key, required this.dataManager}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // bool _isLoading = true;
+  bool _dataLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    dataLoadFunction();
+  }
+
+  dataLoadFunction() async {
+    //if it takes more than 8 second load app without updated-fetched data
+    // await widget.dataManager
+    //     .fetchOnlineData()
+    //     .timeout(
+    //       const Duration(seconds: 8),
+    //       onTimeout: () => () {
+    //         setState(() {
+    //           _dataLoaded = false;
+    //         });
+    //       },
+    //     )
+    //     .then((value) => {
+    //           setState(() {
+    //             _dataLoaded = true;
+    //           })
+    //         });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // log("Myapp build function");
-
-    //   dataManager.fetchOnlineData().timeout(
-    //       const Duration(milliseconds: 1000),
-    //     );
-
     return MaterialApp(
       title: 'Unibo Tree AR',
       theme: ThemeData(
         primaryColor: mainColor,
       ),
-      home: const TabView(),
+      home: TabView(dataLoadedCorrectly: _dataLoaded),
     );
   }
 }
 
 class TabView extends StatefulWidget {
-  const TabView({Key? key}) : super(key: key);
+  final bool dataLoadedCorrectly;
+  const TabView({Key? key, required this.dataLoadedCorrectly})
+      : super(key: key);
 
   @override
   State<TabView> createState() => _TabViewState();
@@ -69,7 +92,7 @@ class TabView extends StatefulWidget {
 
 /// State of TabView widget, manages gui and logic of bottom nav bar
 /// when tap on button it change selected view and show it
-class _TabViewState extends State<TabView> {
+class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
 //selected page index
   int _selectionIndex = 0; //deafultpage
   //Children screen of app
@@ -153,5 +176,15 @@ class _TabViewState extends State<TabView> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       backgroundColor: Colors.white,
     );
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    // Calling the same function "after layout" to resolve the issue.
+    dev.log('data loaded: ${widget.dataLoadedCorrectly}');
+
+    if (!widget.dataLoadedCorrectly) {
+      showSnackBar(context, Text("bubu"), null);
+    }
   }
 }

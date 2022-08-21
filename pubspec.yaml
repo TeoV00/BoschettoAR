@@ -45,6 +45,7 @@ dependencies:
   http: ^0.13.5
   collection: ^1.16.0
   firebase_database: ^9.1.0
+  after_layout: ^1.2.0
 
 dev_dependencies:
   flutter_test:
