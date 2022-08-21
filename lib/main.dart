@@ -53,6 +53,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: mainColor,
       ),
+      //loading app interface, quite like a splash screen
       home: FutureBuilder<void>(
           future: widget.dataManager
               .fetchOnlineData()
