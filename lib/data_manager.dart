@@ -79,7 +79,7 @@ class DataManager extends ChangeNotifier {
     return projFromWeb;
   }
 
-  Future<Map<StatsType, int>> getUpperBoundOfTree() {
+  Future<Map<StatsType, num>> getUpperBoundOfTree() {
 //  co2,
 //   paper,
 //   height,

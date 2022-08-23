@@ -174,13 +174,14 @@ class TreeDetailsBox extends StatelessWidget {
 
     return Consumer<DataManager>(
       builder: (context, dataManager, child) {
-        return FutureBuilder<Map<StatsType, int>>(
+        return FutureBuilder<Map<StatsType, num>>(
           future: dataManager.getUpperBoundOfTree(),
           builder: (context, snapshot) {
             List<Widget> childs;
 
             if (snapshot.hasData) {
               var bounds = snapshot.data!;
+
               childs = [
                 rowIndicator('Co2', StatsType.co2, tree.co2,
                     bounds[StatsType.co2] ?? 0, screenWidth),

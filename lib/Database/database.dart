@@ -144,21 +144,32 @@ class DatabaseProvider {
     return result;
   }
 
-  Future<Map<StatsType, int>> getUpperBoundTreeValues() async {
-    var db = await database;
-    var res = await db.query(treeTable);
-
-    log(res.toString());
+  Future<Map<StatsType, num>> getUpperBoundTreeValues() async {
+    num co2 = await _getTreeMaxValueOf('co2', treeTable);
+    num paper = await _getTreeMaxValueOf('paper', projectTable);
+    num height = await _getTreeMaxValueOf('height', treeTable);
+    num diameter = await _getTreeMaxValueOf('diameter', treeTable);
 
     return {
-      StatsType.co2: 0,
-      StatsType.paper: 0,
-      StatsType.height: 0,
-      StatsType.diameter: 0,
+      StatsType.co2: co2,
+      StatsType.paper: paper,
+      StatsType.height: height,
+      StatsType.diameter: diameter,
       StatsType.maxTemp: 0,
       StatsType.minTemp: 0,
       StatsType.water: 0
     };
+  }
+
+  Future<num> _getTreeMaxValueOf(String detailType, String table) async {
+    var db = await database;
+    var res = await db.rawQuery('SELECT max($detailType) FROM $table');
+
+    if (res.isNotEmpty) {
+      return num.parse(res.first.values.first.toString());
+    } else {
+      return 0;
+    }
   }
 
   Future<List<Tree>> getUserTrees(int userId) async {
