@@ -91,12 +91,9 @@ class TreeInfoSheet extends StatelessWidget {
           rowIndicator('Co2', StatsType.co2, tree.co2, 1000, screenWidth),
           rowIndicator(
               'Altezza (cm) ', StatsType.height, tree.height, 100, screenWidth),
-          rowIndicator('Tronco (cm)', StatsType.diameter, tree.diameter, 90,
-              screenWidth),
           rowIndicator('Acqua', StatsType.water, 30, 300, screenWidth),
         ]),
       ),
     );
   }
-
 }
