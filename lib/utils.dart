@@ -105,6 +105,8 @@ Widget rowIndicator(
   const double iconSizeDefault = 24;
   String labelValue = "$label: $value";
 
+  maxValue = maxValue <= 0 ? value + 1 : maxValue;
+
   if (value > maxValue) {
     value = maxValue;
   }
