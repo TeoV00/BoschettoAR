@@ -12,16 +12,15 @@ import 'package:ar_flutter_plugin/datatypes/hittest_result_types.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:ar_flutter_plugin/models/ar_anchor.dart';
 import 'package:tree_ar/utils.dart';
-import 'package:vector_math/vector_math_64.dart' show Vector3, Vector4;
-
-//normal stack of papaer for printing contains 500 papers
-// 3d model for ar Stack3 contains 12 stack of paper in a column
-// => 500 * 12 = 6000 * coeff
-const double paperCountInStack = 500000;
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 class ARWidget extends StatefulWidget {
   final double savedPaperProj;
-  const ARWidget({Key? key, required this.savedPaperProj}) : super(key: key);
+  final num paperCountInStack;
+
+  const ARWidget(
+      {Key? key, required this.savedPaperProj, required this.paperCountInStack})
+      : super(key: key);
 
   @override
   State<ARWidget> createState() => _ARWidgetState();
@@ -58,6 +57,7 @@ class _ARWidgetState extends State<ARWidget> {
 
   @override
   Widget build(BuildContext context) {
+    log("Min PAper in sstack: ${widget.paperCountInStack}");
     return arView;
   }
 
@@ -84,12 +84,12 @@ class _ARWidgetState extends State<ARWidget> {
   }
 
   Future<void> onNodeTapped(List<String> nodes) async {
-    double realPaperPerStack =
-        widget.savedPaperProj / (widget.savedPaperProj ~/ paperCountInStack);
+    double realPaperPerStack = widget.savedPaperProj /
+        (widget.savedPaperProj ~/ widget.paperCountInStack);
     Pair<int, String?> pairVal = getMultiplierString(realPaperPerStack.toInt());
 
     arSessionManager
-        .onError("Plico di ${pairVal.elem1} ${pairVal.elem2} folgi di carta");
+        .onError("Plico di ${pairVal.elem1} ${pairVal.elem1} folgi di carta");
   }
 
   Future<void> onPlaneOrPointTapped(
@@ -110,7 +110,7 @@ class _ARWidgetState extends State<ARWidget> {
         anchor,
         0.5,
         "assets/arModel/paper_stack/stack3/stack3.gltf",
-        widget.savedPaperProj ~/ paperCountInStack,
+        widget.savedPaperProj ~/ widget.paperCountInStack,
         0.05,
       );
 
@@ -148,12 +148,12 @@ class _ARWidgetState extends State<ARWidget> {
       double h = 0.02;
       double offset = 0.0;
 
-      for (int j = 0; j < yCount; j++) {
+      for (int j = 0; j <= yCount; j++) {
         double x = 0.0;
         y = _calcSpaceBtwObj(j, scale) + offset;
         offset += vMargin;
 
-        for (int i = 0; i < xCount; i++) {
+        for (int i = 0; i <= xCount; i++) {
           x = _calcSpaceBtwObj(i + 1, scale);
 
           var newNode = ARNode(

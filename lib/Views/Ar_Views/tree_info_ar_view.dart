@@ -5,10 +5,12 @@ import 'package:tree_ar/Views/Ar_Views/ar_view.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
 
+const defaultMinAmountPapers = 50000;
+
 class TreeViewInfoAr extends StatelessWidget {
   final Tree tree;
   final Project proj;
-  final Map<String, num> treeMaxValues;
+  final Map<StatsType, Pair<num, num>> treeMaxValues;
 
   const TreeViewInfoAr(
       {Key? key,
@@ -19,10 +21,18 @@ class TreeViewInfoAr extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    num lowerAmountPaper = defaultMinAmountPapers;
+    if (treeMaxValues[StatsType.paper] != null) {
+      lowerAmountPaper = treeMaxValues[StatsType.paper]!.elem1; //min
+    }
+
     return Scaffold(
       body: Stack(
         children: [
-          ARWidget(savedPaperProj: proj.paper), //AR view widget
+          ARWidget(
+            savedPaperProj: proj.paper,
+            paperCountInStack: lowerAmountPaper,
+          ), //AR view widget
           DraggableScrollableSheet(
             //Bottom Sheet that show scanned tree info
             minChildSize: 0.10,
@@ -47,7 +57,7 @@ class TreeInfoSheet extends StatelessWidget {
   final ScrollController controller;
   final Tree tree;
   final Project project;
-  final Map<String, num> treeMaxValues;
+  final Map<StatsType, Pair<num, num>> treeMaxValues;
 
   const TreeInfoSheet(
       {Key? key,
@@ -97,9 +107,11 @@ class TreeInfoSheet extends StatelessWidget {
             ),
           ),
           rowIndicator('Co2', StatsType.co2, tree.co2,
-              treeMaxValues[StatsType.co2] ?? 0, screenWidth),
-          rowIndicator('Altezza (cm) ', StatsType.height, tree.height,
-              treeMaxValues[StatsType.height] ?? 0, screenWidth),
+              treeMaxValues[StatsType.co2]!.elem2, screenWidth),
+          rowIndicator('Altezza (cm)', StatsType.height, tree.height,
+              treeMaxValues[StatsType.height]!.elem2, screenWidth),
+          rowIndicator('Carta', StatsType.paper, tree.height,
+              treeMaxValues[StatsType.paper]!.elem2, screenWidth),
         ]),
       ),
     );

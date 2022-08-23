@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tree_ar/constant_vars.dart';
+import 'package:tree_ar/utils.dart';
 import 'dataModel.dart';
 import 'database_constant.dart';
 
@@ -144,26 +145,42 @@ class DatabaseProvider {
     return result;
   }
 
-  Future<Map<StatsType, num>> getUpperBoundTreeValues() async {
-    num co2 = await _getTreeMaxValueOf('co2', treeTable);
-    num paper = await _getTreeMaxValueOf('paper', projectTable);
-    num height = await _getTreeMaxValueOf('height', treeTable);
-    num diameter = await _getTreeMaxValueOf('diameter', treeTable);
+  Future<Map<StatsType, Pair<num, num>>> getBoundariesTreeValues() async {
+    num maxCo2 = await _getTreeMaxValueOf('co2', treeTable);
+    num maxPaper = await _getTreeMaxValueOf('paper', projectTable);
+    num maxHeight = await _getTreeMaxValueOf('height', treeTable);
+    num maxDiameter = await _getTreeMaxValueOf('diameter', treeTable);
+
+    num minCo2 = await _getTreeMinValueOf('co2', treeTable);
+    num minPaper = await _getTreeMinValueOf('paper', projectTable);
+    num minHeight = await _getTreeMinValueOf('height', treeTable);
+    num minDiameter = await _getTreeMinValueOf('diameter', treeTable);
 
     return {
-      StatsType.co2: co2,
-      StatsType.paper: paper,
-      StatsType.height: height,
-      StatsType.diameter: diameter,
-      StatsType.maxTemp: 0,
-      StatsType.minTemp: 0,
-      StatsType.water: 0
+      StatsType.co2: Pair<num, num>(minCo2, maxCo2),
+      StatsType.paper: Pair<num, num>(minPaper, maxPaper),
+      StatsType.height: Pair<num, num>(minHeight, maxHeight),
+      StatsType.diameter: Pair<num, num>(minDiameter, maxDiameter),
+      StatsType.maxTemp: Pair<num, num>(0, 0),
+      StatsType.minTemp: Pair<num, num>(0, 0),
+      StatsType.water: Pair<num, num>(0, 0)
     };
   }
 
   Future<num> _getTreeMaxValueOf(String detailType, String table) async {
     var db = await database;
     var res = await db.rawQuery('SELECT max($detailType) FROM $table');
+
+    if (res.isNotEmpty) {
+      return num.parse(res.first.values.first.toString());
+    } else {
+      return 0;
+    }
+  }
+
+  Future<num> _getTreeMinValueOf(String detailType, String table) async {
+    var db = await database;
+    var res = await db.rawQuery('SELECT min($detailType) FROM $table');
 
     if (res.isNotEmpty) {
       return num.parse(res.first.values.first.toString());
