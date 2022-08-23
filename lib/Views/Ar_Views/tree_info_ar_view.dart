@@ -8,8 +8,13 @@ import 'package:tree_ar/utils.dart';
 class TreeViewInfoAr extends StatelessWidget {
   final Tree tree;
   final Project proj;
+  final Map<String, num> treeMaxValues;
 
-  const TreeViewInfoAr({Key? key, required this.tree, required this.proj})
+  const TreeViewInfoAr(
+      {Key? key,
+      required this.tree,
+      required this.proj,
+      required this.treeMaxValues})
       : super(key: key);
 
   @override
@@ -27,6 +32,7 @@ class TreeViewInfoAr extends StatelessWidget {
               return TreeInfoSheet(
                 tree: tree,
                 project: proj,
+                treeMaxValues: treeMaxValues,
                 controller: scrollController,
               );
             },
@@ -41,13 +47,15 @@ class TreeInfoSheet extends StatelessWidget {
   final ScrollController controller;
   final Tree tree;
   final Project project;
+  final Map<String, num> treeMaxValues;
 
-  const TreeInfoSheet({
-    Key? key,
-    required this.controller,
-    required this.tree,
-    required this.project,
-  }) : super(key: key);
+  const TreeInfoSheet(
+      {Key? key,
+      required this.controller,
+      required this.tree,
+      required this.project,
+      required this.treeMaxValues})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +96,10 @@ class TreeInfoSheet extends StatelessWidget {
               ),
             ),
           ),
-          rowIndicator('Co2', StatsType.co2, tree.co2, 1000, screenWidth),
-          rowIndicator(
-              'Altezza (cm) ', StatsType.height, tree.height, 100, screenWidth),
-          rowIndicator('Acqua', StatsType.water, 30, 300, screenWidth),
+          rowIndicator('Co2', StatsType.co2, tree.co2,
+              treeMaxValues[StatsType.co2] ?? 0, screenWidth),
+          rowIndicator('Altezza (cm) ', StatsType.height, tree.height,
+              treeMaxValues[StatsType.height] ?? 0, screenWidth),
         ]),
       ),
     );

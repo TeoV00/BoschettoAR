@@ -19,8 +19,6 @@ class ArViewLoader extends StatefulWidget {
 class _ArViewLoaderState extends State<ArViewLoader> {
   @override
   Widget build(BuildContext context) {
-    bool anyNewScan = false;
-
     return Scaffold(
       body: SafeArea(
         child: Stack(children: [
@@ -36,13 +34,13 @@ class _ArViewLoaderState extends State<ArViewLoader> {
                 //log("hasData: ${snapshot.hasData} \n data: ${snapshot.data ?? "null"}");
                 if (snapshot.hasData) {
                   //new tree has been scanned --> when go back refresh prev screen
-
-                  anyNewScan = true;
-
                   var data = snapshot.data!;
 
                   child = TreeViewInfoAr(
-                      tree: data[InfoType.tree], proj: data[InfoType.project]);
+                    tree: data[InfoType.tree],
+                    proj: data[InfoType.project],
+                    treeMaxValues: data[InfoType.other],
+                  );
                 } else if (!snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   child =
