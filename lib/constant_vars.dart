@@ -19,7 +19,7 @@ const iconsPath = "assets/icons";
 const imagePath = "assets/images";
 const defualtUserImageName = "userPlaceholder.jpeg";
 
-enum InfoType { tree, project }
+enum InfoType { tree, project, other }
 
 enum UserData { info, stats, badge }
 

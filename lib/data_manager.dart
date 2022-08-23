@@ -208,12 +208,13 @@ class DataManager extends ChangeNotifier {
     log("Albero: ${tree == null ? 'Null' : 'presente'}");
     log("Progetto: ${proj == null ? 'Null' : 'presente'}");
 
+    Map<StatsType, num> boundaries = await getUpperBoundOfTree();
     if (tree != null && proj != null) {
       if (isNewTree) {
         unlockUserBadge();
         addUserTree(treeId);
       }
-      return {InfoType.tree: tree, InfoType.project: proj};
+      return {InfoType.tree: tree, InfoType.project: proj, InfoType.other: boundaries};
     } else {
       //no data available and code is not valid
       return null;
