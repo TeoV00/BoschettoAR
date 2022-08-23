@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,17 +54,12 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     dateBirthContr = TextEditingController(text: usr.dateBirth);
     courseContr = TextEditingController(text: usr.course);
     dateImmatricContr = TextEditingController(text: usr.registrationDate);
+
+    formUser.userImageName = usr.userImageName;
   }
 
   @override
   Widget build(BuildContext context) {
-    String? imagePreview;
-    if (formUser.userImageName != null) {
-      imagePreview = formUser.userImageName!;
-    } else if (usr.userImageName != null) {
-      imagePreview = usr.userImageName!;
-    }
-
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -85,7 +81,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
             children: [
               Stack(
                 children: [
-                  getUserImageWidget(imagePreview),
+                  getUserImageWidget(formUser.userImageName),
                   Container(
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: mainColor),
@@ -93,10 +89,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       iconSize: 30,
                       icon: const Icon(Icons.edit),
                       tooltip: 'Modifica immagine',
-                      onPressed: () => {
-                        _changeUserImage(),
-                        showSnackBar(context, const Text(newPhotoMsg), null)
-                      },
+                      onPressed: () => {_changeUserImage()},
                     ),
                   )
                 ],

@@ -56,27 +56,19 @@ class CenteredWidget extends StatelessWidget {
 }
 
 Widget getUserImageWidget(String? userImgPath) {
-  Widget image = Image.asset(
-    "$imagePath/userPlaceholder.jpeg",
-    height: 90,
-    width: 90,
+  return ClipOval(
+    child: userImgPath != null && File(userImgPath).existsSync()
+        ? Image.file(
+            File(userImgPath),
+            height: 90,
+            width: 90,
+          )
+        : Image.asset(
+            "$imagePath/userPlaceholder.jpeg",
+            height: 90,
+            width: 90,
+          ),
   );
-
-  if (userImgPath != null) {
-    File(userImgPath).exists().then((exist) => {
-          if (exist)
-            {
-              log("Immagine esiste"),
-              image = Image.file(
-                File(userImgPath),
-                height: 90,
-                width: 90,
-              )
-            }
-        });
-  }
-  log("Immagine default");
-  return ClipOval(child: image);
 }
 
 Pair<int, String?> getMultiplierString(int value) {
@@ -109,7 +101,6 @@ Widget rowIndicator(
       "$label: ${multiplier != null ? '$value $multiplier' : value}";
 
   maxValue = maxValue <= 0 ? value + 1 : maxValue;
-  log('max vale: $maxValue');
 
   if (value > maxValue) {
     value = maxValue;
