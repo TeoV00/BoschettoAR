@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:tree_ar/constant_vars.dart';
 import 'dataModel.dart';
 import 'database_constant.dart';
 
@@ -141,6 +142,23 @@ class DatabaseProvider {
     );
     result = resultQuery.isNotEmpty ? User.fromMap(resultQuery.first) : null;
     return result;
+  }
+
+  Future<Map<StatsType, int>> getUpperBoundTreeValues() async {
+    var db = await database;
+    var res = await db.query(treeTable);
+
+    log(res.toString());
+
+    return {
+      StatsType.co2: 0,
+      StatsType.paper: 0,
+      StatsType.height: 0,
+      StatsType.diameter: 0,
+      StatsType.maxTemp: 0,
+      StatsType.minTemp: 0,
+      StatsType.water: 0
+    };
   }
 
   Future<List<Tree>> getUserTrees(int userId) async {
