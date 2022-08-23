@@ -79,7 +79,7 @@ class DataManager extends ChangeNotifier {
     return projFromWeb;
   }
 
-  Future<Map<StatsType, int>> getUpperBoundOfTree() async {
+  Future<Map<StatsType, int>> getUpperBoundOfTree() {
 //  co2,
 //   paper,
 //   height,
@@ -88,7 +88,7 @@ class DataManager extends ChangeNotifier {
 //   minTemp,
 //   water;
 
-    return await dbProvider.getUpperBoundTreeValues();
+    return dbProvider.getUpperBoundTreeValues();
   }
 
   ///get user info then when received, cache data to var then notify listeners
