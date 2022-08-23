@@ -28,6 +28,8 @@ enum StatsType {
   paper,
   height,
   diameter,
+  maxTemp,
+  minTemp,
   water;
 }
 
