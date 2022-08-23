@@ -98,14 +98,15 @@ const double textLabelDetailsSize = 15;
 Widget rowIndicator(
   String label,
   StatsType type,
-  int value,
-  int maxValue,
+  num value,
+  num maxValue,
   double screenWidth,
 ) {
   const double iconSizeDefault = 24;
   String labelValue = "$label: $value";
 
   maxValue = maxValue <= 0 ? value + 1 : maxValue;
+  log('max vale: $maxValue');
 
   if (value > maxValue) {
     value = maxValue;
@@ -113,7 +114,8 @@ Widget rowIndicator(
 
   double textPixel = textLabelDetailsSize * labelValue.length;
   int maxIconCount = ((screenWidth - textPixel) / iconSizeDefault).ceil();
-  int mappedVal = (maxIconCount * value) ~/ maxValue + 1;
+  int mappedVal = (maxIconCount * value) ~/ maxValue;
+  log(mappedVal.toString());
 
   return Row(
     children: [
