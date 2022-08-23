@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/dataModel.dart';
 import 'package:tree_ar/constant_vars.dart';
+import 'package:tree_ar/data_manager.dart';
 import 'package:tree_ar/utils.dart';
 
 class InfoItemPage extends StatelessWidget {
@@ -170,18 +172,40 @@ class TreeDetailsBox extends StatelessWidget {
     const double pad = 10;
     final double screenWidth = MediaQuery.of(context).size.width - (2 * pad);
 
-    return DetailsBox(
-      headerTitle: 'Dettagli',
-      childBox: Column(
-        children: [
-          rowIndicator('Co2', StatsType.co2, tree.co2, 1000, screenWidth),
-          rowIndicator(
-              'Altezza (cm) ', StatsType.height, tree.height, 100, screenWidth),
-          rowIndicator('Tronco (cm)', StatsType.diameter, tree.diameter, 90,
-              screenWidth),
-          rowIndicator('Acqua', StatsType.water, 30, 300, screenWidth),
-        ],
-      ),
+    return Consumer<DataManager>(
+      builder: (context, dataManager, child) {
+        return FutureBuilder<Map<StatsType, int>>(
+          future: dataManager.getUpperBoundOfTree(),
+          builder: (context, snapshot) {
+            List<Widget> childs;
+
+            if (snapshot.hasData) {
+              var bounds = snapshot.data!;
+              childs = [
+                rowIndicator('Co2', StatsType.co2, tree.co2,
+                    bounds[StatsType.co2] ?? 0, screenWidth),
+                rowIndicator('Altezza (cm) ', StatsType.height, tree.height,
+                    bounds[StatsType.height] ?? 0, screenWidth),
+                rowIndicator('Tronco (cm)', StatsType.diameter, tree.diameter,
+                    bounds[StatsType.diameter] ?? 0, screenWidth),
+              ];
+            } else {
+              childs = [
+                rowLabelValue('Co2', tree.co2.toString()),
+                rowLabelValue('Altezza (cm) ', tree.height.toString()),
+                rowLabelValue('Tronco (cm)', tree.diameter.toString()),
+              ];
+            }
+
+            return DetailsBox(
+              headerTitle: 'Dettagli',
+              childBox: Column(
+                children: childs,
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
