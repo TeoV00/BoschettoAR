@@ -103,7 +103,10 @@ Widget rowIndicator(
   double screenWidth,
 ) {
   const double iconSizeDefault = 24;
-  String labelValue = "$label: $value";
+  String? multiplier = getMultiplierString(value.toInt()).elem2;
+
+  String labelValue =
+      "$label: ${multiplier != null ? '$value $multiplier' : value}";
 
   maxValue = maxValue <= 0 ? value + 1 : maxValue;
   log('max vale: $maxValue');

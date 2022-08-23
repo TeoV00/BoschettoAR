@@ -110,7 +110,7 @@ class TreeInfoSheet extends StatelessWidget {
               treeMaxValues[StatsType.co2]!.elem2, screenWidth),
           rowIndicator('Altezza (cm)', StatsType.height, tree.height,
               treeMaxValues[StatsType.height]!.elem2, screenWidth),
-          rowIndicator('Carta', StatsType.paper, tree.height,
+          rowIndicator('Carta', StatsType.paper, project.paper,
               treeMaxValues[StatsType.paper]!.elem2, screenWidth),
         ]),
       ),
