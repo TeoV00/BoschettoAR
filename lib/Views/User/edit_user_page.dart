@@ -278,10 +278,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   }
 
   void _alertEditing(context) {
-    if (formUser
-        .toMap()
-        .entries
-        .any((e) => e.key != 'userId' && e.value != null)) {
+    log(formUser.toString());
+    if (formUser.toMap().entries.any((e) =>
+        e.key != 'userId' && e.key != 'userImageName' && e.value != null)) {
       showDialog<bool>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
