@@ -104,6 +104,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       textInputAction: TextInputAction.next,
                       controller: nameContr,
                       maxLines: 1,
+                      onTap: () => nameContr.clear(),
                       onChanged: (value) {
                         formUser.name = value;
                       },
@@ -119,6 +120,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       maxLines: 1,
                       textInputAction: TextInputAction.next,
                       controller: surnameContr,
+                      onTap: () => surnameContr.clear(),
                       onChanged: (newVal) {
                         formUser.surname = newVal;
                       },
@@ -167,6 +169,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       textInputAction: TextInputAction.next,
                       maxLines: 1,
                       controller: courseContr,
+                      onTap: () => courseContr.clear(),
                       onChanged: (newVal) {
                         formUser.course = newVal;
                       },
@@ -181,6 +184,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                     TextFormField(
                       textInputAction: TextInputAction.done,
                       controller: dateImmatricContr,
+                      onTap: () => dateImmatricContr.clear(),
                       onChanged: (newVal) {
                         formUser.registrationDate = newVal;
                       },
