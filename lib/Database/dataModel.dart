@@ -9,6 +9,7 @@ class Tree implements ListItemInterface, ObjToMapI {
   final int height;
   final int diameter;
   final int co2;
+  final String? imgUrl;
 
   Tree(
       {required this.treeId,
@@ -16,7 +17,8 @@ class Tree implements ListItemInterface, ObjToMapI {
       required this.descr,
       required this.height,
       required this.diameter,
-      required this.co2});
+      required this.co2,
+      this.imgUrl});
 
   @override
   Map<String, dynamic> toMap() {
@@ -27,6 +29,7 @@ class Tree implements ListItemInterface, ObjToMapI {
       'height': height,
       'diameter': diameter,
       'co2': co2,
+      'imgUrl': imgUrl
     };
   }
 
@@ -37,7 +40,8 @@ class Tree implements ListItemInterface, ObjToMapI {
         descr: treeDb['descr'],
         height: treeDb['height'],
         diameter: treeDb['diameter'],
-        co2: treeDb['co2']);
+        co2: treeDb['co2'],
+        imgUrl: treeDb['imgUrl']);
   }
 
   @override
@@ -139,12 +143,12 @@ class Badge implements ObjToMapI {
 
 class User implements ObjToMapI {
   final int userId;
-  String? name = 'Nome Assente';
-  String? surname = 'Cognome Assente';
-  String? dateBirth = 'xx/xx/xxxx';
-  String? course = 'Corso non impostato';
-  String? registrationDate = 'xxxx';
-  String? userImageName = '';
+  String? name;
+  String? surname;
+  String? dateBirth;
+  String? course;
+  String? registrationDate;
+  String? userImageName;
 
   User(
       {required this.userId,
