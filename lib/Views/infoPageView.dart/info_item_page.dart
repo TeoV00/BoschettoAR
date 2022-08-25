@@ -143,7 +143,24 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> childs = [
-      //TODO: here i coudl put image of project or tree
+      ClipOval(
+        child: Image.network(
+          item.getImageUrl()!,
+          height: imageSizeDetailPage,
+          width: imageSizeDetailPage,
+          errorBuilder: (context, error, stackTrace) {
+            log(error.toString());
+            return ClipOval(
+              child: Container(
+                width: imageSizeDetailPage,
+                height: imageSizeDetailPage,
+                color: grayColor,
+                child: const Icon(Icons.nature, size: 50),
+              ),
+            );
+          },
+        ),
+      ),
       DetailsBox(
         childBox: Text(
           item.getDescr(),

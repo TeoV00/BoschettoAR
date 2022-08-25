@@ -15,6 +15,8 @@ const double grassBottomBarHeight = 40;
 const double selectedFontSizeBottomNav = 15;
 const radiusCorner = Radius.circular(15);
 
+const double imageSizeDetailPage = 200;
+
 const iconsPath = "assets/icons";
 const imagePath = "assets/images";
 const defualtUserImageName = "userPlaceholder.jpeg";
