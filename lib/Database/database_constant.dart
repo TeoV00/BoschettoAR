@@ -65,7 +65,8 @@ List<String> creationQuery = [
      descr TEXT,
      height INTEGER,
      diameter INTEGER,
-     co2 INTEGER );''',
+     co2 INTEGER,
+     imgUrl TEXT);''',
 ];
 
 //List of badge
