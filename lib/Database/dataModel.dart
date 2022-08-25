@@ -1,7 +1,5 @@
 //File containing all classes that correspond to entities/tables in db
 
-import 'dart:developer';
-
 class Tree implements ListItemInterface, ObjToMapI {
   final int treeId;
   final String name;
@@ -52,6 +50,11 @@ class Tree implements ListItemInterface, ObjToMapI {
   @override
   String getTitle() {
     return name;
+  }
+
+  @override
+  String? getImageUrl() {
+    return imgUrl;
   }
 }
 
@@ -114,6 +117,12 @@ class Project implements ListItemInterface, ObjToMapI {
   @override
   String getTitle() {
     return projectName;
+  }
+
+  @override
+  String? getImageUrl() {
+    //TODO: someway get logo or image of project if exixst
+    return null;
   }
 }
 
@@ -248,6 +257,7 @@ class UserBadge implements ObjToMapI {
 abstract class ListItemInterface {
   String getTitle();
   String getDescr();
+  String? getImageUrl();
 }
 
 abstract class ObjToMapI {

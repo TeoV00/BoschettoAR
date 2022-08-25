@@ -290,7 +290,7 @@ class DatabaseProvider {
 
         for (var objMap in listObj) {
           batch.insert(tableName, objMap.toMap(),
-              conflictAlgorithm: ConflictAlgorithm.ignore);
+              conflictAlgorithm: ConflictAlgorithm.replace);
         }
         batch.commit(noResult: true);
       },

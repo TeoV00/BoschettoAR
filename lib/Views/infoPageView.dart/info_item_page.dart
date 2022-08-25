@@ -143,6 +143,7 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> childs = [
+      //TODO: here i coudl put image of project or tree
       DetailsBox(
         childBox: Text(
           item.getDescr(),
