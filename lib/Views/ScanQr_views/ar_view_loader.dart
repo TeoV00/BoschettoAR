@@ -78,7 +78,7 @@ class _ArViewLoaderState extends State<ArViewLoader> {
                 child: IconButton(
                   tooltip: "Nuova Scansione",
                   icon: const Icon(Icons.qr_code),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pop(context,'newscan'),
                 ),
               ),
             ],

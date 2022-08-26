@@ -66,9 +66,14 @@ class _ScanTreePageState extends State<ScanTreePage> {
                             controller.pauseCamera(),
                             Navigator.pop(context),
                           }
-                        else
+                        else if (answer == 'newscan')
                           {
                             controller.resumeCamera(),
+                          }
+                        else
+                          {
+                            controller.pauseCamera(),
+                            Navigator.pop(context),
                           }
                       },
                     );
