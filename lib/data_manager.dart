@@ -79,7 +79,7 @@ class DataManager extends ChangeNotifier {
     return projFromWeb;
   }
 
-  Future<Map<StatsType, Pair<num, num>>> getBoundsOfTreeVal() {
+  Future<Map<TreeSpecs, Pair<num, num>>> getBoundsOfTreeVal() {
 //  co2,
 //   paper,
 //   height,
@@ -210,7 +210,7 @@ class DataManager extends ChangeNotifier {
     log("Albero: ${tree == null ? 'Null' : 'presente'}");
     log("Progetto: ${proj == null ? 'Null' : 'presente'}");
 
-    Map<StatsType, Pair<num, num>> treeMaxValues = await getBoundsOfTreeVal();
+    Map<TreeSpecs, Pair<num, num>> treeMaxValues = await getBoundsOfTreeVal();
 
     if (tree != null && proj != null) {
       if (isNewTree) {

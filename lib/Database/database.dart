@@ -145,7 +145,7 @@ class DatabaseProvider {
     return result;
   }
 
-  Future<Map<StatsType, Pair<num, num>>> getBoundariesTreeValues() async {
+  Future<Map<TreeSpecs, Pair<num, num>>> getBoundariesTreeValues() async {
     num maxCo2 = await _getTreeMaxValueOf('co2', treeTable);
     num maxPaper = await _getTreeMaxValueOf('paper', projectTable);
     num maxHeight = await _getTreeMaxValueOf('height', treeTable);
@@ -157,13 +157,13 @@ class DatabaseProvider {
     num minDiameter = await _getTreeMinValueOf('diameter', treeTable);
 
     return {
-      StatsType.co2: Pair<num, num>(minCo2, maxCo2),
-      StatsType.paper: Pair<num, num>(minPaper, maxPaper),
-      StatsType.height: Pair<num, num>(minHeight, maxHeight),
-      StatsType.diameter: Pair<num, num>(minDiameter, maxDiameter),
-      StatsType.maxTemp: Pair<num, num>(0, 0),
-      StatsType.minTemp: Pair<num, num>(0, 0),
-      StatsType.water: Pair<num, num>(0, 0)
+      TreeSpecs.co2: Pair<num, num>(minCo2, maxCo2),
+      TreeSpecs.paper: Pair<num, num>(minPaper, maxPaper),
+      TreeSpecs.height: Pair<num, num>(minHeight, maxHeight),
+      TreeSpecs.diameter: Pair<num, num>(minDiameter, maxDiameter),
+      TreeSpecs.maxTemp: Pair<num, num>(0, 0),
+      TreeSpecs.minTemp: Pair<num, num>(0, 0),
+      TreeSpecs.water: Pair<num, num>(0, 0)
     };
   }
 

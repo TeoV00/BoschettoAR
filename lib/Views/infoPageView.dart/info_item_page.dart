@@ -202,7 +202,7 @@ class TreeDetailsBox extends StatelessWidget {
 
     return Consumer<DataManager>(
       builder: (context, dataManager, child) {
-        return FutureBuilder<Map<StatsType, Pair<num, num>>>(
+        return FutureBuilder<Map<TreeSpecs, Pair<num, num>>>(
           future: dataManager.getBoundsOfTreeVal(),
           builder: (context, snapshot) {
             List<Widget> childs;
@@ -211,12 +211,12 @@ class TreeDetailsBox extends StatelessWidget {
               var bounds = snapshot.data!;
 
               childs = [
-                rowIndicator('Co2', StatsType.co2, tree.co2,
-                    bounds[StatsType.co2]!.elem2, screenWidth),
-                rowIndicator('Altezza (cm) ', StatsType.height, tree.height,
-                    bounds[StatsType.height]!.elem2, screenWidth),
-                rowIndicator('Tronco (cm)', StatsType.diameter, tree.diameter,
-                    bounds[StatsType.diameter]!.elem2, screenWidth),
+                rowIndicator('Co2', TreeSpecs.co2, tree.co2,
+                    bounds[TreeSpecs.co2]!.elem2, screenWidth),
+                rowIndicator('Altezza (cm) ', TreeSpecs.height, tree.height,
+                    bounds[TreeSpecs.height]!.elem2, screenWidth),
+                rowIndicator('Tronco (cm)', TreeSpecs.diameter, tree.diameter,
+                    bounds[TreeSpecs.diameter]!.elem2, screenWidth),
               ];
             } else {
               childs = [

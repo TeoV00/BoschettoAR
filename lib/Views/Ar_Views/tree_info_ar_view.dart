@@ -10,7 +10,7 @@ const defaultMinAmountPapers = 50000;
 class TreeViewInfoAr extends StatelessWidget {
   final Tree tree;
   final Project proj;
-  final Map<StatsType, Pair<num, num>> treeMaxValues;
+  final Map<TreeSpecs, Pair<num, num>> treeMaxValues;
 
   const TreeViewInfoAr(
       {Key? key,
@@ -22,8 +22,8 @@ class TreeViewInfoAr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     num lowerAmountPaper = defaultMinAmountPapers;
-    if (treeMaxValues[StatsType.paper] != null) {
-      lowerAmountPaper = treeMaxValues[StatsType.paper]!.elem1; //min
+    if (treeMaxValues[TreeSpecs.paper] != null) {
+      lowerAmountPaper = treeMaxValues[TreeSpecs.paper]!.elem1; //min
     }
 
     return Scaffold(
@@ -57,7 +57,7 @@ class TreeInfoSheet extends StatelessWidget {
   final ScrollController controller;
   final Tree tree;
   final Project project;
-  final Map<StatsType, Pair<num, num>> treeMaxValues;
+  final Map<TreeSpecs, Pair<num, num>> treeMaxValues;
 
   const TreeInfoSheet(
       {Key? key,
@@ -106,12 +106,12 @@ class TreeInfoSheet extends StatelessWidget {
               ),
             ),
           ),
-          rowIndicator('Co2', StatsType.co2, tree.co2,
-              treeMaxValues[StatsType.co2]!.elem2, screenWidth),
-          rowIndicator('Altezza (cm)', StatsType.height, tree.height,
-              treeMaxValues[StatsType.height]!.elem2, screenWidth),
-          rowIndicator('Carta', StatsType.paper, project.paper,
-              treeMaxValues[StatsType.paper]!.elem2, screenWidth),
+          rowIndicator('Co2', TreeSpecs.co2, tree.co2,
+              treeMaxValues[TreeSpecs.co2]!.elem2, screenWidth),
+          rowIndicator('Altezza (cm)', TreeSpecs.height, tree.height,
+              treeMaxValues[TreeSpecs.height]!.elem2, screenWidth),
+          rowIndicator('Carta', TreeSpecs.paper, project.paper,
+              treeMaxValues[TreeSpecs.paper]!.elem2, screenWidth),
         ]),
       ),
     );

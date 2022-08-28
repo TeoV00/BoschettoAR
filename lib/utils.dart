@@ -89,7 +89,7 @@ const double textLabelDetailsSize = 15;
 
 Widget rowIndicator(
   String label,
-  StatsType type,
+  TreeSpecs type,
   num value,
   num maxValue,
   double screenWidth,
@@ -123,7 +123,7 @@ Widget rowIndicator(
   );
 }
 
-Widget getIconIndicator(StatsType type, int value) {
+Widget getIconIndicator(TreeSpecs type, int value) {
   return Row(
     children: <Icon>[
       for (var i = 0; i < value; i++) ...[

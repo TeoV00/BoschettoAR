@@ -25,7 +25,7 @@ enum InfoType { tree, project, other }
 
 enum UserData { info, stats, badge }
 
-enum StatsType {
+enum TreeSpecs {
   co2,
   paper,
   height,
@@ -35,12 +35,12 @@ enum StatsType {
   water;
 }
 
-Map<StatsType, IconData> statsIcon = {
-  StatsType.paper: Icons.description,
-  StatsType.co2: Icons.local_gas_station,
-  StatsType.height: Icons.straighten,
-  StatsType.water: Icons.water_drop,
-  StatsType.diameter: Icons.circle
+Map<TreeSpecs, IconData> statsIcon = {
+  TreeSpecs.paper: Icons.description,
+  TreeSpecs.co2: Icons.local_gas_station,
+  TreeSpecs.height: Icons.straighten,
+  TreeSpecs.water: Icons.water_drop,
+  TreeSpecs.diameter: Icons.circle
 };
 
 // Edit user info Form style

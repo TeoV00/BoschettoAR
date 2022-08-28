@@ -79,7 +79,7 @@ class _TreeProgressBar extends State<TreeProgessBar> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(bottom: 5),
+          padding: const EdgeInsets.only(bottom: 5),
           child: Text("${widget.progressPerc}%",
               style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
