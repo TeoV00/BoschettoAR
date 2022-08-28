@@ -26,6 +26,7 @@ class InfoItemPage extends StatelessWidget {
 
       itemDetailsView = ScrollableListOfDetailsBoxes(
         item: proj,
+        itemType: InfoType.project,
         childrenSections: [ProjectDetailsBox(proj: proj)],
       );
     } else if (item.runtimeType == Tree) {
@@ -33,6 +34,7 @@ class InfoItemPage extends StatelessWidget {
       titlePage = tree.name;
       itemDetailsView = ScrollableListOfDetailsBoxes(
         item: tree,
+        itemType: InfoType.tree,
         childrenSections: [TreeDetailsBox(tree: tree)],
       );
     }
@@ -134,10 +136,14 @@ class DetailsBox extends StatelessWidget {
 
 class ScrollableListOfDetailsBoxes extends StatelessWidget {
   final ListItemInterface item;
+  final InfoType itemType;
   final List<Widget> childrenSections;
 
   const ScrollableListOfDetailsBoxes(
-      {Key? key, required this.item, required this.childrenSections})
+      {Key? key,
+      required this.item,
+      required this.itemType,
+      required this.childrenSections})
       : super(key: key);
 
   @override
@@ -145,7 +151,7 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
     List<Widget> childs = [
       ClipOval(
         child: Image.network(
-          item.getImageUrl()!,
+          item.getImageUrl() ?? '',
           height: imageSizeDetailPage,
           width: imageSizeDetailPage,
           errorBuilder: (context, error, stackTrace) {
@@ -155,7 +161,11 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
                 width: imageSizeDetailPage,
                 height: imageSizeDetailPage,
                 color: grayColor,
-                child: const Icon(Icons.nature, size: 50),
+                child: Icon(
+                    itemType == InfoType.tree
+                        ? Icons.nature
+                        : Icons.construction,
+                    size: 50),
               ),
             );
           },
