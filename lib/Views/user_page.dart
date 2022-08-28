@@ -23,7 +23,7 @@ class UserPage extends StatelessWidget {
               Row(
                 children: const [UserInfoBanner()],
               ),
-              StatisticsAndBadges(),
+              const StatisticsAndBadges(),
               const ImagesReferencesCopyright(),
             ],
           ),
@@ -100,13 +100,11 @@ class UserDataViews extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             UserStatisticCounter(
-                type: "Altezza", amount: stats.co2, unit: "cm"),
+                type: "Altezza Tot.", amount: stats.totalHeight, unit: "cm"),
             UserStatisticCounter(
-                type: "Acqua", amount: stats.co2, unit: "litri"),
+                type: "Elettricità", amount: stats.kiloWattHours, unit: "KWh"),
             UserStatisticCounter(
-                type: "Anni medi", amount: stats.co2, unit: "anni"),
-            UserStatisticCounter(
-                type: "Petrolio", amount: stats.co2, unit: "barili"),
+                type: "Petrolio", amount: stats.petrolLiter, unit: "barili"),
           ],
         ),
         const Divider(

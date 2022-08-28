@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -111,16 +112,45 @@ class DataManager extends ChangeNotifier {
     };
   }
 
-  Future<Statistics> _calculateStats() async {
-    int totCo2 = 0;
+  num _getTotalOn(reductionAttribute, List<dynamic> listElems) {
+    num total = 0;
+
     try {
-      List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
-      totCo2 = trees
-          .map((e) => e.co2)
-          .reduce((co2Total, treeCo2) => co2Total += treeCo2);
+      total = listElems
+          .map(reductionAttribute)
+          .reduce((localTotal, elemValue) => localTotal += elemValue);
     } catch (e) {
-      totCo2 = 0;
+      total = 0;
     }
+    return total;
+  }
+
+  Future<Statistics> _calculateStats() async {
+    // x = 429 petrol litri/1000 Kg = 0,429 Litri Petrolio/Kg
+    // from Kg Co2 --> petrol oil liters
+    const double literPerKgOil = 0.429;
+
+    // //from petrol liters --> giga Joule energy --> GWh
+    // const double gigJoulePerLiterOil = 0.03501030928;
+    // const double gigWattHourPerGigJoule = 0.000277778;
+
+    const double gigWattHourPerLiterOil = 0.000009725093691;
+
+    // barels/liter petrolio = 0,006293706294 Barrels/liter
+    //from liters petrol oil --> petrol oil barrels
+    const double barrelsPerLiterOil = 0.006293706294;
+
+    List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
+
+    int totCo2 = _getTotalOn((e) => (e as Tree).co2, trees).toInt();
+    int totalHeight = _getTotalOn((e) => (e as Tree).height, trees).toInt();
+
+    double petrolOilLiter = totCo2 * literPerKgOil;
+
+    int kiloWattHours =
+        (petrolOilLiter * gigWattHourPerLiterOil * math.pow(10, 6)).toInt();
+
+    int petrolBarrels = (petrolOilLiter * barrelsPerLiterOil).toInt();
 
     var userProject = await dbProvider.getUserProjects(currentUserId);
     int papers = userProject.isNotEmpty
@@ -129,12 +159,19 @@ class DataManager extends ChangeNotifier {
 
     var unlockedBadge = await dbProvider.getUserBadges(currentUserId);
 
-    double pogressPerc = double.parse(
+    double progressPerc = double.parse(
         ((unlockedBadge.length / appBadges.length) * 100)
             .toString()
             .substring(0, 5));
 
-    return Statistics(papers, totCo2, pogressPerc);
+    return Statistics(
+      papers,
+      totCo2,
+      totalHeight,
+      petrolBarrels,
+      kiloWattHours,
+      progressPerc,
+    );
   }
 
   ///update current logged-in user's info
