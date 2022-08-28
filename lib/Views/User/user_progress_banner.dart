@@ -59,7 +59,7 @@ class _TreeProgressBar extends State<TreeProgessBar> {
 
   @override
   Widget build(BuildContext context) {
-    final double percValue = (widget.progressPerc / 100) * treeHeight;
+    final double percValue = ((widget.progressPerc / 100) / treeHeight) * 100;
 
     return Stack(
       alignment: Alignment.center,
@@ -78,8 +78,12 @@ class _TreeProgressBar extends State<TreeProgessBar> {
             ),
           ),
         ),
-        Text("${widget.progressPerc} %",
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+        Padding(
+          padding: EdgeInsets.only(bottom: 5),
+          child: Text("${widget.progressPerc}%",
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+        ),
         Image.asset(
           '$imagePath/progressBarTree.png',
           alignment: Alignment.bottomCenter,
