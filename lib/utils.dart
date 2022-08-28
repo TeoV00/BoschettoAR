@@ -23,9 +23,9 @@ class Pair<T, R> {
 class Statistics {
   int papers;
   int co2;
-  double progress;
+  double progressPerc;
 
-  Statistics(this.papers, this.co2, this.progress);
+  Statistics(this.papers, this.co2, this.progressPerc);
 }
 
 void showSnackBar(BuildContext context, Widget content, Duration? duration) {
