@@ -128,12 +128,11 @@ class DataManager extends ChangeNotifier {
         : 0;
 
     var unlockedBadge = await dbProvider.getUserBadges(currentUserId);
-    //TODO: fix it , if result of division has first decimal = 0 (eg. 0.07) it
-    //when i multiply per 100 it became 7 --> '0.'+ 7  -> 0.7 = 70% != 7%
-    log(((unlockedBadge.length / appBadges.length) * 100)
-        .toString()
-        .substring(0, 5));
-    double pogressPerc = double.parse('0');
+
+    double pogressPerc = double.parse(
+        ((unlockedBadge.length / appBadges.length) * 100)
+            .toString()
+            .substring(0, 5));
 
     return Statistics(papers, totCo2, pogressPerc);
   }
