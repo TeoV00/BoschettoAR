@@ -88,7 +88,7 @@ class UserDataViews extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             UserStatisticCounter(type: "Co2", amount: stats.co2, unit: "Kg"),
-            TreeProgessBar(progress: stats.progress),
+            TreeProgessBar(progressPerc: stats.progressPerc),
             UserStatisticCounter(
                 type: "Carta", amount: stats.papers, unit: "Fogli"),
           ],

@@ -42,12 +42,12 @@ class UserStatisticCounter extends StatelessWidget {
       ],
     );
   }
-
 }
 
 class TreeProgessBar extends StatefulWidget {
-  final double progress;
-  const TreeProgessBar({Key? key, required this.progress}) : super(key: key);
+  final double progressPerc;
+  const TreeProgessBar({Key? key, required this.progressPerc})
+      : super(key: key);
 
   @override
   State<TreeProgessBar> createState() => _TreeProgressBar();
@@ -59,7 +59,7 @@ class _TreeProgressBar extends State<TreeProgessBar> {
 
   @override
   Widget build(BuildContext context) {
-    final double percValue = (widget.progress / 100) * treeHeight;
+    final double percValue = (widget.progressPerc / 100) * treeHeight;
 
     return Stack(
       alignment: Alignment.center,
@@ -78,7 +78,7 @@ class _TreeProgressBar extends State<TreeProgessBar> {
             ),
           ),
         ),
-        Text("${(widget.progress * 100).truncate()} %",
+        Text("${widget.progressPerc} %",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
         Image.asset(
           '$imagePath/progressBarTree.png',
