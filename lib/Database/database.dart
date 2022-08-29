@@ -156,6 +156,8 @@ class DatabaseProvider {
     num minHeight = await _getTreeMinValueOf('height', treeTable);
     num minDiameter = await _getTreeMinValueOf('diameter', treeTable);
 
+    num totPaper = await _getTotalSavedPaper();
+
     return {
       TreeSpecs.co2: Pair<num, num>(minCo2, maxCo2),
       TreeSpecs.paper: Pair<num, num>(minPaper, maxPaper),
@@ -163,8 +165,15 @@ class DatabaseProvider {
       TreeSpecs.diameter: Pair<num, num>(minDiameter, maxDiameter),
       TreeSpecs.maxTemp: Pair<num, num>(0, 0),
       TreeSpecs.minTemp: Pair<num, num>(0, 0),
-      TreeSpecs.water: Pair<num, num>(0, 0)
+      TreeSpecs.water: Pair<num, num>(0, 0),
+      TreeSpecs.totalPaper: Pair<num, num>(totPaper, totPaper),
     };
+  }
+
+  Future<num> _getTotalSavedPaper() async {
+    var db = await database;
+    var res = await db.rawQuery('SELECT sum(paper) as sum FROM $projectTable');
+    return res.isNotEmpty ? res.first.values.first as num : 0;
   }
 
   Future<num> _getTreeMaxValueOf(String detailType, String table) async {

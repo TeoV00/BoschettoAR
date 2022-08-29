@@ -28,6 +28,7 @@ enum UserData { info, stats, badge }
 enum TreeSpecs {
   co2,
   paper,
+  totalPaper,
   height,
   diameter,
   maxTemp,
