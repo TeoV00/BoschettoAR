@@ -80,39 +80,59 @@ class TreeInfoSheet extends StatelessWidget {
           color: secondColor),
       child: Padding(
         padding: const EdgeInsets.only(top: pad, left: pad, right: pad),
-        child: ListView(controller: controller, children: [
-          Text(nameTree,
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold)),
-          Text(tree.descr),
-          const Divider(thickness: 1),
-          Container(
-            margin: const EdgeInsets.only(bottom: 5),
-            child: Text("Progetto: ${project.projectName}",
+        child: ListView(
+          controller: controller,
+          children: [
+            Text(nameTree,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold)),
+            Text(tree.descr),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Column(
+                children: [
+                  rowIndicator('Co2 (Kg/Anno)', TreeSpecs.co2, tree.co2,
+                      treeMaxValues[TreeSpecs.co2]!.elem2, screenWidth),
+                  rowIndicator('Altezza (metri)', TreeSpecs.height, tree.height,
+                      treeMaxValues[TreeSpecs.height]!.elem2, screenWidth),
+                ],
+              ),
+            ),
+            const Divider(thickness: 1),
+            Container(
+              margin: const EdgeInsets.only(bottom: 5),
+              child: Text(
+                "Progetto: ${project.projectName}",
                 style: const TextStyle(
                   color: Colors.black54,
                   fontSize: 18,
-                )),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            child: Text(
-              project.descr,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 15,
+                ),
               ),
             ),
-          ),
-          rowIndicator('Co2', TreeSpecs.co2, tree.co2,
-              treeMaxValues[TreeSpecs.co2]!.elem2, screenWidth),
-          rowIndicator('Altezza (cm)', TreeSpecs.height, tree.height,
-              treeMaxValues[TreeSpecs.height]!.elem2, screenWidth),
-          rowIndicator('Carta', TreeSpecs.paper, project.paper,
-              treeMaxValues[TreeSpecs.paper]!.elem2, screenWidth),
-        ]),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 5),
+              child: Text(
+                project.descr,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Column(
+                children: [
+                  rowLabelValue('Co2 Evitata', project.co2Saved.toString()),
+                  rowLabelValue(
+                      'Fogli di carta risparmiati', project.paper.toString()),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

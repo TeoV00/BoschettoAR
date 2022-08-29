@@ -211,7 +211,7 @@ class TreeDetailsBox extends StatelessWidget {
               var bounds = snapshot.data!;
 
               childs = [
-                rowIndicator('Co2', TreeSpecs.co2, tree.co2,
+                rowIndicator('Co2/Anno', TreeSpecs.co2, tree.co2,
                     bounds[TreeSpecs.co2]!.elem2, screenWidth),
                 rowIndicator('Altezza (cm) ', TreeSpecs.height, tree.height,
                     bounds[TreeSpecs.height]!.elem2, screenWidth),
@@ -220,7 +220,7 @@ class TreeDetailsBox extends StatelessWidget {
               ];
             } else {
               childs = [
-                rowLabelValue('Co2', tree.co2.toString()),
+                rowLabelValue('Co2/Anno', tree.co2.toString()),
                 rowLabelValue('Altezza (cm) ', tree.height.toString()),
                 rowLabelValue('Tronco (cm)', tree.diameter.toString()),
               ];
