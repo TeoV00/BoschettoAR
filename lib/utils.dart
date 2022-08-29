@@ -113,7 +113,6 @@ Widget rowIndicator(
   double textPixel = textLabelDetailsSize * labelValue.length;
   int maxIconCount = ((screenWidth - textPixel) / iconSizeDefault).ceil();
   int mappedVal = (maxIconCount * value) ~/ maxValue;
-  log(mappedVal.toString());
 
   return Row(
     children: [
