@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
@@ -16,11 +17,15 @@ import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 class ARWidget extends StatefulWidget {
   final double savedPaperProj;
-  final num paperCountInStack;
+  final num maxinumPaperValue;
+  final num totalSavedPaper;
 
-  const ARWidget(
-      {Key? key, required this.savedPaperProj, required this.paperCountInStack})
-      : super(key: key);
+  const ARWidget({
+    Key? key,
+    required this.savedPaperProj,
+    required this.maxinumPaperValue,
+    required this.totalSavedPaper,
+  }) : super(key: key);
 
   @override
   State<ARWidget> createState() => _ARWidgetState();
@@ -57,7 +62,6 @@ class _ARWidgetState extends State<ARWidget> {
 
   @override
   Widget build(BuildContext context) {
-    log("Min PAper in sstack: ${widget.paperCountInStack}");
     return arView;
   }
 
@@ -84,12 +88,11 @@ class _ARWidgetState extends State<ARWidget> {
   }
 
   Future<void> onNodeTapped(List<String> nodes) async {
-    double realPaperPerStack = widget.savedPaperProj /
-        (widget.savedPaperProj ~/ widget.paperCountInStack);
-    Pair<int, String?> pairVal = getMultiplierString(realPaperPerStack.toInt());
+    Pair<int, String?> pairVal =
+        getMultiplierString(widget.maxinumPaperValue.toInt());
 
     arSessionManager
-        .onError("Plico di ${pairVal.elem1} ${pairVal.elem1} folgi di carta");
+        .onError("Plico di ${pairVal.elem1} ${pairVal.elem2} fogli di carta");
   }
 
   Future<void> onPlaneOrPointTapped(
@@ -105,13 +108,18 @@ class _ARWidgetState extends State<ARWidget> {
 
       var anchor =
           ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
+      double mappedCount = widget.maxinumPaperValue *
+          widget.savedPaperProj /
+          widget.totalSavedPaper;
+
+      log('ObjCount to show mapped to [0,20]:\n$mappedCount');
 
       _addNodesToARWorld(
         anchor,
-        0.5,
+        Platform.isIOS ? 0.5 : 1.5, //scale
         "assets/arModel/paper_stack/stack3/stack3.gltf",
-        widget.savedPaperProj ~/ widget.paperCountInStack,
-        0.05,
+        mappedCount.toInt(),
+        0.05, // vertical margin between objects
       );
 
       // _addNodesToARWorld(
@@ -133,12 +141,10 @@ class _ARWidgetState extends State<ARWidget> {
     bool? didAddAnchor = (await arAnchorManager.addAnchor(anchor));
 
     if (didAddAnchor != null && didAddAnchor) {
-      log("ancora aggiunta");
+      log("ancora aggiunta: objamount $objAmount");
 
       int yCount = objAmount ~/ 2;
       int xCount = objAmount % 2 == 0 ? yCount : yCount + 1;
-
-      log(xCount.toString());
 
       if (xCount == 0) {
         xCount = 1;
