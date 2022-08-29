@@ -14,6 +14,8 @@ import 'utils.dart';
 import 'package:collection/collection.dart' as coll;
 import 'package:http/http.dart' as http;
 
+const double weightPaperKg = 0.005;
+
 class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
   FirebaseProvider firebaseProvider = FirebaseProvider();
@@ -45,6 +47,9 @@ class DataManager extends ChangeNotifier {
         int? idOfTree = treeIdByProjName[elem['projectName']];
 
         if (idOfTree != null) {
+          if (elem['co2risparmiata'] == 0) {
+            elem['co2risparmiata'] = elem['carta'] * weightPaperKg;
+          }
           projs.add(
             Project(
                 projectId: idOfTree,
