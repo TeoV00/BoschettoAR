@@ -39,7 +39,7 @@ class _ArViewLoaderState extends State<ArViewLoader> {
                   child = TreeViewInfoAr(
                     tree: data[InfoType.tree],
                     proj: data[InfoType.project],
-                    treeMaxValues: data[InfoType.other],
+                    rangeInfoValues: data[InfoType.other],
                   );
                 } else if (!snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
@@ -78,7 +78,7 @@ class _ArViewLoaderState extends State<ArViewLoader> {
                 child: IconButton(
                   tooltip: "Nuova Scansione",
                   icon: const Icon(Icons.qr_code),
-                  onPressed: () => Navigator.pop(context,'newscan'),
+                  onPressed: () => Navigator.pop(context, 'newscan'),
                 ),
               ),
             ],
