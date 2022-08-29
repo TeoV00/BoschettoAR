@@ -10,29 +10,32 @@ const defaultMinAmountPapers = 50000;
 class TreeViewInfoAr extends StatelessWidget {
   final Tree tree;
   final Project proj;
-  final Map<TreeSpecs, Pair<num, num>> treeMaxValues;
+  final Map<TreeSpecs, Pair<num, num>> rangeInfoValues;
 
   const TreeViewInfoAr(
       {Key? key,
       required this.tree,
       required this.proj,
-      required this.treeMaxValues})
+      required this.rangeInfoValues})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    num lowerAmountPaper = defaultMinAmountPapers;
-    if (treeMaxValues[TreeSpecs.paper] != null) {
-      lowerAmountPaper = treeMaxValues[TreeSpecs.paper]!.elem1; //min
+    num maxSavedPaper = defaultMinAmountPapers;
+    num totalSavedPaper = defaultMinAmountPapers;
+
+    if (rangeInfoValues[TreeSpecs.paper] != null) {
+      maxSavedPaper = rangeInfoValues[TreeSpecs.paper]!.elem2; //elem2 is max
+      totalSavedPaper = rangeInfoValues[TreeSpecs.totalPaper]!.elem1;
     }
 
     return Scaffold(
       body: Stack(
         children: [
           ARWidget(
-            savedPaperProj: proj.paper,
-            paperCountInStack: lowerAmountPaper,
-          ), //AR view widget
+              savedPaperProj: proj.paper,
+              maxinumPaperValue: maxSavedPaper,
+              totalSavedPaper: totalSavedPaper), //AR view widget
           DraggableScrollableSheet(
             //Bottom Sheet that show scanned tree info
             minChildSize: 0.10,
@@ -42,7 +45,7 @@ class TreeViewInfoAr extends StatelessWidget {
               return TreeInfoSheet(
                 tree: tree,
                 project: proj,
-                treeMaxValues: treeMaxValues,
+                treeMaxValues: rangeInfoValues,
                 controller: scrollController,
               );
             },
