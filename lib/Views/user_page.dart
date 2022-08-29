@@ -101,7 +101,7 @@ class UserDataViews extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             UserStatisticCounter(
-                type: "Altezza Tot.", amount: stats.totalHeight, unit: "cm"),
+                type: "Altezza Tot.", amount: stats.totalHeight, unit: "metri"),
             UserStatisticCounter(
                 type: "Elettricità", amount: stats.kiloWattHours, unit: "KWh"),
             UserStatisticCounter(

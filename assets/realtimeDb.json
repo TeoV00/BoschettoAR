@@ -16,25 +16,35 @@
       "projName": "Contratti Di Docenza",
       "treeId": 4
     }
+    ,
+    {
+      "projName": "Contratti Per RTD",
+      "treeId": 5
+    }
+    ,
+    {
+      "projName": "Unatantum",
+      "treeId": 6
+    }
   ],
   "trees": [
     {
       "co2": 190,
       "descr": "L'acero riccio o platanoide (Acer platanoides L.), appartenente alla famiglia delle Sapindaceae, è una pianta spontanea in molti boschi di latifoglie umidi e riparati. Si accompagna ad altri aceri, specialmente Acer pseudoplatanus (entrambi hanno portamenti simili), nelle forre mesofile centro-settentrionali. Viene spesso coltivato a scopo ornamentale.",
       "diameter": 0,
-      "height": 25,
+      "height": 20,
       "name": "Acero Riccio",
       "treeId": 1,
-      "imgUrl" : ""
+      "imgUrl" : "https://opb-img.plantbook.io/acer%20platanoides.jpg"
     },
     {
       "co2": 155,
       "descr": "Betula L., 1753 è un genere di piante della famiglia delle Betulacee,[1] genericamente note come betulle.  Il genere comprende oltre 40 specie originarie dell'emisfero boreale.",
       "diameter": 0,
       "height": 30,
-      "name": "Betulla verrucosa",
+      "name": "Betulla",
       "treeId": 2,
-      "imgUrl" : ""
+      "imgUrl" : "https://opb-img.plantbook.io/alnus%20glutinosa.jpg"
     },
     {
       "co2": 155,
@@ -43,7 +53,7 @@
       "height": 35,
       "name": "Cerro",
       "treeId": 3,
-      "imgUrl" : ""
+      "imgUrl" : "https://opb-img.plantbook.io/quercus%20cerris.jpg"
     },
     {
       "co2": 140,
@@ -52,7 +62,25 @@
       "height": 25,
       "name": "Tiglio selvatico",
       "treeId": 4,
-      "imgUrl" : ""
+      "imgUrl" : "https://opb-img.plantbook.io/tilia%20spp..jpg"
+    },
+    {
+      "co2": 95,
+      "descr": "L'acero campestre (Acer campestre L.) è un albero diffuso in Europa e Asia. In italiano viene anche chiamato loppio o testucchio. In Italia è molto comune nei boschi di latifoglie mesofile, insieme alle querce caducifoglie dal livello del mare fino all'inizio della faggeta.",
+      "diameter": 0,
+      "height": 19,
+      "name": "Acero campestre",
+      "treeId": 5,
+      "imgUrl" : "https://opb-img.plantbook.io/acer%20campestre.jpg"
+    },
+    {
+      "co2": 22.5,
+      "descr": "La pianta ha fusto eretto e legnoso, le foglie sono verdi, mentre i fiori sono rosa o bianchi. I frutti rossi non sono commestibili. I semi sono marroni.",
+      "diameter": 0,
+      "height": 6,
+      "name": "Melo da fiore",
+      "treeId": 6,
+      "imgUrl" : "https://opb-img.plantbook.io/malus%20floribunda.jpg"
     }
   ]
 }
