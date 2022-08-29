@@ -252,7 +252,7 @@ class ProjectDetailsBox extends StatelessWidget {
           rowLabelValue('Anni', proj.years.toString(), null),
           rowLabelValue('Alberi piantati', proj.treesCount.toString(), null),
           rowLabelValue('Carta', proj.paper.toString(), 'Fogli A4'),
-          rowLabelValue('Co2 assorbita', proj.co2Saved.toString(), 'Kg/Anno'),
+          rowLabelValue('Co2 assorbita', proj.co2Saved.toString(), 'Kg'),
           rowLabelValue('Categoria', proj.category.toString(), null),
         ],
       ),
