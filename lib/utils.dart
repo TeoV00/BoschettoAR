@@ -137,7 +137,7 @@ Widget getIconIndicator(TreeSpecs type, int value) {
   );
 }
 
-Widget rowLabelValue(String label, String value) {
+Widget rowLabelValue(String label, String value, String? unit) {
   return Row(
     children: [
       Padding(
@@ -147,6 +147,8 @@ Widget rowLabelValue(String label, String value) {
       ),
       Text(value,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+      const Spacer(),
+      Text(unit ?? '', style: const TextStyle(fontSize: 16)),
     ],
   );
 }

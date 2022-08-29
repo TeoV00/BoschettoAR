@@ -213,16 +213,16 @@ class TreeDetailsBox extends StatelessWidget {
               childs = [
                 rowIndicator('Co2/Anno', TreeSpecs.co2, tree.co2,
                     bounds[TreeSpecs.co2]!.elem2, screenWidth),
-                rowIndicator('Altezza (cm) ', TreeSpecs.height, tree.height,
+                rowIndicator('Altezza (m) ', TreeSpecs.height, tree.height,
                     bounds[TreeSpecs.height]!.elem2, screenWidth),
                 rowIndicator('Tronco (cm)', TreeSpecs.diameter, tree.diameter,
                     bounds[TreeSpecs.diameter]!.elem2, screenWidth),
               ];
             } else {
               childs = [
-                rowLabelValue('Co2/Anno', tree.co2.toString()),
-                rowLabelValue('Altezza (cm) ', tree.height.toString()),
-                rowLabelValue('Tronco (cm)', tree.diameter.toString()),
+                rowLabelValue('Co2', tree.co2.toString(), 'Kg/Anno'),
+                rowLabelValue('Altezza', tree.height.toString(), 'm'),
+                rowLabelValue('Tronco', tree.diameter.toString(), 'cm'),
               ];
             }
 
@@ -249,11 +249,11 @@ class ProjectDetailsBox extends StatelessWidget {
       headerTitle: 'Dettagli',
       childBox: Column(
         children: [
-          rowLabelValue('Anni', proj.years.toString()),
-          rowLabelValue('Alberi piantati', proj.treesCount.toString()),
-          rowLabelValue('Carta risparmiata', proj.paper.toString()),
-          rowLabelValue('Co2 assorbita', proj.co2Saved.toString()),
-          rowLabelValue('Categoria', proj.category.toString()),
+          rowLabelValue('Anni', proj.years.toString(), null),
+          rowLabelValue('Alberi piantati', proj.treesCount.toString(), null),
+          rowLabelValue('Carta', proj.paper.toString(), 'Fogli A4'),
+          rowLabelValue('Co2 assorbita', proj.co2Saved.toString(), 'Kg/Anno'),
+          rowLabelValue('Categoria', proj.category.toString(), null),
         ],
       ),
     );

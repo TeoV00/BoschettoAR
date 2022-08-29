@@ -125,9 +125,9 @@ class TreeInfoSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Column(
                 children: [
-                  rowLabelValue('Co2 Evitata', project.co2Saved.toString()),
                   rowLabelValue(
-                      'Fogli di carta risparmiati', project.paper.toString()),
+                      'Co2 Evitata', project.co2Saved.toString(), 'Kg'),
+                  rowLabelValue('Carta', project.paper.toString(), 'fogli A4'),
                 ],
               ),
             ),
