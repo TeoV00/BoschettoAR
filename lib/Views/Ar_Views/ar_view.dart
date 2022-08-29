@@ -17,13 +17,13 @@ import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 class ARWidget extends StatefulWidget {
   final double savedPaperProj;
-  final num maxinumPaperValue;
+  final Pair<num, num> minMaxPaperValue;
   final num totalSavedPaper;
 
   const ARWidget({
     Key? key,
     required this.savedPaperProj,
-    required this.maxinumPaperValue,
+    required this.minMaxPaperValue,
     required this.totalSavedPaper,
   }) : super(key: key);
 
@@ -88,11 +88,8 @@ class _ARWidgetState extends State<ARWidget> {
   }
 
   Future<void> onNodeTapped(List<String> nodes) async {
-    Pair<int, String?> pairVal =
-        getMultiplierString(widget.maxinumPaperValue.toInt());
-
-    arSessionManager
-        .onError("Plico di ${pairVal.elem1} ${pairVal.elem2} fogli di carta");
+    //TODO: put value of papaer stack
+    arSessionManager.onError("Plico di TODO fogli di carta");
   }
 
   Future<void> onPlaneOrPointTapped(
@@ -108,11 +105,14 @@ class _ARWidgetState extends State<ARWidget> {
 
       var anchor =
           ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
-      double mappedCount = widget.maxinumPaperValue *
+
+      double mappedValue = widget.minMaxPaperValue.elem2 *
           widget.savedPaperProj /
           widget.totalSavedPaper;
 
-      log('ObjCount to show mapped to [0,20]:\n$mappedCount');
+      double mappedCount = 20 * mappedValue / widget.minMaxPaperValue.elem2;
+
+      log('equlizzato :$mappedValue \n originale: ${widget.savedPaperProj} mappedCount: $mappedCount');
 
       _addNodesToARWorld(
         anchor,

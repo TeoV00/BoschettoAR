@@ -21,11 +21,9 @@ class TreeViewInfoAr extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    num maxSavedPaper = defaultMinAmountPapers;
     num totalSavedPaper = defaultMinAmountPapers;
 
     if (rangeInfoValues[TreeSpecs.paper] != null) {
-      maxSavedPaper = rangeInfoValues[TreeSpecs.paper]!.elem2; //elem2 is max
       totalSavedPaper = rangeInfoValues[TreeSpecs.totalPaper]!.elem1;
     }
 
@@ -34,7 +32,7 @@ class TreeViewInfoAr extends StatelessWidget {
         children: [
           ARWidget(
               savedPaperProj: proj.paper,
-              maxinumPaperValue: maxSavedPaper,
+              minMaxPaperValue: rangeInfoValues[TreeSpecs.paper]!,
               totalSavedPaper: totalSavedPaper), //AR view widget
           DraggableScrollableSheet(
             //Bottom Sheet that show scanned tree info
