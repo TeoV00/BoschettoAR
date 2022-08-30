@@ -10,6 +10,7 @@ import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/firebase_provider.dart';
 import 'Database/data_model.dart';
 import 'Database/database_constant.dart';
+import 'Utils/unit_converter.dart';
 import 'utils.dart';
 import 'package:collection/collection.dart' as coll;
 // import 'package:http/http.dart' as http;
@@ -131,31 +132,15 @@ class DataManager extends ChangeNotifier {
   }
 
   Future<Statistics> _calculateStats() async {
-    // x = 429 petrol litri/1000 Kg = 0,429 Litri Petrolio/Kg
-    // from Kg Co2 --> petrol oil liters
-    const double literPerKgOil = 0.429;
-
-    // //from petrol liters --> giga Joule energy --> GWh
-    // const double gigJoulePerLiterOil = 0.03501030928;
-    // const double gigWattHourPerGigJoule = 0.000277778;
-
-    const double gigWattHourPerLiterOil = 0.000009725093691;
-
-    // barels/liter petrolio = 0,006293706294 Barrels/liter
-    //from liters petrol oil --> petrol oil barrels
-    const double barrelsPerLiterOil = 0.006293706294;
-
     List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
 
     int totCo2 = _getTotalOn((e) => (e as Tree).co2, trees).toInt();
     int totalHeight = _getTotalOn((e) => (e as Tree).height, trees).toInt();
 
-    double petrolOilLiter = totCo2 * literPerKgOil;
-
+    double petrolOilLiter = ValueConverter.fromCo2ToPetrolLiter(totCo2);
+    int petrolBarrels = ValueConverter.fromPetrolLiterToBarrels(petrolOilLiter);
     int kiloWattHours =
-        (petrolOilLiter * gigWattHourPerLiterOil * math.pow(10, 6)).toInt();
-
-    int petrolBarrels = (petrolOilLiter * barrelsPerLiterOil).toInt();
+        ValueConverter.fromPetrolToKiloWatt(petrolOilLiter).toInt();
 
     var userProject = await dbProvider.getUserProjects(currentUserId);
     int papers = userProject.isNotEmpty
