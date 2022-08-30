@@ -6,6 +6,7 @@ import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
 import 'package:tree_ar/utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class InfoItemPage extends StatelessWidget {
   final InfoType dataType;
@@ -150,11 +151,12 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> childs = [
       ClipOval(
-        child: Image.network(
-          item.getImageUrl() ?? '',
+        child: CachedNetworkImage(
+          imageUrl: item.getImageUrl() ?? '',
+          placeholder: (context, url) => const CircularProgressIndicator(),
           height: imageSizeDetailPage,
           width: imageSizeDetailPage,
-          errorBuilder: (context, error, stackTrace) {
+          errorWidget: (context, error, stackTrace) {
             log(error.toString());
             return ClipOval(
               child: Container(
