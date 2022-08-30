@@ -59,7 +59,10 @@ class _ArViewLoaderState extends State<ArViewLoader> {
           ),
           Row(
             children: [
-              const RoundBackButton(result: "home"),
+              const Padding(
+                padding: pagePadding,
+                child: RoundBackButton(result: "home"),
+              ),
               Container(
                 margin: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
