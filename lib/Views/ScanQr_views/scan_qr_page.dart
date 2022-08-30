@@ -95,7 +95,10 @@ class _ScanTreePageState extends State<ScanTreePage> {
                   borderWidth: 20),
               onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
             ),
-            const RoundBackButton(result: null),
+            const Padding(
+              padding: pagePadding,
+              child: RoundBackButton(result: null),
+            )
           ],
         ),
       ),
