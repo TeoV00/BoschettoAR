@@ -130,7 +130,8 @@ class _CustomListView extends State<CustomListView> {
                         context,
                         MaterialPageRoute(builder: (context) {
                           return InfoItemPage(
-                            item: item,
+                            proj: treeAndProj[InfoType.project]![index],
+                            tree: treeAndProj[InfoType.tree]![index],
                             dataType: widget.dataType,
                           );
                         }),
