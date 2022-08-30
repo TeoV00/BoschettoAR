@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Views/Ar_Views/ar_view.dart';
+import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
 
@@ -49,6 +50,10 @@ class TreeViewInfoAr extends StatelessWidget {
               );
             },
           ),
+          const Padding(
+            padding: pagePadding,
+            child: RoundBackButton(result: null),
+          )
         ],
       ),
     );
