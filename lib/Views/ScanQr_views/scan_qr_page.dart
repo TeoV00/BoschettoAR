@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
 import 'package:tree_ar/Views/ScanQr_views/ar_view_loader.dart';
 
 import 'package:tree_ar/constant_vars.dart';
@@ -94,17 +95,7 @@ class _ScanTreePageState extends State<ScanTreePage> {
                   borderWidth: 20),
               onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
             ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: mainColor),
-              child: IconButton(
-                tooltip: "Torna in Home",
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context, toRefreshData),
-              ),
-            ),
+            const RoundBackButton(result: null),
           ],
         ),
       ),

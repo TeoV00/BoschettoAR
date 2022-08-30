@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Views/Ar_Views/tree_info_ar_view.dart';
+import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
 import 'package:tree_ar/utils.dart';
@@ -58,18 +59,7 @@ class _ArViewLoaderState extends State<ArViewLoader> {
           ),
           Row(
             children: [
-              Container(
-                margin: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    color: mainColor),
-                child: IconButton(
-                    tooltip: "Torna in Home",
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => {
-                          Navigator.pop(context, "home"), //go back home
-                        }),
-              ),
+              const RoundBackButton(result: "home"),
               Container(
                 margin: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
