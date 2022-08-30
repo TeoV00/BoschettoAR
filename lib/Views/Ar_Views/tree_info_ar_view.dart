@@ -28,7 +28,8 @@ class TreeViewInfoAr extends StatelessWidget {
     }
 
     return Scaffold(
-      body: Stack(
+        body: SafeArea(
+      child: Stack(
         children: [
           ARWidget(
             savedCo2: proj.co2Saved,
@@ -56,7 +57,7 @@ class TreeViewInfoAr extends StatelessWidget {
           )
         ],
       ),
-    );
+    ));
   }
 }
 
