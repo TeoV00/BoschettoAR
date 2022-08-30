@@ -37,7 +37,9 @@ class ARWidget extends StatefulWidget {
 }
 
 class _ARWidgetState extends State<ARWidget> {
-  bool objShowed = false;
+  bool paperShowed = false;
+  bool barrelShowed = false;
+
   int paperStackAmount = 1;
   int barrelAmount = 1;
 
@@ -124,16 +126,15 @@ class _ARWidgetState extends State<ARWidget> {
   Future<void> onPlaneOrPointTapped(
       List<ARHitTestResult> hitTestResults) async {
     //if anchor is not already set
+    var singleHitTestResult = hitTestResults.firstWhere(
+        (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
 
-    //show only one time ar objects stats
-    if (!objShowed) {
-      objShowed = true;
+    var anchor =
+        ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
 
-      var singleHitTestResult = hitTestResults.firstWhere(
-          (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
-
-      var anchor =
-          ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
+    //show only one time ar objects
+    if (!paperShowed) {
+      paperShowed = true;
 
       _addNodesToARWorld(
         anchor,
@@ -142,14 +143,16 @@ class _ARWidgetState extends State<ARWidget> {
         paperStackAmount,
         0.05, // vertical margin between objects
       );
+    } else if (!barrelShowed) {
+      barrelShowed = true;
 
-      // _addNodesToARWorld(
-      //   anchor,
-      //   2.0,
-      //   "assets/arModel/petrol_barrel/petrol_barrel.gltf",
-      //   4,
-      //   0.05,
-      // );
+      _addNodesToARWorld(
+        anchor,
+        2.0,
+        "assets/arModel/petrol_barrel/petrol_barrel.gltf",
+        barrelAmount,
+        0.05,
+      );
     }
   }
 
