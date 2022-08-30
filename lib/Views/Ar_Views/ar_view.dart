@@ -12,17 +12,22 @@ import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/datatypes/hittest_result_types.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:ar_flutter_plugin/models/ar_anchor.dart';
+import 'package:tree_ar/Utils/unit_converter.dart';
 import 'package:tree_ar/utils.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
 
+const int maxCountStack = 20;
+
 class ARWidget extends StatefulWidget {
   final double savedPaperProj;
+  final double savedCo2;
   final Pair<num, num> minMaxPaperValue;
   final num totalSavedPaper;
 
   const ARWidget({
     Key? key,
     required this.savedPaperProj,
+    required this.savedCo2,
     required this.minMaxPaperValue,
     required this.totalSavedPaper,
   }) : super(key: key);
@@ -33,6 +38,8 @@ class ARWidget extends StatefulWidget {
 
 class _ARWidgetState extends State<ARWidget> {
   bool objShowed = false;
+  int paperStackAmount = 1;
+  int barrelAmount = 1;
 
   late ARSessionManager arSessionManager;
   late ARObjectManager arObjectManager;
@@ -47,11 +54,30 @@ class _ARWidgetState extends State<ARWidget> {
   void initState() {
     super.initState();
 
+    initPaperStackAmount();
+    barrelAmount = ValueConverter.fromCo2ToPetrolBarrels(widget.savedCo2);
+
     arView = ARView(
         onARViewCreated: onARViewCreated,
         planeDetectionConfig: PlaneDetectionConfig.horizontal,
         permissionPromptButtonText: 'Permesso fotocamera',
         showPlatformType: false);
+  }
+
+  void initPaperStackAmount() {
+    //use of mininum value of saved papaer as core unit for papaer satck
+    int simpleDivision = widget.savedPaperProj ~/ widget.minMaxPaperValue.elem1;
+
+    if (simpleDivision > maxCountStack) {
+      //remapping project's paper value into a rnge of [0,20] in order to not
+      paperStackAmount = maxCountStack *
+          widget.savedPaperProj ~/
+          widget.minMaxPaperValue.elem2;
+    } else {
+      paperStackAmount = simpleDivision;
+    }
+
+    log('''originale: ${widget.savedPaperProj} countStacks: $paperStackAmount''');
   }
 
   @override
@@ -88,8 +114,11 @@ class _ARWidgetState extends State<ARWidget> {
   }
 
   Future<void> onNodeTapped(List<String> nodes) async {
-    //TODO: put value of papaer stack
-    arSessionManager.onError("Plico di TODO fogli di carta");
+    var paperInStack =
+        getMultiplierString(widget.savedPaperProj ~/ paperStackAmount);
+
+    arSessionManager.onError(
+        "Plico di ${paperInStack.elem1} ${paperInStack.elem2}fogli di carta");
   }
 
   Future<void> onPlaneOrPointTapped(
@@ -106,19 +135,11 @@ class _ARWidgetState extends State<ARWidget> {
       var anchor =
           ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
 
-      double mappedValue = widget.minMaxPaperValue.elem2 *
-          widget.savedPaperProj /
-          widget.totalSavedPaper;
-
-      double mappedCount = 20 * mappedValue / widget.minMaxPaperValue.elem2;
-
-      log('equlizzato :$mappedValue \n originale: ${widget.savedPaperProj} mappedCount: $mappedCount');
-
       _addNodesToARWorld(
         anchor,
         Platform.isIOS ? 0.5 : 1.5, //scale
         "assets/arModel/paper_stack/stack3/stack3.gltf",
-        mappedCount.toInt(),
+        paperStackAmount,
         0.05, // vertical margin between objects
       );
 
