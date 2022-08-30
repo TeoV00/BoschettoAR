@@ -57,14 +57,6 @@ class _ArViewLoaderState extends State<ArViewLoader> {
               },
             ),
           ),
-          Row(
-            children: const [
-              Padding(
-                padding: pagePadding,
-                child: RoundBackButton(result: "home"),
-              ),
-            ],
-          )
         ]),
       ),
     );
@@ -90,7 +82,10 @@ class ShowMessagePage extends StatelessWidget {
               fontSize: 17,
             ),
             textAlign: TextAlign.center,
-          )
+          ),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Torna in Home")),
         ]),
       ),
     );
