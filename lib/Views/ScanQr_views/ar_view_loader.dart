@@ -58,21 +58,10 @@ class _ArViewLoaderState extends State<ArViewLoader> {
             ),
           ),
           Row(
-            children: [
-              const Padding(
+            children: const [
+              Padding(
                 padding: pagePadding,
                 child: RoundBackButton(result: "home"),
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    color: mainColor),
-                child: IconButton(
-                  tooltip: "Nuova Scansione",
-                  icon: const Icon(Icons.qr_code),
-                  onPressed: () => Navigator.pop(context, 'newscan'),
-                ),
               ),
             ],
           )
