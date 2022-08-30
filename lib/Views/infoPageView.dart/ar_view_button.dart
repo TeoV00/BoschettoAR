@@ -6,6 +6,8 @@ import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
 import 'package:tree_ar/utils.dart';
 
+import '../CustomWidget/round_back_button.dart';
+
 class LaunchArButton extends StatelessWidget {
   final Tree tree;
   final Project proj;
@@ -28,14 +30,16 @@ class LaunchArButton extends StatelessWidget {
               FutureBuilder<Map<TreeSpecs, Pair<num, num>>>(
             future: dataManager.getBoundsOfTreeVal(),
             builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data != null) {
-                var rangeInfoValues = snapshot.data!;
-                buttonIsEnable = true;
-                arViewPage = TreeViewInfoAr(
-                  tree: tree,
-                  proj: proj,
-                  rangeInfoValues: rangeInfoValues,
-                );
+              if (snapshot.hasData) {
+                if (snapshot.data != null) {
+                  var rangeInfoValues = snapshot.data!;
+                  buttonIsEnable = true;
+                  arViewPage = TreeViewInfoAr(
+                    tree: tree,
+                    proj: proj,
+                    rangeInfoValues: rangeInfoValues,
+                  );
+                }
               } else {
                 buttonIsEnable = false;
               }
@@ -51,11 +55,10 @@ class LaunchArButton extends StatelessWidget {
                 onPressed: buttonIsEnable
                     ? () => {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => arViewPage!,
-                            ),
-                          ),
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => arViewPage!,
+                              )),
                         }
                     : null,
                 child: const Text(
