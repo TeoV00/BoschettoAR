@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Views/Ar_Views/tree_info_ar_view.dart';
+import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
+import 'package:tree_ar/Views/infoPageView.dart/ar_view_button.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
 import 'package:tree_ar/utils.dart';
@@ -57,55 +59,16 @@ class InfoItemPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 70),
                   child: itemDetailsView,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(130, 50),
-                      backgroundColor: mainColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32.0),
-                      ),
-                    ),
-                    child: const Text(
-                      'AR View',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black),
-                    ),
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TreeViewInfoAr(
-                            tree: tree,
-                            proj: proj,
-                            rangeInfoValues: {
-                              TreeSpecs.co2: Pair<num, num>(0, 0)
-                            },
-                          ),
-                        ),
-                      ),
-                    },
-                  ),
+                LaunchArButton(
+                  proj: proj,
+                  tree: tree,
                 ),
                 //
               ],
             ),
             Row(
               children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 5),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                      color: mainColor),
-                  child: IconButton(
-                    tooltip: "Torna in Home",
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ),
+                const RoundBackButton(result: null),
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(5),
