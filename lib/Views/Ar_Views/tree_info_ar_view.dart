@@ -30,9 +30,11 @@ class TreeViewInfoAr extends StatelessWidget {
       body: Stack(
         children: [
           ARWidget(
-              savedPaperProj: proj.paper,
-              minMaxPaperValue: rangeInfoValues[TreeSpecs.paper]!,
-              totalSavedPaper: totalSavedPaper), //AR view widget
+            savedCo2: proj.co2Saved,
+            savedPaperProj: proj.paper,
+            minMaxPaperValue: rangeInfoValues[TreeSpecs.paper]!,
+            totalSavedPaper: totalSavedPaper,
+          ), //AR view widget
           DraggableScrollableSheet(
             //Bottom Sheet that show scanned tree info
             minChildSize: 0.10,
