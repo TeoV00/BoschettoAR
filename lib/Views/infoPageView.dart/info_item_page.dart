@@ -10,8 +10,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class InfoItemPage extends StatelessWidget {
   final InfoType dataType;
-  final dynamic item;
-  const InfoItemPage({Key? key, required this.dataType, required this.item})
+  final Tree tree;
+  final Project proj;
+  const InfoItemPage(
+      {Key? key,
+      required this.dataType,
+      required this.tree,
+      required this.proj})
       : super(key: key);
 
   @override
@@ -21,8 +26,7 @@ class InfoItemPage extends StatelessWidget {
     );
     String titlePage = 'Errore dati';
 
-    if (item.runtimeType == Project) {
-      Project proj = (item as Project);
+    if (dataType == InfoType.project) {
       titlePage = proj.projectName;
 
       itemDetailsView = ScrollableListOfDetailsBoxes(
@@ -30,8 +34,7 @@ class InfoItemPage extends StatelessWidget {
         itemType: InfoType.project,
         childrenSections: [ProjectDetailsBox(proj: proj)],
       );
-    } else if (item.runtimeType == Tree) {
-      Tree tree = (item as Tree);
+    } else if (dataType == InfoType.tree) {
       titlePage = tree.name;
       itemDetailsView = ScrollableListOfDetailsBoxes(
         item: tree,
@@ -151,27 +154,41 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> childs = [
       ClipOval(
-        child: CachedNetworkImage(
-          imageUrl: item.getImageUrl() ?? '',
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          height: imageSizeDetailPage,
-          width: imageSizeDetailPage,
-          errorWidget: (context, error, stackTrace) {
-            log(error.toString());
-            return ClipOval(
-              child: Container(
-                width: imageSizeDetailPage,
+        child: (item.getImageUrl() != null && item.getImageUrl()!.isNotEmpty)
+            ? CachedNetworkImage(
+                imageUrl: item.getImageUrl()!,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
                 height: imageSizeDetailPage,
-                color: grayColor,
-                child: Icon(
-                    itemType == InfoType.tree
-                        ? Icons.nature
-                        : Icons.construction,
-                    size: 50),
+                width: imageSizeDetailPage,
+                errorWidget: (context, error, stackTrace) {
+                  log(error.toString());
+                  return ClipOval(
+                    child: Container(
+                      width: imageSizeDetailPage,
+                      height: imageSizeDetailPage,
+                      color: grayColor,
+                      child: Icon(
+                          itemType == InfoType.tree
+                              ? Icons.nature
+                              : Icons.construction,
+                          size: 50),
+                    ),
+                  );
+                },
+              )
+            : ClipOval(
+                child: Container(
+                  width: imageSizeDetailPage,
+                  height: imageSizeDetailPage,
+                  color: grayColor,
+                  child: Icon(
+                      itemType == InfoType.tree
+                          ? Icons.nature
+                          : Icons.construction,
+                      size: 50),
+                ),
               ),
-            );
-          },
-        ),
       ),
       DetailsBox(
         childBox: Text(
