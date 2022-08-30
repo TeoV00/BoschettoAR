@@ -4,7 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tree_ar/Database/dataModel.dart';
+import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/data_manager.dart';
@@ -37,7 +37,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
   //if field is null -> not edited
   User formUser = User(
-      userId: DEFAULT_USER_ID,
+      userId: defaultUserId,
       name: null,
       surname: null,
       dateBirth: null,
@@ -204,7 +204,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                         onPressed: () async => _saveChanges(
                             context, dataManager), //call datamanager method
                         style: ElevatedButton.styleFrom(
-                          primary: mainColor,
+                          backgroundColor: mainColor,
                         ),
                         child: const Text("Salva Modifiche"),
                       ),

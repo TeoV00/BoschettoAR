@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tree_ar/constant_vars.dart';
-import 'package:tree_ar/utils.dart';
 
 class TreeProgessBar extends StatefulWidget {
   final double progressPerc;

@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
-import 'dataModel.dart';
+import 'data_model.dart';
 import 'database_constant.dart';
 
 class DatabaseProvider {

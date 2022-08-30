@@ -1,8 +1,5 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:tree_ar/constant_vars.dart';
 
 class Pair<T, R> {

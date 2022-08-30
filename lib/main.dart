@@ -1,12 +1,8 @@
 import 'dart:async';
-
 import 'package:tree_ar/utils.dart';
-
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'dart:developer' as dev;
 import 'package:after_layout/after_layout.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tree_ar/data_manager.dart';

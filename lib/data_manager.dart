@@ -8,11 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/firebase_provider.dart';
-import 'Database/dataModel.dart';
+import 'Database/data_model.dart';
 import 'Database/database_constant.dart';
 import 'utils.dart';
 import 'package:collection/collection.dart' as coll;
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 const double weightPaperKg = 0.005;
 
@@ -20,7 +20,7 @@ class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
   FirebaseProvider firebaseProvider = FirebaseProvider();
 
-  int currentUserId = DEFAULT_USER_ID; //next feature could be multiuser in app
+  int currentUserId = defaultUserId; //next feature could be multiuser in app
 
   ///Download and get from web or cloud db data used by the app
   Future<void> fetchOnlineData() async {

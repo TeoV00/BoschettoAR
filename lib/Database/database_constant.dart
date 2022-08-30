@@ -1,7 +1,7 @@
 //database constants
-import 'dataModel.dart';
+import 'data_model.dart';
 
-const int DEFAULT_USER_ID = 0;
+const int defaultUserId = 0;
 const String databaseDDLfile = "assets/TreeAR.ddl";
 
 const userTreeTable = "UserTrees";
@@ -12,7 +12,7 @@ const treeTable = "Tree";
 const badgeTable = "Badge";
 
 var defaultUser = User(
-  userId: DEFAULT_USER_ID,
+  userId: defaultUserId,
   name: "Nome",
   surname: "Cognome",
   dateBirth: "gg/mm/aaaa",
