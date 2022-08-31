@@ -5,7 +5,7 @@ import 'package:tree_ar/Views/infoPageView.dart/info_item_page.dart';
 import 'package:tree_ar/utils.dart';
 
 import '../constant_vars.dart';
-import '../data_manager.dart';
+import '../DataProvider/data_manager.dart';
 
 ///Main page of application, shows list of project and tree that has been
 ///discovered-scanned by user in scan-tree-ar page

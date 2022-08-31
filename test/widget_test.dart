@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tree_ar/data_manager.dart';
+import 'package:tree_ar/DataProvider/data_manager.dart';
 
 import 'package:tree_ar/main.dart';
 

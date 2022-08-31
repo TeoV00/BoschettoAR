@@ -6,7 +6,7 @@ import 'package:tree_ar/Views/User/stats_counter.dart';
 import 'package:tree_ar/Views/User/user_progress_banner.dart';
 import 'package:tree_ar/Views/User/user_info_banner.dart';
 import 'package:tree_ar/constant_vars.dart';
-import 'package:tree_ar/data_manager.dart';
+import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'package:tree_ar/utils.dart';
 
 class UserPage extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'Database/data_model.dart';
+import '../Database/data_model.dart';
 
 class FirebaseProvider {
   DatabaseReference ref = FirebaseDatabase.instance.ref();

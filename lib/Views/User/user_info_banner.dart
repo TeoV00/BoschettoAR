@@ -4,7 +4,7 @@ import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/Views/User/edit_user_page.dart';
 import 'package:tree_ar/constant_vars.dart';
-import 'package:tree_ar/data_manager.dart';
+import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'package:tree_ar/utils.dart';
 
 class UserInfoBanner extends StatefulWidget {
