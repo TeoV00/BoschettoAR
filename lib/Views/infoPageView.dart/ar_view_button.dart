@@ -6,8 +6,6 @@ import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'package:tree_ar/utils.dart';
 
-import '../CustomWidget/round_back_button.dart';
-
 class LaunchArButton extends StatelessWidget {
   final Tree tree;
   final Project proj;

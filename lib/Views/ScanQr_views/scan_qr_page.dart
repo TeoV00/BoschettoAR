@@ -25,7 +25,6 @@ class _ScanTreePageState extends State<ScanTreePage> {
   @override
   Widget build(BuildContext buildContext) {
     DateTime lastScanTime = DateTime.now();
-    bool toRefreshData = false;
 
     return Scaffold(
       body: SafeArea(

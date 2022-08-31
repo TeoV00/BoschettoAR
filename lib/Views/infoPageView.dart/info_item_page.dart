@@ -1,14 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/data_model.dart';
-import 'package:tree_ar/Views/Ar_Views/tree_info_ar_view.dart';
 import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
 import 'package:tree_ar/Views/infoPageView.dart/ar_view_button.dart';
 import 'package:tree_ar/Views/infoPageView.dart/details_box_container.dart';
 import 'package:tree_ar/constant_vars.dart';
-import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'package:tree_ar/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
