@@ -72,7 +72,7 @@ class DataManager extends ChangeNotifier {
   Future<List<Map<String, dynamic>>?> _fetchProjectsFromWeb() async {
     log("Fetch dati progetti");
     List<Map<String, dynamic>>? projFromWeb;
-
+    //TODO: get project from an http request
     //final response = await http.get(Uri.parse(urlProjectInfo));
     String text = await rootBundle.loadString('assets/projects.json');
 
@@ -154,10 +154,11 @@ class DataManager extends ChangeNotifier {
 
     var unlockedBadge = await dbProvider.getUserBadges(currentUserId);
 
-    double progressPerc = double.parse(
-        ((unlockedBadge.length / appBadges.length) * 100)
+    double progressPerc = unlockedBadge.isNotEmpty
+        ? double.parse(((unlockedBadge.length / appBadges.length) * 100)
             .toString()
-            .substring(0, 5));
+            .substring(0, 5))
+        : 0.0;
 
     return Statistics(
       papers,
