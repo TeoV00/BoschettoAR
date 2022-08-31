@@ -105,7 +105,69 @@ class _UserInfoState extends State<UserInfoBanner> {
           } else if (snapshot.hasError) {
             const Text("errore nel caricamento info utente");
           } else {
-            return const Text("Loading...");
+            //TODO: refactoring ad create an external file with this banner
+            return Expanded(
+                child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: secondColor,
+                borderRadius: BorderRadius.all(radiusCorner),
+              ),
+              child: Row(
+                children: [
+                  //Profile image
+                  getUserImageWidget(null),
+                  Flexible(
+                    //User info
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  'name',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  "Data Nascita: caricamento",
+                                  style: TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color: darkGray),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Text(
+                            "caricamento",
+                            style: TextStyle(
+                              // fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: darkGray,
+                            ),
+                          ),
+                          const Text(
+                            "Immatricolato il: caricamento}",
+                            style: TextStyle(
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: darkGray),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ));
           }
           return const Text("data");
         },
