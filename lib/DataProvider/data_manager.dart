@@ -133,15 +133,21 @@ class DataManager extends ChangeNotifier {
 
   Future<Statistics> _calculateStats() async {
     List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
+    List<Project> proj = await dbProvider.getUserProjects(currentUserId);
 
-    int totCo2 = _getTotalOn((e) => (e as Tree).co2, trees).toInt();
+    int totCo2Tree = _getTotalOn((e) => (e as Tree).co2, trees).toInt();
     int totalHeight = _getTotalOn((e) => (e as Tree).height, trees).toInt();
 
-    double petrolOilLiter = ValueConverter.fromCo2ToPetrolLiter(totCo2);
+    int totSavedCo2Proj =
+        _getTotalOn((e) => (e as Project).co2Saved, proj).toInt();
+
+    double petrolOilLiter =
+        ValueConverter.fromCo2ToPetrolLiter(totSavedCo2Proj);
     int petrolBarrels = ValueConverter.fromPetrolLiterToBarrels(petrolOilLiter);
     int kiloWattHours =
         ValueConverter.fromPetrolToKiloWatt(petrolOilLiter).toInt();
 
+    log('co2 tot: $totCo2Tree --> litri petrolio: $petrolOilLiter --> barili: $petrolBarrels');
     var userProject = await dbProvider.getUserProjects(currentUserId);
     int papers = userProject.isNotEmpty
         ? userProject.map((e) => e.paper).reduce((val, e) => val += e).toInt()
@@ -156,9 +162,9 @@ class DataManager extends ChangeNotifier {
 
     return Statistics(
       papers,
-      totCo2,
+      totCo2Tree,
       totalHeight,
-      petrolBarrels,
+      totSavedCo2Proj,
       kiloWattHours,
       progressPerc,
     );
