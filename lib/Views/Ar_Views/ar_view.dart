@@ -13,10 +13,9 @@ import 'package:ar_flutter_plugin/datatypes/hittest_result_types.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:ar_flutter_plugin/models/ar_anchor.dart';
 import 'package:tree_ar/Utils/unit_converter.dart';
+import 'package:tree_ar/Views/Ar_Views/ar_constant.dart';
 import 'package:tree_ar/utils.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
-
-const int maxCountStack = 20;
 
 class ARWidget extends StatefulWidget {
   final double savedPaperProj;
@@ -37,6 +36,8 @@ class ARWidget extends StatefulWidget {
 }
 
 class _ARWidgetState extends State<ARWidget> {
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey();
+
   bool paperShowed = false;
   bool barrelShowed = false;
 
@@ -108,7 +109,7 @@ class _ARWidgetState extends State<ARWidget> {
         showWorldOrigin: false,
         handleTaps: true,
         customPlaneTexturePath: "assets/arModel/grass.png",
-        showAnimatedGuide: false);
+        showAnimatedGuide: true);
     this.arObjectManager.onInitialize();
 
     this.arSessionManager.onPlaneOrPointTap = onPlaneOrPointTapped;
@@ -125,43 +126,43 @@ class _ARWidgetState extends State<ARWidget> {
 
   Future<void> onPlaneOrPointTapped(
       List<ARHitTestResult> hitTestResults) async {
-    //if anchor is not already set
-    var singleHitTestResult = hitTestResults.firstWhere(
-        (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
+    if (!paperShowed || !barrelShowed) {
+      //if anchor is not already set
+      var singleHitTestResult = hitTestResults.firstWhere(
+          (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
 
-    var anchor =
-        ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
+      var anchor =
+          ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
 
-    //show only one time ar objects
-    if (!paperShowed) {
-      paperShowed = true;
+      //show only one time ar objects
+      if (!paperShowed) {
+        paperShowed = true;
 
-      _addNodesToARWorld(
-        anchor,
-        Platform.isIOS ? 0.5 : 1.5, //scale
-        "assets/arModel/paper_stack/stack3/stack3.gltf",
-        paperStackAmount,
-        0.05, // vertical margin between objects
-      );
-    } else if (!barrelShowed) {
-      barrelShowed = true;
-
-      _addNodesToARWorld(
-        anchor,
-        2.0,
-        "assets/arModel/petrol_barrel/petrol_barrel.gltf",
-        barrelAmount,
-        0.05,
-      );
+        _addNodesMatrixToARWorld(
+          anchor,
+          1,
+          "assets/arModel/paper_stack/stack3/stack3.gltf",
+          paperStackAmount,
+          stack3Size.width,
+          stack3Size.height,
+        );
+      } else if (!barrelShowed) {
+        barrelShowed = true;
+        log("barrel in ar added");
+        _addNodesMatrixToARWorld(
+          anchor,
+          null,
+          "assets/arModel/petrol_barrel/petrol_barrel.gltf",
+           barrelAmount,
+          barrelSize.width,
+          barrelSize.height,
+        );
+      }
     }
   }
 
-  double _calcSpaceBtwObj(int idx, double scale) {
-    return 0.01 * idx * 5 / scale;
-  }
-
-  void _addNodesToARWorld(ARPlaneAnchor anchor, double scale, String modelUri,
-      int objAmount, double vMargin) async {
+  void _addNodesMatrixToARWorld(ARPlaneAnchor anchor, double? scale,
+      String modelUri, int objAmount, double objWidth, double objHeight) async {
     bool? didAddAnchor = (await arAnchorManager.addAnchor(anchor));
 
     if (didAddAnchor != null && didAddAnchor) {
@@ -175,23 +176,17 @@ class _ARWidgetState extends State<ARWidget> {
       }
 
       double y = 0.0;
-      double h = 0.02;
-      double offset = 0.0;
 
       for (int j = 0; j <= yCount; j++) {
         double x = 0.0;
-        y = _calcSpaceBtwObj(j, scale) + offset;
-        offset += vMargin;
 
         for (int i = 0; i <= xCount; i++) {
-          x = _calcSpaceBtwObj(i + 1, scale);
-
           var newNode = ARNode(
             type: NodeType.localGLTF2,
             uri: modelUri,
-            scale: Vector3(scale, scale, scale),
+            scale: scale != null ? Vector3(scale, scale, scale) : null,
             //left-right offet(x), vertical-offset (z), (y)
-            position: Vector3(x, h, y),
+            position: Vector3(x, 0, y),
           );
 
           bool? didAddWebNode =
@@ -202,7 +197,9 @@ class _ARWidgetState extends State<ARWidget> {
             nodes.add(newNode);
             anchors.add(anchor);
           }
+          x += objWidth;
         }
+        y += objHeight;
       }
     } else {
       arSessionManager.onError("Adding Anchor failed");
