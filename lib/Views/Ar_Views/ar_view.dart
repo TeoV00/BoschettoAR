@@ -36,8 +36,6 @@ class ARWidget extends StatefulWidget {
 }
 
 class _ARWidgetState extends State<ARWidget> {
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey();
-
   bool paperShowed = false;
   bool barrelShowed = false;
 
@@ -79,8 +77,6 @@ class _ARWidgetState extends State<ARWidget> {
     } else {
       paperStackAmount = simpleDivision;
     }
-
-    log('''originale: ${widget.savedPaperProj} countStacks: $paperStackAmount''');
   }
 
   @override
@@ -126,6 +122,8 @@ class _ARWidgetState extends State<ARWidget> {
 
   Future<void> onPlaneOrPointTapped(
       List<ARHitTestResult> hitTestResults) async {
+    log('''originale: ${widget.savedPaperProj} countStacks: $paperStackAmount''');
+    log('''barrels count: $barrelAmount''');
     if (!paperShowed || !barrelShowed) {
       //if anchor is not already set
       var singleHitTestResult = hitTestResults.firstWhere(
@@ -143,19 +141,18 @@ class _ARWidgetState extends State<ARWidget> {
           1,
           "assets/arModel/paper_stack/stack3/stack3.gltf",
           paperStackAmount,
-          stack3Size.width,
-          stack3Size.height,
+          1, //stack3Size.width,
+          1, //stack3Size.height,
         );
       } else if (!barrelShowed) {
         barrelShowed = true;
-        log("barrel in ar added");
         _addNodesMatrixToARWorld(
           anchor,
           null,
           "assets/arModel/petrol_barrel/petrol_barrel.gltf",
-           barrelAmount,
-          barrelSize.width,
-          barrelSize.height,
+          barrelAmount,
+          1, // barrelSize.width,
+          1, // barrelSize.height,
         );
       }
     }
@@ -166,10 +163,10 @@ class _ARWidgetState extends State<ARWidget> {
     bool? didAddAnchor = (await arAnchorManager.addAnchor(anchor));
 
     if (didAddAnchor != null && didAddAnchor) {
-      log("ancora aggiunta: objamount $objAmount");
-
       int yCount = objAmount ~/ 2;
       int xCount = objAmount % 2 == 0 ? yCount : yCount + 1;
+
+      log("ycount: $yCount xCount: $xCount");
 
       if (xCount == 0) {
         xCount = 1;
@@ -177,7 +174,7 @@ class _ARWidgetState extends State<ARWidget> {
 
       double y = 0.0;
 
-      for (int j = 0; j <= yCount; j++) {
+      for (int j = 0; j < yCount; j++) {
         double x = 0.0;
 
         for (int i = 0; i <= xCount; i++) {
@@ -200,6 +197,7 @@ class _ARWidgetState extends State<ARWidget> {
           x += objWidth;
         }
         y += objHeight;
+        log("y: $y  x: $x");
       }
     } else {
       arSessionManager.onError("Adding Anchor failed");
