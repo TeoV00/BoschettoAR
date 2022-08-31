@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
+import 'package:tree_ar/Utils/unit_converter.dart';
 import 'package:tree_ar/Views/Ar_Views/ar_view.dart';
 import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -136,6 +137,11 @@ class TreeInfoSheet extends StatelessWidget {
                   rowLabelValue(
                       'Co2 Evitata', project.co2Saved.toString(), 'Kg'),
                   rowLabelValue('Carta', project.paper.toString(), 'fogli A4'),
+                  rowLabelValue(
+                      'Barili di Petrolio',
+                      ValueConverter.fromCo2ToPetrolBarrels(project.co2Saved)
+                          .toString(),
+                      'barili'),
                 ],
               ),
             ),

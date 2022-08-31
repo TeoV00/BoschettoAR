@@ -20,12 +20,12 @@ class Pair<T, R> {
 class Statistics {
   int papers;
   int co2;
-  int petrolBarrel;
+  int totSavedCo2Proj;
   int totalHeight;
   int kiloWattHours;
   double progressPerc;
 
-  Statistics(this.papers, this.co2, this.totalHeight, this.petrolBarrel,
+  Statistics(this.papers, this.co2, this.totalHeight, this.totSavedCo2Proj,
       this.kiloWattHours, this.progressPerc);
 }
 

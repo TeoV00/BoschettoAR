@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/data_model.dart';
+import 'package:tree_ar/Utils/unit_converter.dart';
 import 'package:tree_ar/Views/User/badge_view.dart';
 import 'package:tree_ar/Views/User/stats_counter.dart';
 import 'package:tree_ar/Views/User/user_progress_banner.dart';
@@ -88,7 +89,8 @@ class UserDataViews extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            UserStatisticCounter(type: "Co2", amount: stats.co2, unit: "Kg"),
+            UserStatisticCounter(
+                type: "Co2 Evitata", amount: stats.totSavedCo2Proj, unit: "Kg"),
             TreeProgessBar(progressPerc: stats.progressPerc),
             UserStatisticCounter(
                 type: "Carta", amount: stats.papers, unit: "Fogli A4"),
@@ -105,9 +107,12 @@ class UserDataViews extends StatelessWidget {
             UserStatisticCounter(
                 type: "Elettricità", amount: stats.kiloWattHours, unit: "KWh"),
             UserStatisticCounter(
-                type: "Petrolio", amount: stats.petrolBarrel, unit: "barili"),
+                type: "Petrolio",
+                amount: ValueConverter.fromCo2ToPetrolBarrels(
+                    stats.totSavedCo2Proj),
+                unit: "barili"),
             UserStatisticCounter(
-                type: "Petrolio", amount: stats.petrolBarrel, unit: "barili"),
+                type: "Co2\nAlberi", amount: stats.co2, unit: "Kg/Anno"),
           ],
         ),
         const Divider(
