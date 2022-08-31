@@ -141,8 +141,8 @@ class _ARWidgetState extends State<ARWidget> {
           1,
           "assets/arModel/paper_stack/stack3/stack3.gltf",
           paperStackAmount,
-          1, //stack3Size.width,
-          1, //stack3Size.height,
+          0.5, //stack3Size.width,
+          0.5, //stack3Size.height,
         );
       } else if (!barrelShowed) {
         barrelShowed = true;
@@ -163,8 +163,10 @@ class _ARWidgetState extends State<ARWidget> {
     bool? didAddAnchor = (await arAnchorManager.addAnchor(anchor));
 
     if (didAddAnchor != null && didAddAnchor) {
-      int yCount = objAmount ~/ 2;
-      int xCount = objAmount % 2 == 0 ? yCount : yCount + 1;
+      int xCount =
+          objAmount ~/ 2 > 0 ? objAmount ~/ 2 : 1; //quantiti of element per row
+      log("xcount: $xCount");
+      int yCount = objAmount ~/ xCount; // row
 
       log("ycount: $yCount xCount: $xCount");
 
@@ -177,7 +179,7 @@ class _ARWidgetState extends State<ARWidget> {
       for (int j = 0; j < yCount; j++) {
         double x = 0.0;
 
-        for (int i = 0; i <= xCount; i++) {
+        for (int i = 0; i < xCount; i++) {
           var newNode = ARNode(
             type: NodeType.localGLTF2,
             uri: modelUri,
