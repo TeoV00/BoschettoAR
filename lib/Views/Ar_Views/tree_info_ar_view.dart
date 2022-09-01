@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Utils/unit_converter.dart';
 import 'package:tree_ar/Views/Ar_Views/ar_view.dart';
+import 'package:tree_ar/Views/Ar_Views/hint_banner_ar.dart';
 import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
@@ -29,36 +30,39 @@ class TreeViewInfoAr extends StatelessWidget {
     }
 
     return Scaffold(
-        body: SafeArea(
-      child: Stack(
-        children: [
-          ARWidget(
-            savedCo2: proj.co2Saved,
-            savedPaperProj: proj.paper,
-            minMaxPaperValue: rangeInfoValues[TreeSpecs.paper]!,
-            totalSavedPaper: totalSavedPaper,
-          ), //AR view widget
-          DraggableScrollableSheet(
-            //Bottom Sheet that show scanned tree info
-            minChildSize: 0.10,
-            initialChildSize: 0.15,
-            maxChildSize: 0.6,
-            builder: (BuildContext context, ScrollController scrollController) {
-              return TreeInfoSheet(
-                tree: tree,
-                project: proj,
-                treeMaxValues: rangeInfoValues,
-                controller: scrollController,
-              );
-            },
-          ),
-          const Padding(
-            padding: pagePadding,
-            child: RoundBackButton(result: null),
-          )
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            ARWidget(
+              savedCo2: proj.co2Saved,
+              savedPaperProj: proj.paper,
+              minMaxPaperValue: rangeInfoValues[TreeSpecs.paper]!,
+              totalSavedPaper: totalSavedPaper,
+            ), //AR view widget
+            const HintBanner(),
+            DraggableScrollableSheet(
+              //Bottom Sheet that show scanned tree info
+              minChildSize: 0.10,
+              initialChildSize: 0.15,
+              maxChildSize: 0.6,
+              builder:
+                  (BuildContext context, ScrollController scrollController) {
+                return TreeInfoSheet(
+                  tree: tree,
+                  project: proj,
+                  treeMaxValues: rangeInfoValues,
+                  controller: scrollController,
+                );
+              },
+            ),
+            const Padding(
+              padding: pagePadding,
+              child: RoundBackButton(result: null),
+            )
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
