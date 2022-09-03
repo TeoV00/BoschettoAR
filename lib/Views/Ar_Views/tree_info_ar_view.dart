@@ -9,7 +9,7 @@ import 'package:tree_ar/utils.dart';
 
 const defaultMinAmountPapers = 50000;
 
-class TreeViewInfoAr extends StatelessWidget {
+class TreeViewInfoAr extends StatefulWidget {
   final Tree tree;
   final Project proj;
   final Map<TreeSpecs, Pair<num, num>> rangeInfoValues;
@@ -22,11 +22,18 @@ class TreeViewInfoAr extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<TreeViewInfoAr> createState() => _TreeViewInfoArState();
+}
+
+class _TreeViewInfoArState extends State<TreeViewInfoAr> {
+  bool showTutorial = true;
+
+  @override
   Widget build(BuildContext context) {
     num totalSavedPaper = defaultMinAmountPapers;
 
-    if (rangeInfoValues[TreeSpecs.paper] != null) {
-      totalSavedPaper = rangeInfoValues[TreeSpecs.totalPaper]!.elem1;
+    if (widget.rangeInfoValues[TreeSpecs.paper] != null) {
+      totalSavedPaper = widget.rangeInfoValues[TreeSpecs.totalPaper]!.elem1;
     }
 
     return Scaffold(
@@ -34,12 +41,12 @@ class TreeViewInfoAr extends StatelessWidget {
         child: Stack(
           children: [
             ARWidget(
-              savedCo2: proj.co2Saved,
-              savedPaperProj: proj.paper,
-              minMaxPaperValue: rangeInfoValues[TreeSpecs.paper]!,
+              savedCo2: widget.proj.co2Saved,
+              savedPaperProj: widget.proj.paper,
+              minMaxPaperValue: widget.rangeInfoValues[TreeSpecs.paper]!,
               totalSavedPaper: totalSavedPaper,
             ), //AR view widget
-            const HintBanner(),
+            showTutorial ? const HintBanner() : const SizedBox.shrink(),
             DraggableScrollableSheet(
               //Bottom Sheet that show scanned tree info
               minChildSize: 0.10,
@@ -48,21 +55,41 @@ class TreeViewInfoAr extends StatelessWidget {
               builder:
                   (BuildContext context, ScrollController scrollController) {
                 return TreeInfoSheet(
-                  tree: tree,
-                  project: proj,
-                  treeMaxValues: rangeInfoValues,
+                  tree: widget.tree,
+                  project: widget.proj,
+                  treeMaxValues: widget.rangeInfoValues,
                   controller: scrollController,
                 );
               },
             ),
-            const Padding(
+            Padding(
               padding: pagePadding,
-              child: RoundBackButton(result: null),
-            )
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const RoundBackButton(result: null),
+                  IconButton(
+                    onPressed: _toggleTutorialBanner,
+                    tooltip: 'Aiuto',
+                    icon: Icon(
+                      Icons.help,
+                      color: showTutorial ? Colors.white : mainColor,
+                      size: 30,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _toggleTutorialBanner() {
+    setState(() {
+      showTutorial = !showTutorial;
+    });
   }
 }
 
