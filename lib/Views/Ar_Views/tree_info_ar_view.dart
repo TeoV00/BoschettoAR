@@ -47,6 +47,7 @@ class _TreeViewInfoArState extends State<TreeViewInfoAr> {
               totalSavedPaper: totalSavedPaper,
             ), //AR view widget
             showTutorial ? const HintBanner() : const SizedBox.shrink(),
+
             DraggableScrollableSheet(
               //Bottom Sheet that show scanned tree info
               minChildSize: 0.10,
@@ -72,9 +73,9 @@ class _TreeViewInfoArState extends State<TreeViewInfoAr> {
                     onPressed: _toggleTutorialBanner,
                     tooltip: 'Aiuto',
                     icon: Icon(
-                      Icons.help,
+                      showTutorial ? Icons.cancel : Icons.help,
                       color: showTutorial ? Colors.white : mainColor,
-                      size: 30,
+                      size: 35,
                     ),
                   ),
                 ],
