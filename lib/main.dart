@@ -174,8 +174,8 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
         ],
         currentIndex: _selectionIndex,
         onTap: _onItemTapped,
-        unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
+        selectedItemColor: Colors.white,
         backgroundColor: mainColor,
       ),
       floatingActionButton: FloatingActionButton(
