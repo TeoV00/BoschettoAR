@@ -72,18 +72,36 @@ Widget getUserImageWidget(String? userImgPath) {
   );
 }
 
-Pair<int, String?> getMultiplierString(int value) {
+Pair<int, int?> getMultiplierString(int value) {
   int amountCifer = value.toString().length;
 
   if (amountCifer > 3 && amountCifer <= 6) {
-    return Pair(value ~/ 1000, 'x10^3');
+    return Pair(value ~/ 1000, 3);
   } else if (amountCifer > 6 && amountCifer <= 9) {
-    return Pair(value ~/ 1000000, 'x10^6');
+    return Pair(value ~/ 1000000, 6);
   } else if (amountCifer > 9 && amountCifer <= 12) {
-    return Pair(value ~/ 1000000000, 'x10^9');
+    return Pair(value ~/ 1000000000, 9);
   } else {
     return Pair(value, null);
   }
+}
+
+Widget getExponent(int exponent) {
+  return RichText(
+    text: TextSpan(children: [
+      const TextSpan(text: 'x10', style: TextStyle(color: Colors.black)),
+      WidgetSpan(
+        child: Transform.translate(
+          offset: const Offset(2, -4),
+          child: Text(
+            exponent.toString(),
+            //superscript is usually smaller in size
+            textScaleFactor: 1,
+          ),
+        ),
+      )
+    ]),
+  );
 }
 
 const double textLabelDetailsSize = 15;
@@ -96,10 +114,9 @@ Widget rowIndicator(
   double screenWidth,
 ) {
   const double iconSizeDefault = 24;
-  String? multiplier = getMultiplierString(value.toInt()).elem2;
+  int? multiplier = getMultiplierString(value.toInt()).elem2;
 
-  String labelValue =
-      "$label: ${multiplier != null ? '$value $multiplier' : value}";
+  String labelValue = "$label: ";
 
   maxValue = maxValue <= 0 ? value + 1 : maxValue;
 
@@ -107,7 +124,7 @@ Widget rowIndicator(
     value = maxValue;
   }
 
-  double textPixel = textLabelDetailsSize * labelValue.length;
+  double textPixel = textLabelDetailsSize * (labelValue.length + 4);
   int maxIconCount = ((screenWidth - textPixel) / iconSizeDefault).ceil();
   int mappedVal = (maxIconCount * value) ~/ maxValue;
 
@@ -115,7 +132,7 @@ Widget rowIndicator(
     children: [
       Padding(
         padding: const EdgeInsets.only(right: 5),
-        child: Text(labelValue,
+        child: Text('$labelValue${getExponent(multiplier ?? 0)}',
             style: const TextStyle(fontSize: textLabelDetailsSize)),
       ),
       getIconIndicator(type, mappedVal),
