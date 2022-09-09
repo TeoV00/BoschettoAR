@@ -107,6 +107,7 @@ class ProjectDetailsBox extends StatelessWidget {
   Widget build(BuildContext context) {
     var watt = getMultiplierString(
         ValueConverter.fromCo2ToKiloWatt(proj.co2Saved).toInt());
+
     return DetailsBox(
       headerTitle: 'Dettagli',
       childBox: Column(
@@ -118,7 +119,7 @@ class ProjectDetailsBox extends StatelessWidget {
           rowLabelValue('Carta risparmiata', proj.paper.toString(), 'Fogli A4'),
           rowLabelValue('Co2 evitata', proj.co2Saved.toString(), 'Kg'),
           rowLabelValue(
-              'Co2 -> Petrolio',
+              'Barili di petrolio',
               ValueConverter.fromCo2ToPetrolBarrels(proj.co2Saved).toString(),
               'Barili'),
           rowLabelValue('Elettricità corrispondente', '${watt.elem1} ',
