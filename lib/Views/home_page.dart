@@ -32,7 +32,20 @@ class _MainPage extends State<MainPage> {
   Widget build(BuildContext context) {
     const tabButtonWidth = (topSectionTabWidth / 2) - 45;
     return Scaffold(
-      appBar: AppBar(title: const Text("TreeAR"), backgroundColor: mainColor),
+      appBar: AppBar(
+        title: const Text("TreeAR"),
+        centerTitle: true,
+        backgroundColor: mainColor,
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.info),
+              onPressed: () {
+                //TODO: create info page
+                log("open info page");
+                //InfoAppPage();
+              }),
+        ],
+      ),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
