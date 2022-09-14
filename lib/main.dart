@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:tree_ar/Utils/bottom_grass.dart';
 import 'package:tree_ar/utils.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -138,30 +139,8 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Flex(
-            direction: Axis.vertical,
-            children: [
-              Expanded(child: _appScreenPages[_selectionIndex]),
-            ],
-          ),
-          LayoutBuilder(builder: ((context, constraints) {
-            var parentWidth = constraints.maxWidth;
-            return SizedBox(
-              width: parentWidth,
-              height: grassBottomBarHeight,
-              child: SvgPicture.asset(
-                '$imagePath/grass.svg',
-                color: mainColor,
-                excludeFromSemantics: true,
-                fit: BoxFit.fill,
-              ),
-            );
-          }))
-        ],
-      )),
+        child: BottomGrass(child: _appScreenPages[_selectionIndex]),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: selectedFontSizeBottomNav,
         elevation: 0, //To remove shadow between grass image and bottomBar
