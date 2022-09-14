@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
+import 'package:tree_ar/Utils/bottom_grass.dart';
 import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
 import 'package:tree_ar/Views/infoPageView.dart/ar_view_button.dart';
 import 'package:tree_ar/Views/infoPageView.dart/details_box_container.dart';
@@ -45,7 +46,12 @@ class InfoItemPage extends StatelessWidget {
     }
 
     return Scaffold(
-      body: SafeArea(
+      appBar: AppBar(
+        backgroundColor: mainColor,
+        centerTitle: true,
+        title: Text(titlePage),
+      ),
+      body: BottomGrass(
           child: Padding(
         padding: const EdgeInsets.all(10),
         child: Stack(
@@ -53,38 +59,12 @@ class InfoItemPage extends StatelessWidget {
             ListView(
               scrollDirection: Axis.vertical,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 70),
-                  child: itemDetailsView,
-                ),
+                itemDetailsView,
                 LaunchArButton(
                   proj: proj,
                   tree: tree,
                 ),
                 //
-              ],
-            ),
-            Row(
-              children: [
-                const RoundBackButton(result: null),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(radiusCorner),
-                      color: secondColor,
-                    ),
-                    height: 51,
-                    child: Text(
-                      titlePage,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 19),
-                    ),
-                  ),
-                )
               ],
             ),
           ],
