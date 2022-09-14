@@ -21,6 +21,7 @@ class ProjectDetailsBox extends StatelessWidget {
           rowLabelValue(
               'Anni di Dematerializzazione', proj.years.toString(), null),
           rowLabelValue('Alberi piantati', proj.treesCount.toString(), null),
+          
           rowLabelValue('Carta risparmiata', proj.paper.toString(), 'Fogli A4'),
           rowLabelValue('Co2 evitata', proj.co2Saved.toString(), 'Kg'),
           rowLabelValue(
