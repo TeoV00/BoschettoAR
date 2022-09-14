@@ -52,24 +52,24 @@ class InfoItemPage extends StatelessWidget {
         title: Text(titlePage),
       ),
       body: BottomGrass(
-          child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Stack(
-          children: [
-            ListView(
-              scrollDirection: Axis.vertical,
-              children: [
-                itemDetailsView,
-                LaunchArButton(
-                  proj: proj,
-                  tree: tree,
-                ),
-                //
-              ],
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: grassPaddingHeight),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  itemDetailsView,
+                  LaunchArButton(
+                    proj: proj,
+                    tree: tree,
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
