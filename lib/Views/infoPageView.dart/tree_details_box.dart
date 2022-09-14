@@ -30,15 +30,17 @@ class TreeDetailsBox extends StatelessWidget {
                     bounds[TreeSpecs.co2]!.elem2, screenWidth),
                 rowIndicator('Altezza (m) ', TreeSpecs.height, tree.height,
                     bounds[TreeSpecs.height]!.elem2, screenWidth),
-                rowIndicator('Tronco (cm)', TreeSpecs.diameter, tree.diameter,
-                    bounds[TreeSpecs.diameter]!.elem2, screenWidth),
               ];
             } else {
               childs = [
                 rowLabelValue('Co2', tree.co2.toString(), 'Kg/Anno'),
                 rowLabelValue('Altezza', tree.height.toString(), 'm'),
-                rowLabelValue('Tronco', tree.diameter.toString(), 'cm'),
               ];
+            }
+
+            if (tree.diameter > 0) {
+              childs
+                  .add(rowLabelValue('Tronco', tree.diameter.toString(), 'cm'));
             }
 
             return DetailsBox(
