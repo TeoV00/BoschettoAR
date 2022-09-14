@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
+import 'package:tree_ar/Utils/circle_online_image.dart';
 import 'package:tree_ar/constant_vars.dart';
 
 class RowItem extends StatelessWidget {
@@ -23,85 +24,55 @@ class RowItem extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(15)),
         color: grayColor,
       ),
-      child: Row(children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            item.getImageUrl() != null
-                ? CachedNetworkImage(
-                    imageUrl: item.getImageUrl()!,
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    height: 75,
-                    width: 75,
-                    errorWidget: (context, error, stackTrace) {
-                      log(error.toString());
-                      return ClipOval(
-                        child: Container(
-                          width: imageSizeDetailPage,
-                          height: imageSizeDetailPage,
-                          color: grayColor,
-                          child: Icon(
-                              type == InfoType.tree
-                                  ? Icons.nature
-                                  : Icons.construction,
-                              size: 50),
-                        ),
-                      );
-                    },
-                  )
-                : ClipOval(
-                    child: Container(
-                      width: imageSizeDetailPage,
-                      height: imageSizeDetailPage,
-                      color: grayColor,
-                      child: Icon(
-                          type == InfoType.tree
-                              ? Icons.nature
-                              : Icons.construction,
-                          size: 50),
-                    ),
-                  ),
-          ],
-        ),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Flex(
-                direction: Axis.vertical,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(
-                      item.getTitle(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 17),
-                    ),
-                  ),
-                ],
-              ),
-              Flex(
-                direction: Axis.vertical,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      item.getDescr(),
-                      style: const TextStyle(
-                        fontSize: 16,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: RoundOnlineImage(
+              defaultWidget: Text('da'),
+              size: 75,
+              url: item.getImageUrl(),
+            ),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text(
+                        item.getTitle(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17),
                       ),
                     ),
-                  )
-                ],
-              )
-            ],
+                  ],
+                ),
+                Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text(
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        item.getDescr(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
