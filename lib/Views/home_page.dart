@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/data_model.dart';
@@ -29,6 +32,7 @@ class _MainPage extends State<MainPage> {
   Widget build(BuildContext context) {
     const tabButtonWidth = (topSectionTabWidth / 2) - 45;
     return Scaffold(
+      appBar: AppBar(title: const Text("TreeAR"), backgroundColor: mainColor),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -184,18 +188,37 @@ class RowItem extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color.fromARGB(255, 217, 217, 217),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 15),
-              height: 57,
-              width: 57,
-              child: type == InfoType.tree
-                  ? const Icon(Icons.nature)
-                  : const Icon(Icons.construction),
+            CachedNetworkImage(
+              imageUrl: item.getImageUrl()!,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              height: 75,
+              width: 75,
+              errorWidget: (context, error, stackTrace) {
+                log(error.toString());
+                return ClipOval(
+                  child: Container(
+                    width: imageSizeDetailPage,
+                    height: imageSizeDetailPage,
+                    color: grayColor,
+                    child: Icon(
+                        type == InfoType.tree
+                            ? Icons.nature
+                            : Icons.construction,
+                        size: 50),
+                  ),
+                );
+              },
             )
+            // Container(
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(10),
+            //     color: const Color.fromARGB(255, 217, 217, 217),
+            //   ),
+            //   margin: const EdgeInsets.symmetric(horizontal: 15),
+            //   height: 57,
+            //   width: 57,
+            //   child: item.getImageUrl(),
+            // )
           ],
         ),
         Expanded(
