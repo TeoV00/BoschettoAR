@@ -15,19 +15,27 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: pagePadding,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: mainColor,
+        title: const Text("Profilo"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: grassPaddingHeight),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              Row(
-                children: const [UserInfoBanner()],
-              ),
-              const StatisticsAndBadges(),
-              const ImagesReferencesCopyright(),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Row(
+                  children: const [UserInfoBanner()],
+                ),
+                const StatisticsAndBadges(),
+              ],
+            ),
           ),
         ),
       ),
@@ -128,24 +136,5 @@ class UserDataViews extends StatelessWidget {
         BadgeContainer(badges: badges),
       ],
     );
-  }
-}
-
-class ImagesReferencesCopyright extends StatelessWidget {
-  const ImagesReferencesCopyright({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 100, bottom: 40),
-        child: Column(
-          children: [
-            const Text("Riferimenti fonti immagini utilizzate:"),
-            Column(
-              children: [
-                for (var i = 0; i < linkRef.length; i++) ...[Text(linkRef[i])]
-              ],
-            )
-          ],
-        ));
   }
 }
