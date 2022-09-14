@@ -135,8 +135,7 @@ class _CustomListView extends State<CustomListView> {
 
                     if (index == itemCount - 1) {
                       rowItem = Padding(
-                        padding:
-                            const EdgeInsets.only(bottom: grassBottomBarHeight),
+                        padding: const EdgeInsets.only(bottom: grassHeight),
                         child: rowItem,
                       );
                     }

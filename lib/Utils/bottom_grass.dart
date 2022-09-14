@@ -22,7 +22,7 @@ class BottomGrass extends StatelessWidget {
             var parentWidth = constraints.maxWidth;
             return SizedBox(
               width: parentWidth,
-              height: grassBottomBarHeight,
+              height: grassHeight,
               child: SvgPicture.asset(
                 '$imagePath/grass.svg',
                 color: mainColor,

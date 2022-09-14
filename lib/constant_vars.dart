@@ -11,7 +11,9 @@ const disableBadge = Colors.grey;
 const darkGray = Color.fromARGB(255, 53, 53, 53);
 const topSectionTabWidth = 250.0;
 const pagePadding = EdgeInsets.only(top: 10, left: 10, right: 10);
-const double grassBottomBarHeight = 40;
+const double grassHeight = 40;
+const double grassPaddingHeight = 20;
+
 const double selectedFontSizeBottomNav = 15;
 const radiusCorner = Radius.circular(15);
 
