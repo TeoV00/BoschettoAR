@@ -21,7 +21,6 @@ class RoundOnlineImage extends StatelessWidget {
           imageUrl: url ?? '',
           placeholder: (context, url) => const CircularProgressIndicator(),
           errorWidget: (context, url, error) {
-            log('message');
             return defaultWidget;
           },
         ),
