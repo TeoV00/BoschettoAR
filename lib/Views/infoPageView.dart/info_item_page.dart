@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Utils/bottom_grass.dart';
+import 'package:tree_ar/Utils/circle_online_image.dart';
 import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
 import 'package:tree_ar/Views/infoPageView.dart/ar_view_button.dart';
 import 'package:tree_ar/Views/infoPageView.dart/details_box_container.dart';
@@ -89,42 +90,10 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> childs = [
-      ClipOval(
-        child: (item.getImageUrl() != null && item.getImageUrl()!.isNotEmpty)
-            ? CachedNetworkImage(
-                imageUrl: item.getImageUrl()!,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                height: imageSizeDetailPage,
-                width: imageSizeDetailPage,
-                errorWidget: (context, error, stackTrace) {
-                  log(error.toString());
-                  return ClipOval(
-                    child: Container(
-                      width: imageSizeDetailPage,
-                      height: imageSizeDetailPage,
-                      color: grayColor,
-                      child: Icon(
-                          itemType == InfoType.tree
-                              ? Icons.nature
-                              : Icons.construction,
-                          size: 50),
-                    ),
-                  );
-                },
-              )
-            : ClipOval(
-                child: Container(
-                  width: imageSizeDetailPage,
-                  height: imageSizeDetailPage,
-                  color: grayColor,
-                  child: Icon(
-                      itemType == InfoType.tree
-                          ? Icons.nature
-                          : Icons.construction,
-                      size: 50),
-                ),
-              ),
+      RoundOnlineImage(
+        defaultWidget: itemType == InfoType.,
+        size: 200,
+        url: item.getImageUrl(),
       ),
       DetailsBox(
         childBox: Text(
