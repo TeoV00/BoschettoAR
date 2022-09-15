@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Views/HomePage/home_list_item.dart';
+import 'package:tree_ar/Views/HomePage/info_credit_page.dart';
 import 'package:tree_ar/Views/infoPageView.dart/info_item_page.dart';
 import 'package:tree_ar/utils.dart';
 
@@ -29,7 +30,12 @@ class _MainPage extends State<MainPage> {
           actions: [
             IconButton(
               onPressed: () => {
-                
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const InfoCreditsPage(),
+                  ),
+                ),
               },
               icon: const Icon(Icons.info_outline),
             )
