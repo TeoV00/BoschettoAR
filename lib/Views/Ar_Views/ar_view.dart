@@ -100,7 +100,7 @@ class _ARWidgetState extends State<ARWidget> {
 
     this.arSessionManager.onInitialize(
         showFeaturePoints: false,
-        showPlanes: true,
+        showPlanes: false,
         showWorldOrigin: false,
         handleTaps: true,
         customPlaneTexturePath: "assets/arModel/grass.png",
