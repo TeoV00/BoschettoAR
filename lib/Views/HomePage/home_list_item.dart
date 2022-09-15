@@ -29,7 +29,7 @@ class RowItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(5),
             child: RoundOnlineImage(
-              //TODO: show correct default image for projects
+              //TODO: show correct default image for projects and tree
               defaultWidget: Text('da'),
               size: 75,
               url: item.getImageUrl(),

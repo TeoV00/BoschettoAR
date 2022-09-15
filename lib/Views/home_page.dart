@@ -1,9 +1,7 @@
 import 'dart:developer';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Views/HomePage/home_list_item.dart';
 import 'package:tree_ar/Views/infoPageView.dart/info_item_page.dart';
 import 'package:tree_ar/utils.dart';
@@ -21,80 +19,36 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  InfoType _selectedType = InfoType.tree;
-
-  void _onTapTab(InfoType typeSelected) {
-    setState(() {
-      _selectedType = typeSelected;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    const tabButtonWidth = (topSectionTabWidth / 2) - 45;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("TreeAR"),
-        centerTitle: true,
-        backgroundColor: mainColor,
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.info),
-              onPressed: () {
-                //TODO: create info page
-                log("open info page");
-                //InfoAppPage();
-              }),
-        ],
-      ),
-      body: SafeArea(
-        child: Stack(
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Borschetto AR'),
+          centerTitle: true,
+          backgroundColor: mainColor,
+          bottom: const TabBar(
+            labelColor: Colors.white,
+            indicatorColor: secondColor,
+            indicatorWeight: 3.0,
+            tabs: <Widget>[
+              Tab(
+                icon: Icon(Icons.nature),
+                child: Text('Alberi'),
+              ),
+              Tab(
+                icon: Icon(Icons.abc),
+                child: Text('Progetti'),
+              ),
+            ],
+          ),
+        ),
+        body: const TabBarView(
           children: <Widget>[
-            CustomListView(dataType: _selectedType),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.all(5),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(radiusCorner),
-                      color: secondColor),
-                  height: 50,
-                  width: topSectionTabWidth,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ChoiceChip(
-                        label: const SizedBox(
-                          width: tabButtonWidth,
-                          child: Text(
-                            "Alberi",
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        selected: _selectedType == InfoType.tree,
-                        onSelected: (_) => _onTapTab(InfoType.tree),
-                        selectedColor: Colors.white,
-                      ),
-                      ChoiceChip(
-                        label: const SizedBox(
-                          width: tabButtonWidth,
-                          child: Text(
-                            "Progetti",
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        selected: _selectedType == InfoType.project,
-                        onSelected: (_) => _onTapTab(InfoType.project),
-                        selectedColor: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            CustomListView(dataType: InfoType.tree),
+            CustomListView(dataType: InfoType.project),
           ],
         ),
       ),
@@ -127,7 +81,7 @@ class _CustomListView extends State<CustomListView> {
               int itemCount = treeAndProj[widget.dataType]!.length;
               return ListView.builder(
                   scrollDirection: Axis.vertical,
-                  padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
+                  padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                   itemCount: itemCount,
                   itemBuilder: (BuildContext context, int index) {
                     var item = treeAndProj[widget.dataType]![index];
