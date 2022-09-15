@@ -34,7 +34,7 @@ class TreeDetailsBox extends StatelessWidget {
             } else {
               childs = [
                 rowLabelValue('Co2', tree.co2, 'Kg/Anno'),
-                rowLabelValue('Altezza', tree.height.toString(), 'm'),
+                rowLabelValue('Altezza', tree.height.toString(), 'metri'),
               ];
             }
 
