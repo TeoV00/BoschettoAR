@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Utils/circle_online_image.dart';
