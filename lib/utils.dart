@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -72,21 +73,23 @@ Widget getUserImageWidget(String? userImgPath) {
   );
 }
 
-Pair<int, int?> getMultiplierString(int value) {
-  int amountCifer = value.toString().length;
+/// Get value in scientific annotation,
+/// return a pair containing updated value and exponent
+Pair<num, int?> getMultiplierString(num value) {
+  int amountCifer = value.toInt().toString().length;
 
   if (amountCifer > 3 && amountCifer <= 6) {
-    return Pair(value ~/ 1000, 3);
+    return Pair(value / 1000, 3);
   } else if (amountCifer > 6 && amountCifer <= 9) {
-    return Pair(value ~/ 1000000, 6);
+    return Pair(value / 1000000, 6);
   } else if (amountCifer > 9 && amountCifer <= 12) {
-    return Pair(value ~/ 1000000000, 9);
+    return Pair(value / 1000000000, 9);
   } else {
     return Pair(value, null);
   }
 }
 
-Widget getExponent(int exponent) {
+Widget getExponentWidget(int exponent) {
   return RichText(
     text: TextSpan(children: [
       const TextSpan(text: 'x10', style: TextStyle(color: Colors.black)),
@@ -132,10 +135,10 @@ Widget rowIndicator(
     children: [
       Padding(
         padding: const EdgeInsets.only(right: 5),
-        child: Text('$labelValue${getExponent(multiplier ?? 0)}',
+        child: Text('$labelValue${getExponentWidget(multiplier ?? 0)}',
             style: const TextStyle(fontSize: textLabelDetailsSize)),
       ),
-      getIconIndicator(type, mappedVal),
+      // getIconIndicator(type, mappedVal),
     ],
   );
 }
@@ -150,7 +153,16 @@ Widget getIconIndicator(TreeSpecs type, int value) {
   );
 }
 
-Widget rowLabelValue(String label, String value, String? unit) {
+Widget rowLabelValue(String label, dynamic value, String? unit) {
+  int? exp;
+
+  if (value is int || value is num || value is double) {
+    var val_exp = getMultiplierString(value);
+    log("$value --> ${val_exp.elem1} ${val_exp.elem2}");
+    exp = val_exp.elem2;
+    value = val_exp.elem1;
+  }
+
   return Row(
     children: [
       Padding(
@@ -158,9 +170,10 @@ Widget rowLabelValue(String label, String value, String? unit) {
         child: Text('$label:',
             style: const TextStyle(fontSize: textLabelDetailsSize)),
       ),
-      Text(value,
+      Text(value.toString(),
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
       const Spacer(),
+      exp != null ? getExponentWidget(exp) : const Text(''),
       Text(unit ?? '', style: const TextStyle(fontSize: 16)),
     ],
   );
