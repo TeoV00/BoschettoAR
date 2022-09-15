@@ -22,7 +22,7 @@ class TreeDetailsBox extends StatelessWidget {
           builder: (context, snapshot) {
             List<Widget> childs;
 
-            if (snapshot.hasData) {
+            if (snapshot.hasData && false) {
               var bounds = snapshot.data!;
 
               childs = [
@@ -33,7 +33,7 @@ class TreeDetailsBox extends StatelessWidget {
               ];
             } else {
               childs = [
-                rowLabelValue('Co2', tree.co2.toString(), 'Kg/Anno'),
+                rowLabelValue('Co2', tree.co2, 'Kg/Anno'),
                 rowLabelValue('Altezza', tree.height.toString(), 'm'),
               ];
             }

@@ -8,6 +8,7 @@ import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
 import 'package:tree_ar/Views/infoPageView.dart/ar_view_button.dart';
 import 'package:tree_ar/Views/infoPageView.dart/details_box_container.dart';
 import 'package:tree_ar/Views/infoPageView.dart/project_detail_box.dart';
+import 'package:tree_ar/Views/infoPageView.dart/tree_details_box.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';

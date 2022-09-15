@@ -15,7 +15,7 @@ class UserStatisticCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Pair<int, int?> valueAndUnit = getMultiplierString(amount);
+    Pair<num, int?> valueAndUnit = getMultiplierString(amount);
 
     return SizedBox(
       width: 80,
@@ -42,7 +42,7 @@ class UserStatisticCounter extends StatelessWidget {
             ),
           ),
           valueAndUnit.elem2 != null
-              ? getExponent(valueAndUnit.elem2!)
+              ? getExponentWidget(valueAndUnit.elem2!)
               : Container(),
           Text(
             unit,

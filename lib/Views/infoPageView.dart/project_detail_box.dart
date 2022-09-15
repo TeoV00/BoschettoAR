@@ -10,8 +10,7 @@ class ProjectDetailsBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var watt = getMultiplierString(
-        ValueConverter.fromCo2ToKiloWatt(proj.co2Saved).toInt());
+    var watt = ValueConverter.fromCo2ToKiloWatt(proj.co2Saved).toInt();
 
     return Column(
       children: [
@@ -20,10 +19,8 @@ class ProjectDetailsBox extends StatelessWidget {
           childBox: Column(
             children: [
               rowLabelValue('Categoria', proj.category.toString(), null),
-              rowLabelValue(
-                  'Anni di Dematerializzazione', proj.years.toString(), null),
-              rowLabelValue(
-                  'Alberi piantati', proj.treesCount.toString(), null),
+              rowLabelValue('Anni di Dematerializzazione', proj.years, null),
+              rowLabelValue('Alberi piantati', proj.treesCount, null),
             ],
           ),
         ),
@@ -31,16 +28,13 @@ class ProjectDetailsBox extends StatelessWidget {
             headerTitle: 'Dati sui risparmi',
             childBox: Column(
               children: [
-                rowLabelValue(
-                    'Carta risparmiata', proj.paper.toString(), 'Fogli A4'),
-                rowLabelValue('Co2 evitata', proj.co2Saved.toString(), 'Kg'),
+                rowLabelValue('Carta risparmiata', proj.paper, 'Fogli A4'),
+                rowLabelValue('Co2 evitata', proj.co2Saved, 'Kg'),
                 rowLabelValue(
                     'Barili di petrolio',
-                    ValueConverter.fromCo2ToPetrolBarrels(proj.co2Saved)
-                        .toString(),
+                    ValueConverter.fromCo2ToPetrolBarrels(proj.co2Saved),
                     'Barili'),
-                rowLabelValue('Elettricità corrispondente', '${watt.elem1} ',
-                    ' ${watt.elem2} KWh'),
+                rowLabelValue('Elettricità corrispondente', watt, 'KWh'),
               ],
             ))
       ],
