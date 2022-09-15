@@ -33,7 +33,13 @@ class Statistics {
 void showSnackBar(BuildContext context, Widget content, Duration? duration) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-        content: content, duration: duration ?? const Duration(seconds: 4)),
+      content: content,
+      duration: duration ?? const Duration(seconds: 4),
+      action: SnackBarAction(
+        label: 'chiudi',
+        onPressed: () {},
+      ),
+    ),
   );
 }
 
