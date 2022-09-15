@@ -184,7 +184,7 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
       showSnackBar(
           context,
           const Text(
-              "Non è stato possibile aggironare i dati locali, controllare connessione ad internet"),
+              "Non è stato possibile aggiornare i dati locali, controllare connessione ad internet"),
           const Duration(seconds: 5));
     }
   }
