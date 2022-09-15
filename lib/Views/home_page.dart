@@ -26,6 +26,14 @@ class _MainPage extends State<MainPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () => {
+                
+              },
+              icon: const Icon(Icons.info_outline),
+            )
+          ],
           title: const Text('Borschetto AR'),
           centerTitle: true,
           backgroundColor: mainColor,
