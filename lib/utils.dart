@@ -158,7 +158,7 @@ Widget rowLabelValue(String label, dynamic value, String? unit) {
 
   if (value is int || value is num || value is double) {
     var val_exp = getMultiplierString(value);
-    log("$value --> ${val_exp.elem1} ${val_exp.elem2}");
+    // log("$value --> ${val_exp.elem1} ${val_exp.elem2}");
     exp = val_exp.elem2;
     value = val_exp.elem1;
   }
@@ -172,8 +172,11 @@ Widget rowLabelValue(String label, dynamic value, String? unit) {
       ),
       Text(value.toString(),
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+      Padding(
+        padding: const EdgeInsets.only(left: 5),
+        child: exp != null ? getExponentWidget(exp) : const Text(''),
+      ),
       const Spacer(),
-      exp != null ? getExponentWidget(exp) : const Text(''),
       Text(unit ?? '', style: const TextStyle(fontSize: 16)),
     ],
   );
