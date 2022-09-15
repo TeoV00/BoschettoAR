@@ -13,25 +13,37 @@ class ProjectDetailsBox extends StatelessWidget {
     var watt = getMultiplierString(
         ValueConverter.fromCo2ToKiloWatt(proj.co2Saved).toInt());
 
-    return DetailsBox(
-      headerTitle: 'Dettagli',
-      childBox: Column(
-        children: [
-          rowLabelValue('Categoria', proj.category.toString(), null),
-          rowLabelValue(
-              'Anni di Dematerializzazione', proj.years.toString(), null),
-          rowLabelValue('Alberi piantati', proj.treesCount.toString(), null),
-          
-          rowLabelValue('Carta risparmiata', proj.paper.toString(), 'Fogli A4'),
-          rowLabelValue('Co2 evitata', proj.co2Saved.toString(), 'Kg'),
-          rowLabelValue(
-              'Barili di petrolio',
-              ValueConverter.fromCo2ToPetrolBarrels(proj.co2Saved).toString(),
-              'Barili'),
-          rowLabelValue('Elettricità corrispondente', '${watt.elem1} ',
-              ' ${watt.elem2} KWh'),
-        ],
-      ),
+    return Column(
+      children: [
+        DetailsBox(
+          headerTitle: 'Dettagli',
+          childBox: Column(
+            children: [
+              rowLabelValue('Categoria', proj.category.toString(), null),
+              rowLabelValue(
+                  'Anni di Dematerializzazione', proj.years.toString(), null),
+              rowLabelValue(
+                  'Alberi piantati', proj.treesCount.toString(), null),
+            ],
+          ),
+        ),
+        DetailsBox(
+            headerTitle: 'Dati sui risparmi',
+            childBox: Column(
+              children: [
+                rowLabelValue(
+                    'Carta risparmiata', proj.paper.toString(), 'Fogli A4'),
+                rowLabelValue('Co2 evitata', proj.co2Saved.toString(), 'Kg'),
+                rowLabelValue(
+                    'Barili di petrolio',
+                    ValueConverter.fromCo2ToPetrolBarrels(proj.co2Saved)
+                        .toString(),
+                    'Barili'),
+                rowLabelValue('Elettricità corrispondente', '${watt.elem1} ',
+                    ' ${watt.elem2} KWh'),
+              ],
+            ))
+      ],
     );
   }
 }
