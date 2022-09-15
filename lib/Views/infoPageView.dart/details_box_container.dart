@@ -21,13 +21,27 @@ class DetailsBox extends StatelessWidget {
         child: Column(children: [
           Row(
             children: [
-              Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Text(
-                    headerTitle,
-                    style: const TextStyle(
-                        fontSize: 16, color: Color.fromARGB(153, 0, 0, 0)),
-                  )),
+              // Padding(
+              //   padding: const EdgeInsets.only(bottom: 5),
+              // child:
+              Expanded(
+                child: Flex(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  direction: Axis.vertical,
+                  children: [
+                    Text(
+                      headerTitle,
+                      overflow: TextOverflow.visible,
+                      maxLines: 2,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+              ),
+              // ),
             ],
           ),
           Row(
