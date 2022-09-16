@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -122,7 +121,7 @@ Widget rowIndicator(
   num maxValue,
   double screenWidth,
 ) {
-  const double iconSizeDefault = 24;
+  // const double iconSizeDefault = 24;
   int? multiplier = getMultiplierString(value.toInt()).elem2;
 
   String labelValue = "$label: ";
@@ -133,9 +132,9 @@ Widget rowIndicator(
     value = maxValue;
   }
 
-  double textPixel = textLabelDetailsSize * (labelValue.length + 4);
-  int maxIconCount = ((screenWidth - textPixel) / iconSizeDefault).ceil();
-  int mappedVal = (maxIconCount * value) ~/ maxValue;
+  // double textPixel = textLabelDetailsSize * (labelValue.length + 4);
+  // int maxIconCount = ((screenWidth - textPixel) / iconSizeDefault).ceil();
+  // int mappedVal = (maxIconCount * value) ~/ maxValue;
 
   return Row(
     children: [

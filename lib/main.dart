@@ -5,7 +5,6 @@ import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'Views/user_page.dart';
 import 'constant_vars.dart';

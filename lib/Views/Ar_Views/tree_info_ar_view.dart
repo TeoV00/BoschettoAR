@@ -112,7 +112,7 @@ class TreeInfoSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final String nameTree = tree.name;
     const double pad = 10;
-    final double screenWidth = MediaQuery.of(context).size.width - (2 * pad);
+    // final double screenWidth = MediaQuery.of(context).size.width - (2 * pad);
 
     return Container(
       decoration: const BoxDecoration(

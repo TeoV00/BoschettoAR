@@ -1,8 +1,8 @@
-import 'package:tree_ar/DataProvider/data_manager.dart';
+// import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'package:tree_ar/Views/detailsPageView.dart/details_box_container.dart';
-import 'package:tree_ar/constant_vars.dart';
+// import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:flutter/material.dart';
 
