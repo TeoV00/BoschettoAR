@@ -21,6 +21,7 @@ const double imageSizeDetailPage = 200;
 
 const iconsPath = "assets/icons";
 const badgePath = '$iconsPath/badges';
+const categoriesPath = '$iconsPath/project_categories';
 const imagePath = "assets/images";
 const defualtUserImageName = "userPlaceholder.jpeg";
 
