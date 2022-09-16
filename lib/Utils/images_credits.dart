@@ -6,7 +6,7 @@ class ImagesReferencesCopyright extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 100, bottom: 40),
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Column(
           children: [
             const Text("Riferimenti fonti immagini utilizzate:"),
