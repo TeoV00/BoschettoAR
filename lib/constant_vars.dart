@@ -58,5 +58,5 @@ const labelStyle = TextStyle(
 Map<InfoType, String> defaultItemImage = {
   InfoType.tree: '$treeImagePath/tree-notfound.png',
   InfoType.project: '$categoriesImagePath/project.png',
-  InfoType.other: "",
+  InfoType.other: "$iconsPath/question.png",
 };
