@@ -88,8 +88,7 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> childs = [
-      //TODO: show correct default image for projects
-      RoundOnlineImage(
+      RoundImage(
         defaultWidget: Image.asset(defaultItemImage[itemType]!),
         size: 200,
         url: item.getImageUrl(),

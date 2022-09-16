@@ -25,7 +25,7 @@ class RowItem extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(5),
-            child: RoundOnlineImage(
+            child: RoundImage(
               defaultWidget: Image.asset(defaultItemImage[type]!),
               size: 75,
               url: item.getImageUrl(),
