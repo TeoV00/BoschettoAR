@@ -75,6 +75,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/icons/project_categories/
+    - assets/icons/trees/
     - assets/arModel/petrol_barrel/
     # - assets/arModel/paper_stack/stack1/
     # - assets/arModel/paper_stack/stack2/
