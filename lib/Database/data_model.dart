@@ -1,3 +1,5 @@
+import 'package:tree_ar/constant_vars.dart';
+
 class Tree implements ListItemInterface, ObjToMapI {
   final int treeId;
   final String name;
@@ -119,8 +121,7 @@ class Project implements ListItemInterface, ObjToMapI {
 
   @override
   String? getImageUrl() {
-    //TODO: someway get logo or image of project if exixst
-    return null;
+    return categoryImage[category];
   }
 }
 

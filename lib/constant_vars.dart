@@ -60,3 +60,9 @@ Map<InfoType, String> defaultItemImage = {
   InfoType.project: '$categoriesImagePath/project.png',
   InfoType.other: "$iconsPath/question.png",
 };
+
+Map<String, String> categoryImage = {
+  "Dematerializzazione": "$categoriesImagePath/dematerialization.png",
+  "Comunicazione Digitale": "$categoriesImagePath/digit_communication.png",
+  "Innovazione del Processo": "$categoriesImagePath/innovation.png",
+};

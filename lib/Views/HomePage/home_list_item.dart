@@ -25,11 +25,17 @@ class RowItem extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(5),
-            child: RoundImage(
-              defaultWidget: Image.asset(defaultItemImage[type]!),
-              size: 75,
-              url: item.getImageUrl(),
-            ),
+            child: type == InfoType.project
+                ? RoundImage(
+                    defaultWidget: Image.asset(defaultItemImage[type]!),
+                    size: 75,
+                    assetPath: item.getImageUrl(),
+                  )
+                : RoundImage(
+                    defaultWidget: Image.asset(defaultItemImage[type]!),
+                    size: 75,
+                    url: item.getImageUrl(),
+                  ),
           ),
           Expanded(
             child: Column(
