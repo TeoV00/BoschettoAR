@@ -21,9 +21,6 @@ class DetailsBox extends StatelessWidget {
         child: Column(children: [
           Row(
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: 5),
-              // child:
               Expanded(
                 child: Flex(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +38,6 @@ class DetailsBox extends StatelessWidget {
                   ],
                 ),
               ),
-              // ),
             ],
           ),
           Row(
