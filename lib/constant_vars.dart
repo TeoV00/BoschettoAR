@@ -54,3 +54,9 @@ const labelStyle = TextStyle(
   color: Color.fromARGB(255, 46, 128, 49),
   fontSize: 20,
 );
+
+Map<InfoType, String> defaultItemImage = {
+  InfoType.tree: '$treeImagePath/tree-notfound.png',
+  InfoType.project: '$categoriesImagePath/project.png',
+  InfoType.other: "",
+};
