@@ -1,7 +1,8 @@
 // References for all images  with copyright free to be used showing author
 final linkRef = [
   "it.freepik.com - Icone dei Badge",
-  "www.onlinewebfonts.com - Progress bar"
+  "www.onlinewebfonts.com - Progress bar",
+  "Icone dei progetti create da Freepik - Flaticon</a>"
 ];
 
 final infoSections = [

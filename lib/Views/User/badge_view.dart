@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -21,7 +20,7 @@ class BadgeContainer extends StatelessWidget {
         for (var i = 0; i < badges.length; i++) ...[
           BadgeCircle(
               nameDescr: entries[i].key.descr,
-              badgeImage: '$iconsPath/${entries[i].key.imageName}',
+              badgeImage: '$badgePath/${entries[i].key.imageName}',
               isActive: entries[i].value),
         ]
       ],

@@ -20,6 +20,7 @@ const radiusCorner = Radius.circular(15);
 const double imageSizeDetailPage = 200;
 
 const iconsPath = "assets/icons";
+const badgePath = '$iconsPath/badges';
 const imagePath = "assets/images";
 const defualtUserImageName = "userPlaceholder.jpeg";
 
