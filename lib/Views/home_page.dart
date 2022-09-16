@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Views/HomePage/home_list_item.dart';
 import 'package:tree_ar/Views/HomePage/info_credit_page.dart';
-import 'package:tree_ar/Views/infoPageView.dart/info_item_page.dart';
+import 'package:tree_ar/Views/detailsPageView.dart/info_item_page.dart';
 import 'package:tree_ar/utils.dart';
 
 import '../constant_vars.dart';

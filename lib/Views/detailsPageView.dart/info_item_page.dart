@@ -5,10 +5,10 @@ import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Utils/bottom_grass.dart';
 import 'package:tree_ar/Utils/circle_online_image.dart';
 import 'package:tree_ar/Views/CustomWidget/round_back_button.dart';
-import 'package:tree_ar/Views/infoPageView.dart/ar_view_button.dart';
-import 'package:tree_ar/Views/infoPageView.dart/details_box_container.dart';
-import 'package:tree_ar/Views/infoPageView.dart/project_detail_box.dart';
-import 'package:tree_ar/Views/infoPageView.dart/tree_details_box.dart';
+import 'package:tree_ar/Views/detailsPageView.dart/ar_view_button.dart';
+import 'package:tree_ar/Views/detailsPageView.dart/details_box_container.dart';
+import 'package:tree_ar/Views/detailsPageView.dart/project_detail_box.dart';
+import 'package:tree_ar/Views/detailsPageView.dart/tree_details_box.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -95,10 +95,8 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
       //TODO: show correct default image for projects
       RoundOnlineImage(
         defaultWidget: itemType == InfoType.tree
-            ? const Icon(Icons.nature)
-            : Container(
-                color: Colors.red,
-              ),
+            ? Image.asset('$treeImagePath/tree-notfound.png')
+            : Image.asset('$categoriesImagePath/project.png'),
         size: 200,
         url: item.getImageUrl(),
       ),
