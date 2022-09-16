@@ -51,9 +51,3 @@ const labelStyle = TextStyle(
   color: Color.fromARGB(255, 46, 128, 49),
   fontSize: 20,
 );
-
-// References for all images  with copyright free to be used showing author
-final linkRef = [
-  "it.freepik.com - Icone dei Badge",
-  "www.onlinewebfonts.com - Progress bar"
-];

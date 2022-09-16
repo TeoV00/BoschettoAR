@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tree_ar/constant_vars.dart';
+import 'package:tree_ar/Views/HomePage/info_page_const.dart';
 
 class ImagesReferencesCopyright extends StatelessWidget {
   const ImagesReferencesCopyright({Key? key}) : super(key: key);
