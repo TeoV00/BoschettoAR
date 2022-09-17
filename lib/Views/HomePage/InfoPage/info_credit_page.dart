@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tree_ar/Utils/images_credits.dart';
-import 'package:tree_ar/Views/HomePage/info_page_const.dart';
+import 'package:tree_ar/Views/HomePage/InfoPage/images_credits.dart';
+import 'package:tree_ar/Views/HomePage/InfoPage/info_page_const.dart';
 import 'package:tree_ar/Views/detailsPageView.dart/details_box_container.dart';
 import 'package:tree_ar/constant_vars.dart';
 
