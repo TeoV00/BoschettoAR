@@ -1,4 +1,6 @@
 //database constants
+import 'package:tree_ar/constant_vars.dart';
+
 import 'data_model.dart';
 
 const int defaultUserId = 0;
@@ -20,6 +22,12 @@ var defaultUser = User(
   registrationDate: "xxxx",
   userImageName: null,
 );
+
+Map<String, String> categoryImage = {
+  "Dematerializzazione": "$categoriesImagePath/dematerialization.png",
+  "Comunicazione Digitale": "$categoriesImagePath/digit_communication.png",
+  "Innovazione del Processo": "$categoriesImagePath/innovation.png",
+};
 
 //list of SQL query for creation of tables in db
 List<String> creationQuery = [
