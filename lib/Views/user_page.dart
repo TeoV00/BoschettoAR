@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/data_model.dart';
-import 'package:tree_ar/Utils/unit_converter.dart';
+import 'package:tree_ar/Views/Utils/unit_converter.dart';
 import 'package:tree_ar/Views/User/badge_view.dart';
 import 'package:tree_ar/Views/User/stats_counter.dart';
 import 'package:tree_ar/Views/User/user_progress_banner.dart';

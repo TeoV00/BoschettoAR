@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:tree_ar/Utils/bottom_grass.dart';
+import 'package:tree_ar/Views/Utils/bottom_grass.dart';
 import 'package:tree_ar/utils.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
