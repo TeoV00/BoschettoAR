@@ -110,31 +110,28 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
   }
 
   void _removeFirstLaunchPage() {
-    setState(() {
-      if (firstLaunch) {
+    if (firstLaunch) {
+      setState(() {
         firstLaunch = false;
-      }
-    });
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> children = [
-      BottomGrass(child: _appScreenPages[_selectionIndex]),
-    ];
+    Widget child;
 
     if (firstLaunch) {
-      children.add(const FirstLaunchGuide());
+      child = const FirstLaunchGuide();
+    } else {
+      child = BottomGrass(child: _appScreenPages[_selectionIndex]);
     }
 
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: children,
-      ),
+      body: child,
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: selectedFontSizeBottomNav,
-        elevation: 0, //To remove shadow between grass image and bottomBar
+        elevation: 0,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home, size: 30), label: 'Home'),
@@ -151,13 +148,12 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: secondColor,
         onPressed: () => {
-          _removeFirstLaunchPage(),
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const ScanTreePage(),
             ),
-          ),
+          ).then((value) => _removeFirstLaunchPage()),
         },
         child: const ImageIcon(
           AssetImage('$iconsPath/ScanTreeIcon.png'),
