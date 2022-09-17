@@ -1,3 +1,4 @@
+import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/constant_vars.dart';
 
 class Tree implements ListItemInterface, ObjToMapI {
@@ -68,6 +69,7 @@ class Project implements ListItemInterface, ObjToMapI {
   final String category;
   final double paper;
   final double co2Saved;
+  final String projImage; //it can be url or path assets
 
   Project(
       {required this.projectId,
@@ -78,7 +80,8 @@ class Project implements ListItemInterface, ObjToMapI {
       required this.paper,
       required this.treesCount,
       required this.years,
-      required this.co2Saved});
+      required this.co2Saved,
+      required this.projImage});
 
   @override
   Map<String, dynamic> toMap() {
@@ -106,6 +109,8 @@ class Project implements ListItemInterface, ObjToMapI {
       treesCount: projectDb['treesCount'],
       years: projectDb['years'],
       co2Saved: projectDb['co2Saved'],
+      projImage: categoryImage[projectDb['category']] ??
+          defaultItemImage[InfoType.project]!,
     );
   }
 
@@ -121,7 +126,7 @@ class Project implements ListItemInterface, ObjToMapI {
 
   @override
   String? getImageUrl() {
-    return categoryImage[category];
+    return projImage;
   }
 }
 

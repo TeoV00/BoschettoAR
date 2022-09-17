@@ -52,15 +52,18 @@ class DataManager extends ChangeNotifier {
           }
           projs.add(
             Project(
-                projectId: idOfTree,
-                treeId: idOfTree,
-                projectName: elem['projectName'],
-                category: elem['category'],
-                descr: elem['description'],
-                paper: double.parse(elem['carta'].toString()),
-                treesCount: double.parse(elem['trees'].toString()),
-                years: elem['years'],
-                co2Saved: double.parse(elem['co2risparmiata'].toString())),
+              projectId: idOfTree,
+              treeId: idOfTree,
+              projectName: elem['projectName'],
+              category: elem['category'],
+              descr: elem['description'],
+              paper: double.parse(elem['carta'].toString()),
+              treesCount: double.parse(elem['trees'].toString()),
+              years: elem['years'],
+              co2Saved: double.parse(elem['co2risparmiata'].toString()),
+              projImage: categoryImage[elem['category']] ??
+                  defaultItemImage[InfoType.project]!,
+            ),
           );
         }
       }
