@@ -2,34 +2,44 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/constant_vars.dart';
 
+enum SourceType {
+  url,
+  assetPath,
+}
+
 class RoundImage extends StatelessWidget {
-  final String? url;
-  final String? assetPath;
+  final String? urlOrAsset;
+  final SourceType srcType;
   final Widget defaultWidget;
   final double size;
 
   const RoundImage(
       {super.key,
-      this.url,
-      this.assetPath,
+      required this.urlOrAsset,
+      required this.srcType,
       required this.defaultWidget,
       required this.size});
 
   @override
   Widget build(BuildContext context) {
     Widget childImage;
-    if (url != null && assetPath == null) {
-      childImage = CachedNetworkImage(
-        imageUrl: url ?? '',
-        placeholder: (context, url) => const CircularProgressIndicator(
-          color: mainColor,
-        ),
-        errorWidget: (context, url, error) {
-          return defaultWidget;
-        },
-      );
-    } else if (url == null && assetPath != null) {
-      childImage = Image.asset(assetPath!);
+
+    if (urlOrAsset != null) {
+      if (srcType == SourceType.url) {
+        childImage = CachedNetworkImage(
+          imageUrl: urlOrAsset!,
+          placeholder: (context, url) => const CircularProgressIndicator(
+            color: mainColor,
+          ),
+          errorWidget: (context, url, error) {
+            return defaultWidget;
+          },
+        );
+      } else if (srcType == SourceType.assetPath) {
+        childImage = Image.asset(urlOrAsset!);
+      } else {
+        childImage = defaultWidget;
+      }
     } else {
       childImage = defaultWidget;
     }

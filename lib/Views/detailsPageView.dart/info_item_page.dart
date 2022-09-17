@@ -89,9 +89,12 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> childs = [
       RoundImage(
+        srcType: itemType == InfoType.project
+            ? SourceType.assetPath
+            : SourceType.url,
         defaultWidget: Image.asset(defaultItemImage[itemType]!),
-        size: 200,
-        url: item.getImageUrl(),
+        size: 75,
+        urlOrAsset: item.getImageUrl(),
       ),
       DetailsBox(
         childBox: Text(
