@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
+import 'package:tree_ar/Views/first_launch_view.dart';
 import 'package:tree_ar/utils.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
           future: widget.dataManager
               .fetchOnlineData()
               .timeout(
-                const Duration(seconds: 5),
+                const Duration(seconds: 1), //TODO: cambia e metti 5 seocnid
                 onTimeout: () => {isLoading = false, timeExpired = true},
               )
               .then(
@@ -82,18 +83,22 @@ class LoadingAppScreen extends StatelessWidget {
     return Scaffold(
       body: CenteredWidget(
           widgetToCenter: Column(
-        children: const [
-          Padding(
+        children: [
+          SizedBox(
+            width: 80,
+            child: Image.asset('$imagePath/forest.png'),
+          ),
+          const Padding(
             padding: EdgeInsets.all(10),
             child: Text(
               'Boschetto Cesena - Unibo',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
-          CircularProgressIndicator(
+          const CircularProgressIndicator(
             color: mainColor,
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(10),
             child: Text('Aggiornamento dati locali'),
           )
@@ -118,6 +123,7 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
   int _selectionIndex = 0; //deafultpage
   //Children screen of app
   late List<Widget> _appScreenPages;
+  bool firstLaunch = true;
 
   @override
   void initState() {
@@ -134,11 +140,29 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
     });
   }
 
+  void _removeFirstLaunchPage() {
+    setState(() {
+      if (firstLaunch) {
+        firstLaunch = false;
+      }
+      ;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> children = [
+      BottomGrass(child: _appScreenPages[_selectionIndex]),
+    ];
+
+    if (firstLaunch) {
+      children.add(const FirstLaunchGuide());
+    }
+
     return Scaffold(
-      body: Center(
-        child: BottomGrass(child: _appScreenPages[_selectionIndex]),
+      body: Stack(
+        alignment: Alignment.center,
+        children: children,
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: selectedFontSizeBottomNav,
@@ -159,6 +183,7 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: secondColor,
         onPressed: () => {
+          _removeFirstLaunchPage(),
           Navigator.push(
             context,
             MaterialPageRoute(

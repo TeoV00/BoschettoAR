@@ -38,7 +38,7 @@ class _MainPage extends State<MainPage> {
               icon: const Icon(Icons.info_outline),
             )
           ],
-          title: const Text('Borschetto AR'),
+          title: const Text(appName),
           centerTitle: true,
           backgroundColor: mainColor,
           bottom: const TabBar(

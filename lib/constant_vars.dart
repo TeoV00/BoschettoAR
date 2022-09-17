@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+const appName = "Boschetto AR";
 //url to fetch project info
 const urlProjectInfo = '';
 
