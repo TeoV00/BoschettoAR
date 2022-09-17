@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tree_ar/DataProvider/shared_prefs.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/DataProvider/firebase_provider.dart';
@@ -19,7 +20,6 @@ const double weightPaperKg = 0.005;
 class DataManager extends ChangeNotifier {
   DatabaseProvider dbProvider = DatabaseProvider.dbp;
   FirebaseProvider firebaseProvider = FirebaseProvider();
-
   int currentUserId = defaultUserId; //next feature could be multiuser in app
 
   ///Download and get from web or cloud db data used by the app

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:tree_ar/DataProvider/shared_prefs.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
 import 'package:tree_ar/Views/first_launch_view.dart';
 import 'package:tree_ar/Views/loading_data_view.dart';
@@ -51,7 +52,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: mainColor,
       ),
-      //loading app interface, quite like a splash screen
+      //loading app data, quite like a splash screen
       home: FutureBuilder<void>(
           future: widget.dataManager
               .fetchOnlineData()
@@ -91,8 +92,7 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
   int _selectionIndex = 0; //deafultpage
   //Children screen of app
   late List<Widget> _appScreenPages;
-
-  bool firstLaunch = true;
+  PreferenciesAppManager prefsManager = PreferenciesAppManager();
 
   @override
   void initState() {
@@ -109,60 +109,61 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
     });
   }
 
-  void _removeFirstLaunchPage() {
-    if (firstLaunch) {
-      setState(() {
-        firstLaunch = false;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    Widget child;
+    Widget childToShow;
 
-    if (firstLaunch) {
-      child = const FirstLaunchGuide();
-    } else {
-      child = BottomGrass(child: _appScreenPages[_selectionIndex]);
-    }
+    return FutureBuilder<bool>(
+      future: prefsManager.isFirstLoad(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data!) {
+          childToShow = const FirstLaunchGuide();
+        } else {
+          childToShow = BottomGrass(child: _appScreenPages[_selectionIndex]);
+        }
 
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        selectedFontSize: selectedFontSizeBottomNav,
-        elevation: 0,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home, size: 30), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined, size: 30),
-              label: 'Profilo')
-        ],
-        currentIndex: _selectionIndex,
-        onTap: _onItemTapped,
-        unselectedItemColor: Colors.black,
-        selectedItemColor: Colors.white,
-        backgroundColor: mainColor,
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: secondColor,
-        onPressed: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ScanTreePage(),
+        return Scaffold(
+          body: childToShow,
+          bottomNavigationBar: BottomNavigationBar(
+            selectedFontSize: selectedFontSizeBottomNav,
+            elevation: 0,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home, size: 30), label: 'Home'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle_outlined, size: 30),
+                  label: 'Profilo')
+            ],
+            currentIndex: _selectionIndex,
+            onTap: _onItemTapped,
+            unselectedItemColor: Colors.black,
+            selectedItemColor: Colors.white,
+            backgroundColor: mainColor,
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: secondColor,
+            onPressed: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ScanTreePage(),
+                ),
+              ).then(
+                (value) =>
+                    {prefsManager.hideFirstLoadScreen(), setState(() {})},
+              ),
+            },
+            child: const ImageIcon(
+              AssetImage('$iconsPath/ScanTreeIcon.png'),
+              color: Colors.black,
+              size: 32,
             ),
-          ).then((value) => _removeFirstLaunchPage()),
-        },
-        child: const ImageIcon(
-          AssetImage('$iconsPath/ScanTreeIcon.png'),
-          color: Colors.black,
-          size: 32,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      backgroundColor: Colors.white,
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          backgroundColor: Colors.white,
+        );
+      },
     );
   }
 
