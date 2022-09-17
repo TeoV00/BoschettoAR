@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
 import 'package:tree_ar/Views/first_launch_view.dart';
+import 'package:tree_ar/Views/loading_data_view.dart';
 import 'package:tree_ar/utils.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> {
           future: widget.dataManager
               .fetchOnlineData()
               .timeout(
-                const Duration(seconds: 1), //TODO: cambia e metti 5 seocnid
+                const Duration(seconds: 5),
                 onTimeout: () => {isLoading = false, timeExpired = true},
               )
               .then(
@@ -75,39 +76,6 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class LoadingAppScreen extends StatelessWidget {
-  const LoadingAppScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: CenteredWidget(
-          widgetToCenter: Column(
-        children: [
-          SizedBox(
-            width: 80,
-            child: Image.asset('$imagePath/forest.png'),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'Boschetto Cesena - Unibo',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          ),
-          const CircularProgressIndicator(
-            color: mainColor,
-          ),
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: Text('Aggiornamento dati locali'),
-          )
-        ],
-      )),
-    );
-  }
-}
-
 class TabView extends StatefulWidget {
   final bool timeExpired;
   const TabView({Key? key, required this.timeExpired}) : super(key: key);
@@ -123,6 +91,7 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
   int _selectionIndex = 0; //deafultpage
   //Children screen of app
   late List<Widget> _appScreenPages;
+
   bool firstLaunch = true;
 
   @override
@@ -145,7 +114,6 @@ class _TabViewState extends State<TabView> with AfterLayoutMixin<TabView> {
       if (firstLaunch) {
         firstLaunch = false;
       }
-      ;
     });
   }
 
