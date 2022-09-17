@@ -36,7 +36,10 @@ class RoundImage extends StatelessWidget {
           },
         );
       } else if (srcType == SourceType.assetPath) {
-        childImage = Image.asset(urlOrAsset!);
+        childImage = Padding(
+          padding: const EdgeInsets.all(8),
+          child: Image.asset(urlOrAsset!),
+        );
       } else {
         childImage = defaultWidget;
       }

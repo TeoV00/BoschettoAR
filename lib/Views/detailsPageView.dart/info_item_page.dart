@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Utils/bottom_grass.dart';
-import 'package:tree_ar/Utils/circle_online_image.dart';
+import 'package:tree_ar/Utils/round_image.dart';
 import 'package:tree_ar/Views/detailsPageView.dart/ar_view_button.dart';
 import 'package:tree_ar/Views/detailsPageView.dart/details_box_container.dart';
 import 'package:tree_ar/Views/detailsPageView.dart/project_detail_box.dart';
@@ -93,7 +93,7 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
             ? SourceType.assetPath
             : SourceType.url,
         defaultWidget: Image.asset(defaultItemImage[itemType]!),
-        size: 75,
+        size: imageSizeDetailPage,
         urlOrAsset: item.getImageUrl(),
       ),
       DetailsBox(
