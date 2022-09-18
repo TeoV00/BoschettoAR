@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
@@ -140,8 +141,8 @@ class _ARWidgetState extends State<ARWidget> {
           1,
           "assets/arModel/paper_stack/stack3/stack3.gltf",
           paperStackAmount,
-          0.5, //stack3Size.width,
-          0.5, //stack3Size.height,
+          0.30, //space between rows
+          0.30, //space between cols
         );
       } else if (!barrelShowed) {
         barrelShowed = true;
@@ -150,8 +151,8 @@ class _ARWidgetState extends State<ARWidget> {
           null,
           "assets/arModel/tanica/tanica.gltf",
           barrelAmount,
-          1, // barrelSize.width,
-          1, // barrelSize.height,
+          0.30, //space between rows
+          0.5, //space between cols
         );
       }
     }
@@ -162,10 +163,14 @@ class _ARWidgetState extends State<ARWidget> {
     bool? didAddAnchor = (await arAnchorManager.addAnchor(anchor));
 
     if (didAddAnchor != null && didAddAnchor) {
-      int xCount =
-          objAmount ~/ 2 > 0 ? objAmount ~/ 2 : 1; //quantiti of element per row
-      log("xcount: $xCount");
-      int yCount = objAmount ~/ xCount; // row
+      double edgeAmount = math.sqrt(objAmount);
+      log("lato dimensione $edgeAmount");
+
+      int yCount =
+          edgeAmount > 0 ? edgeAmount.round() : 1; //quantity of element per row
+
+      int xCount = yCount - 1;
+      int xCountRemains = yCount - (math.pow(yCount, 2) - objAmount).toInt();
 
       log("ycount: $yCount xCount: $xCount");
 
@@ -173,10 +178,10 @@ class _ARWidgetState extends State<ARWidget> {
         xCount = 1;
       }
 
-      double y = 0.0;
+      double x = 0.0;
 
       for (int j = 0; j < yCount; j++) {
-        double x = 0.0;
+        double y = 0.0;
 
         for (int i = 0; i < xCount; i++) {
           var newNode = ARNode(
@@ -195,10 +200,31 @@ class _ARWidgetState extends State<ARWidget> {
             nodes.add(newNode);
             anchors.add(anchor);
           }
-          x += objWidth;
+          y += objWidth;
         }
-        y += objHeight;
+        x += objHeight;
         log("y: $y  x: $x");
+      }
+
+      double y = 0.0;
+      for (int i = 0; i < xCountRemains; i++) {
+        var newNode = ARNode(
+          type: NodeType.localGLTF2,
+          uri: modelUri,
+          scale: scale != null ? Vector3(scale, scale, scale) : null,
+          //left-right offet(x), vertical-offset (z), (y)
+          position: Vector3(x, 0, y),
+        );
+
+        bool? didAddWebNode =
+            (await arObjectManager.addNode(newNode, planeAnchor: anchor));
+
+        if (didAddWebNode != null && didAddWebNode) {
+          log("nodo aggiunto");
+          nodes.add(newNode);
+          anchors.add(anchor);
+        }
+        y += objWidth;
       }
     } else {
       arSessionManager.onError("Adding Anchor failed");
