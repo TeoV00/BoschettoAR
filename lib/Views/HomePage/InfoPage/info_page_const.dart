@@ -22,13 +22,14 @@ Considerato, come regola generale, che 1 Kg di carta corrisponde ad 1 Kg di Co2 
 Si ha quindi che un folgio di carta corrisponde a circa 5g di Co2.''',
   },
   {
-    'title': '''Come sono stati calcolati i litri di benzina?''',
+    'title':
+        '''Come è stata calcolata la quantità di benzina in litri a partire dalla Co2?''',
     'body':
-        '''Per calcolare i litri di benzina corrispondendi ai Kg di Co2 si è moltiplicato il valore della Co2 risparmiata per la costante 0.429''',
+        '''Un litro di benzina produce circa 2,3035 Kg di Co2 quindi si ottiene una costante per la conversione pari a circa 0.429 Litri/Kg.\nMoltiplicando i chilogrammi di Co2 per questa costante si ottengono i litri di benzina.''',
   },
   {
     'title': '''Come è stato calcolata l'energia elettrica?''',
     'body':
-        '''Considerando un PCI medio di 43,6 MJ/kg, e una densità media di circa 750g/L. Quindi si ottiene 43,6 [MJ/kg] * 0,75 [kg/L] * 0,277 [kWh/MJ] ~= 9,06 kWh/L''',
+        '''Considerando un PCI (Potere calorifico inferiore) medio della benzina di 43,6 MJ/kg, e una densità media di circa 750g/L.\nSi ha che con 1 Litro di benzina si producono circa 9,06 kWh. Andanndo a moltiplicare questa costante per il numero di litri otteniamo l'energia elettrica.''',
   },
 ];
