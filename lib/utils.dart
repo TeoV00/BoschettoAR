@@ -22,11 +22,15 @@ class Statistics {
   int co2;
   int totSavedCo2Proj;
   int totalHeight;
-  int kiloWattHours;
   double progressPerc;
 
-  Statistics(this.papers, this.co2, this.totalHeight, this.totSavedCo2Proj,
-      this.kiloWattHours, this.progressPerc);
+  Statistics(
+    this.papers,
+    this.co2,
+    this.totalHeight,
+    this.totSavedCo2Proj,
+    this.progressPerc,
+  );
 }
 
 void showSnackBar(BuildContext context, Widget content, Duration? duration) {
