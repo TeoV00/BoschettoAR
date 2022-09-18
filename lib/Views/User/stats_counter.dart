@@ -36,7 +36,7 @@ class UserStatisticCounter extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.cover,
               child: Text(
-                valueAndUnit.elem1.toString(),
+                double.parse(valueAndUnit.elem1.toStringAsFixed(1)).toString(),
                 style: const TextStyle(fontSize: 22),
               ),
             ),

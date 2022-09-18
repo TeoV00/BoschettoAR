@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -166,10 +167,11 @@ Widget rowLabelValue(String label, dynamic value, String? unit) {
   int? exp;
 
   if (value is int || value is num || value is double) {
-    var val_exp = getMultiplierString(value);
+    var valExp = getMultiplierString(value);
     // log("$value --> ${val_exp.elem1} ${val_exp.elem2}");
-    exp = val_exp.elem2;
-    value = val_exp.elem1;
+    exp = valExp.elem2;
+    value = double.parse(valExp.elem1.toStringAsFixed(2));
+    log(" valore $value");
   }
 
   return Row(
