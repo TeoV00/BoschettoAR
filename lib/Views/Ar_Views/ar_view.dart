@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';

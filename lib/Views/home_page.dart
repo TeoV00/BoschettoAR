@@ -51,7 +51,7 @@ class _MainPage extends State<MainPage> {
                 child: Text('Alberi'),
               ),
               Tab(
-                icon: Icon(Icons.abc),
+                icon: Icon(Icons.engineering),
                 child: Text('Progetti'),
               ),
             ],
