@@ -55,7 +55,7 @@ class _ARWidgetState extends State<ARWidget> {
     super.initState();
 
     initPaperStackAmount();
-    barrelAmount = ValueConverter.fromCo2ToPetrolBarrels(widget.savedCo2);
+    barrelAmount = ValueConverter.fromCo2ToFuelTanks(widget.savedCo2);
 
     arView = ARView(
         onARViewCreated: onARViewCreated,
