@@ -31,9 +31,9 @@ class ProjectDetailsBox extends StatelessWidget {
                 rowLabelValue('Carta risparmiata', proj.paper, 'Fogli A4'),
                 rowLabelValue('Co2 evitata', proj.co2Saved, 'Kg'),
                 rowLabelValue(
-                    'Barili di petrolio',
-                    ValueConverter.fromCo2ToPetrolBarrels(proj.co2Saved),
-                    'Barili'),
+                    'Litri di Benzina',
+                    ValueConverter.fromCo2ToBenzinaLiter(proj.co2Saved),
+                    'Litri'),
                 rowLabelValue('Elettricità corrispondente', watt, 'KWh'),
               ],
             ))

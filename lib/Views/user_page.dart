@@ -111,12 +111,16 @@ class UserDataViews extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             UserStatisticCounter(
-                type: "Elettricità", amount: stats.kiloWattHours, unit: "KWh"),
+                type: "Elettricità",
+                amount: ValueConverter.fromCo2ToKiloWatt(stats.totSavedCo2Proj)
+                    .toInt(),
+                unit: "KWh"),
             UserStatisticCounter(
-                type: "Petrolio",
-                amount: ValueConverter.fromCo2ToPetrolBarrels(
-                    stats.totSavedCo2Proj),
-                unit: "barili"),
+                type: "Benzina",
+                amount:
+                    ValueConverter.fromCo2ToBenzinaLiter(stats.totSavedCo2Proj)
+                        .toInt(),
+                unit: "Litri"),
             UserStatisticCounter(
                 type: "Co2\nAlberi", amount: stats.co2, unit: "Kg/Anno"),
           ],

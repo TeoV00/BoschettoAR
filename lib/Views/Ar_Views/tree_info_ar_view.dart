@@ -167,9 +167,9 @@ class TreeInfoSheet extends StatelessWidget {
                   rowLabelValue('Co2 Evitata', project.co2Saved, 'Kg'),
                   rowLabelValue('Carta risparmiata', project.paper, 'fogli A4'),
                   rowLabelValue(
-                      'Barili di Petrolio',
-                      ValueConverter.fromCo2ToPetrolBarrels(project.co2Saved),
-                      'barili'),
+                      'Litri di benzina',
+                      ValueConverter.fromCo2ToBenzinaLiter(project.co2Saved),
+                      'Litri'),
                 ],
               ),
             ),
