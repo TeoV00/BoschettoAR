@@ -12,7 +12,15 @@ class InfoCreditsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> sections = [];
+    List<Widget> sections = [
+      Padding(
+        padding: const EdgeInsets.all(10),
+        child: SizedBox(
+          width: 100,
+          child: Image.asset("$imagePath/forest1.png"),
+        ),
+      )
+    ];
 
     for (var elem in infoSections) {
       sections.add(

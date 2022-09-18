@@ -2,7 +2,7 @@
 final linkRef = [
   "it.freepik.com - Icone dei Badge",
   "www.onlinewebfonts.com - Progress bar",
-  "Icone dei progetti create da Freepik - Flaticon</a>"
+  "Icone dei progetti create da Freepik - Flaticon"
 ];
 
 final infoSections = [
