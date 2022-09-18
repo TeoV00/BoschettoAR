@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const List<String> tutorialText = [
   'Tocca sul prato e verranno mostrati i plici di carta risparmiati dalla università',
-  'Tocca una seconda volta e verrano posizionati i barili di petrolio corrispondenti!',
+  'Tocca una seconda volta e verrano posizionate le taniche di benzina corrispondenti!',
   'Suggerimento! Spostati e tocca in un altro punto distante dai plichi di carta, per vedere meglio!'
 ];
 
