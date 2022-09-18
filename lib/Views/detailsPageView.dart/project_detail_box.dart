@@ -34,6 +34,10 @@ class ProjectDetailsBox extends StatelessWidget {
                     'Litri di Benzina',
                     ValueConverter.fromCo2ToBenzinaLiter(proj.co2Saved),
                     'Litri'),
+                rowLabelValue(
+                    'Taniche da 20 litri di benzina',
+                    ValueConverter.fromCo2ToFuelTanks(proj.co2Saved),
+                    'Taniche'),
                 rowLabelValue('Elettricità corrispondente', watt, 'KWh'),
               ],
             ))

@@ -170,6 +170,14 @@ class TreeInfoSheet extends StatelessWidget {
                       'Litri di benzina',
                       ValueConverter.fromCo2ToBenzinaLiter(project.co2Saved),
                       'Litri'),
+                  rowLabelValue(
+                      'Taniche da 20 litri di benzina',
+                      ValueConverter.fromCo2ToFuelTanks(project.co2Saved),
+                      'Taniche'),
+                  rowLabelValue(
+                      'Elettricità corrispondente',
+                      ValueConverter.fromCo2ToKiloWatt(project.co2Saved),
+                      'KWh'),
                 ],
               ),
             ),
