@@ -122,8 +122,6 @@ class _ARWidgetState extends State<ARWidget> {
 
   Future<void> onPlaneOrPointTapped(
       List<ARHitTestResult> hitTestResults) async {
-    log('''originale: ${widget.savedPaperProj} countStacks: $paperStackAmount''');
-    log('''barrels count: $barrelAmount''');
     if (!paperShowed || !barrelShowed) {
       //if anchor is not already set
       var singleHitTestResult = hitTestResults.firstWhere(
@@ -151,8 +149,8 @@ class _ARWidgetState extends State<ARWidget> {
           null,
           "assets/arModel/tanica/tanica.gltf",
           barrelAmount,
-          0.30, //space between rows
-          0.5, //space between cols
+          0.50, //space between rows
+          0.30, //space between cols
         );
       }
     }
@@ -164,15 +162,12 @@ class _ARWidgetState extends State<ARWidget> {
 
     if (didAddAnchor != null && didAddAnchor) {
       double edgeAmount = math.sqrt(objAmount);
-      log("lato dimensione $edgeAmount");
 
       int yCount =
           edgeAmount > 0 ? edgeAmount.round() : 1; //quantity of element per row
 
       int xCount = yCount - 1;
       int xCountRemains = yCount - (math.pow(yCount, 2) - objAmount).toInt();
-
-      log("ycount: $yCount xCount: $xCount");
 
       if (xCount == 0) {
         xCount = 1;
@@ -184,50 +179,45 @@ class _ARWidgetState extends State<ARWidget> {
         double y = 0.0;
 
         for (int i = 0; i < xCount; i++) {
-          var newNode = ARNode(
-            type: NodeType.localGLTF2,
-            uri: modelUri,
-            scale: scale != null ? Vector3(scale, scale, scale) : null,
-            //left-right offet(x), vertical-offset (z), (y)
-            position: Vector3(x, 0, y),
-          );
-
-          bool? didAddWebNode =
-              (await arObjectManager.addNode(newNode, planeAnchor: anchor));
-
-          if (didAddWebNode != null && didAddWebNode) {
-            log("nodo aggiunto");
-            nodes.add(newNode);
-            anchors.add(anchor);
-          }
+          addNode(modelUri, scale, x, y, anchor, arObjectManager);
           y += objWidth;
         }
         x += objHeight;
-        log("y: $y  x: $x");
       }
 
+      //add remaining objs
       double y = 0.0;
       for (int i = 0; i < xCountRemains; i++) {
-        var newNode = ARNode(
-          type: NodeType.localGLTF2,
-          uri: modelUri,
-          scale: scale != null ? Vector3(scale, scale, scale) : null,
-          //left-right offet(x), vertical-offset (z), (y)
-          position: Vector3(x, 0, y),
-        );
-
-        bool? didAddWebNode =
-            (await arObjectManager.addNode(newNode, planeAnchor: anchor));
-
-        if (didAddWebNode != null && didAddWebNode) {
-          log("nodo aggiunto");
-          nodes.add(newNode);
-          anchors.add(anchor);
-        }
+        addNode(modelUri, scale, x, y, anchor, arObjectManager);
         y += objWidth;
       }
     } else {
       arSessionManager.onError("Adding Anchor failed");
+    }
+  }
+
+  void addNode(
+    String modelUri,
+    double? scale,
+    double x,
+    double y,
+    ARPlaneAnchor anchor,
+    ARObjectManager arObjectManager,
+  ) async {
+    var newNode = ARNode(
+      type: NodeType.localGLTF2,
+      uri: modelUri,
+      scale: scale != null ? Vector3(scale, scale, scale) : null,
+      //left-right offet(x), vertical-offset (z), (y)
+      position: Vector3(x, 0, y),
+    );
+
+    bool? didAddWebNode =
+        (await arObjectManager.addNode(newNode, planeAnchor: anchor));
+
+    if (didAddWebNode != null && didAddWebNode) {
+      nodes.add(newNode);
+      anchors.add(anchor);
     }
   }
 }
