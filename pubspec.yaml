@@ -79,6 +79,7 @@ flutter:
     - assets/icons/badges/
     - assets/icons/trees/
     - assets/arModel/petrol_barrel/
+    - assets/arModel/tanica/
     # - assets/arModel/paper_stack/stack1/
     # - assets/arModel/paper_stack/stack2/
     - assets/arModel/paper_stack/stack3/

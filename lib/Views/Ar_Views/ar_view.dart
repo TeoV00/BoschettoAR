@@ -148,7 +148,7 @@ class _ARWidgetState extends State<ARWidget> {
         _addNodesMatrixToARWorld(
           anchor,
           null,
-          "assets/arModel/petrol_barrel/petrol_barrel.gltf",
+          "assets/arModel/tanica/tanica.gltf",
           barrelAmount,
           1, // barrelSize.width,
           1, // barrelSize.height,
