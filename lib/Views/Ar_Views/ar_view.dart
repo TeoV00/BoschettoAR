@@ -48,8 +48,8 @@ class _ARWidgetState extends State<ARWidget> {
 
   late ARView arView;
 
-  List<ARNode> nodes = [];
-  List<ARAnchor> anchors = [];
+  List<String> paperStacks = [];
+  List<String> fuelTanks = [];
 
   @override
   void initState() {
@@ -113,11 +113,26 @@ class _ARWidgetState extends State<ARWidget> {
   }
 
   Future<void> onNodeTapped(List<String> nodes) async {
-    var paperInStack =
-        getMultiplierString(widget.savedPaperProj ~/ paperStackAmount);
+    var tappedNodeName = nodes.first;
+    BuildContext context = arSessionManager.buildContext;
 
-    arSessionManager.onError(
-        "Plico di ${paperInStack.elem1} ${paperInStack.elem2}fogli di carta");
+    if (paperStacks.contains(tappedNodeName)) {
+      var paperInStack =
+          getMultiplierString(widget.savedPaperProj ~/ paperStackAmount);
+
+      showSnackBar(
+        context,
+        Text(
+            "Plico di ${paperInStack.elem1} ${paperInStack.elem2}fogli di carta"),
+        null,
+      );
+    } else if (fuelTanks.contains(tappedNodeName)) {
+      showSnackBar(
+        context,
+        const Text("Tanica da 20 Litri"),
+        null,
+      );
+    }
   }
 
   Future<void> onPlaneOrPointTapped(
@@ -141,6 +156,7 @@ class _ARWidgetState extends State<ARWidget> {
           paperStackAmount,
           0.30, //space between rows
           0.30, //space between cols
+          ArObjType.paperStack,
         );
       } else if (!barrelShowed) {
         barrelShowed = true;
@@ -151,13 +167,21 @@ class _ARWidgetState extends State<ARWidget> {
           barrelAmount,
           0.50, //space between rows
           0.30, //space between cols
+          ArObjType.fuelTank,
         );
       }
     }
   }
 
-  void _addNodesMatrixToARWorld(ARPlaneAnchor anchor, double? scale,
-      String modelUri, int objAmount, double objWidth, double objHeight) async {
+  void _addNodesMatrixToARWorld(
+    ARPlaneAnchor anchor,
+    double? scale,
+    String modelUri,
+    int objAmount,
+    double objWidth,
+    double objHeight,
+    ArObjType objType,
+  ) async {
     bool? didAddAnchor = (await arAnchorManager.addAnchor(anchor));
 
     if (didAddAnchor != null && didAddAnchor) {
@@ -170,9 +194,8 @@ class _ARWidgetState extends State<ARWidget> {
       int xCountRemains = yCount - (math.pow(yCount, 2) - objAmount).toInt();
 
       if (xCountRemains % yCount == 0) {
-        xCountRemains = yCount; // xCountRemains ~/ (xCountRemains / yCount);
+        xCountRemains = yCount;
       }
-      // log("objAmount: $objAmount   remainingi: $xCountRemains");
 
       double x = 0.0;
 
@@ -180,7 +203,7 @@ class _ARWidgetState extends State<ARWidget> {
         double y = 0.0;
 
         for (int i = 0; i < yCount; i++) {
-          addNode(modelUri, scale, x, y, anchor, arObjectManager);
+          addNode(modelUri, scale, x, y, anchor, arObjectManager, objType);
           y += objWidth;
         }
         x += objHeight;
@@ -189,7 +212,7 @@ class _ARWidgetState extends State<ARWidget> {
       //add remaining objs
       double y = 0.0;
       for (int col = 0; col < xCountRemains; col++) {
-        addNode(modelUri, scale, x, y, anchor, arObjectManager);
+        addNode(modelUri, scale, x, y, anchor, arObjectManager, objType);
         y += objWidth;
       }
     } else {
@@ -204,6 +227,7 @@ class _ARWidgetState extends State<ARWidget> {
     double y,
     ARPlaneAnchor anchor,
     ARObjectManager arObjectManager,
+    ArObjType objType,
   ) async {
     var newNode = ARNode(
       type: NodeType.localGLTF2,
@@ -213,12 +237,15 @@ class _ARWidgetState extends State<ARWidget> {
       position: Vector3(x, 0, y),
     );
 
-    bool? didAddWebNode =
-        (await arObjectManager.addNode(newNode, planeAnchor: anchor));
+    // bool? didAddWebNode =
+    (await arObjectManager.addNode(newNode, planeAnchor: anchor));
 
-    if (didAddWebNode != null && didAddWebNode) {
-      nodes.add(newNode);
-      anchors.add(anchor);
+    // if (didAddWebNode != null && didAddWebNode) {
+    if (objType == ArObjType.paperStack) {
+      paperStacks.add(newNode.name);
+    } else if (objType == ArObjType.fuelTank) {
+      fuelTanks.add(newNode.name);
     }
+    // }
   }
 }
