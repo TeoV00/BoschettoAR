@@ -42,7 +42,7 @@ class UserStatisticCounter extends StatelessWidget {
             ),
           ),
           valueAndUnit.elem2 != null
-              ? getExponentWidget(valueAndUnit.elem2!)
+              ? getExponentWidget(valueAndUnit.elem2!, null)
               : Container(),
           Text(
             unit,
