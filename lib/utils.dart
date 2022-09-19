@@ -98,10 +98,11 @@ Pair<num, int?> getMultiplierString(num value) {
   }
 }
 
-Widget getExponentWidget(int exponent) {
+Widget getExponentWidget(int exponent, TextStyle? style) {
   return RichText(
     text: TextSpan(children: [
-      const TextSpan(text: 'x10', style: TextStyle(color: Colors.black)),
+      TextSpan(
+          text: 'x10', style: style ?? const TextStyle(color: Colors.black)),
       WidgetSpan(
         child: Transform.translate(
           offset: const Offset(2, -4),
@@ -144,7 +145,7 @@ Widget rowIndicator(
     children: [
       Padding(
         padding: const EdgeInsets.only(right: 5),
-        child: Text('$labelValue${getExponentWidget(multiplier ?? 0)}',
+        child: Text('$labelValue${getExponentWidget(multiplier ?? 0, null)}',
             style: const TextStyle(fontSize: textLabelDetailsSize)),
       ),
       // getIconIndicator(type, mappedVal),
@@ -183,7 +184,7 @@ Widget rowLabelValue(String label, dynamic value, String? unit) {
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
       Padding(
         padding: const EdgeInsets.only(left: 5),
-        child: exp != null ? getExponentWidget(exp) : const Text(''),
+        child: exp != null ? getExponentWidget(exp, null) : const Text(''),
       ),
       const Spacer(),
       Text(unit ?? '', style: const TextStyle(fontSize: 16)),
