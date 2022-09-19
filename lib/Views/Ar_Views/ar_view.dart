@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
@@ -122,8 +121,14 @@ class _ARWidgetState extends State<ARWidget> {
 
       showSnackBar(
         context,
-        Text(
-            "Plico di ${paperInStack.elem1} ${paperInStack.elem2}fogli di carta"),
+        Row(
+          children: [
+            Text("Plico di ${paperInStack.elem1.toInt()} "),
+            getExponentWidget(
+                paperInStack.elem2!, const TextStyle(color: Colors.white)),
+            const Text("  fogli di carta A4"),
+          ],
+        ),
         null,
       );
     } else if (fuelTanks.contains(tappedNodeName)) {
