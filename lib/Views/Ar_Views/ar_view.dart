@@ -1,4 +1,4 @@
-
+import 'dart:developer';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
@@ -165,20 +165,21 @@ class _ARWidgetState extends State<ARWidget> {
 
       int yCount =
           edgeAmount > 0 ? edgeAmount.round() : 1; //quantity of element per row
+      int xCount = yCount == 0 ? 1 : yCount;
 
-      int xCount = yCount - 1;
       int xCountRemains = yCount - (math.pow(yCount, 2) - objAmount).toInt();
 
-      if (xCount == 0) {
-        xCount = 1;
+      if (xCountRemains % yCount == 0) {
+        xCountRemains = yCount; // xCountRemains ~/ (xCountRemains / yCount);
       }
+      // log("objAmount: $objAmount   remainingi: $xCountRemains");
 
       double x = 0.0;
 
-      for (int j = 0; j < yCount; j++) {
+      for (int j = 0; j < xCount; j++) {
         double y = 0.0;
 
-        for (int i = 0; i < xCount; i++) {
+        for (int i = 0; i < yCount; i++) {
           addNode(modelUri, scale, x, y, anchor, arObjectManager);
           y += objWidth;
         }
@@ -187,7 +188,7 @@ class _ARWidgetState extends State<ARWidget> {
 
       //add remaining objs
       double y = 0.0;
-      for (int i = 0; i < xCountRemains; i++) {
+      for (int col = 0; col < xCountRemains; col++) {
         addNode(modelUri, scale, x, y, anchor, arObjectManager);
         y += objWidth;
       }

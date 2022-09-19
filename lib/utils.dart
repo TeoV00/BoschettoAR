@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -171,7 +170,6 @@ Widget rowLabelValue(String label, dynamic value, String? unit) {
     // log("$value --> ${val_exp.elem1} ${val_exp.elem2}");
     exp = valExp.elem2;
     value = double.parse(valExp.elem1.toStringAsFixed(2));
-    log(" valore $value");
   }
 
   return Row(
