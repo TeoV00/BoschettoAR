@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 const List<String> tutorialText = [
-  'Tocca sul prato e verranno mostrati i plici di carta risparmiati dalla università',
+  "Tocca sul suolo e verranno mostrati i plichi di carta risparmiati dall'università",
   'Tocca una seconda volta e verrano posizionate le taniche di benzina corrispondenti!',
-  'Suggerimento! Spostati e tocca in un altro punto distante dai plichi di carta, per vedere meglio!'
+  'Suggerimento: spostati e tocca in un altro punto distante dai plichi di carta per vedere meglio!'
 ];
 
 const TextStyle textStyle = TextStyle(fontSize: 16);
