@@ -98,7 +98,9 @@ class UserDataViews extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             UserStatisticCounter(
-                type: "Co2 Evitata", amount: stats.totSavedCo2Proj, unit: "Kg"),
+                type: "$co2String Evitata",
+                amount: stats.totSavedCo2Proj,
+                unit: "Kg"),
             TreeProgessBar(progressPerc: stats.progressPerc),
             UserStatisticCounter(
                 type: "Carta", amount: stats.papers, unit: "Fogli A4"),
@@ -122,7 +124,7 @@ class UserDataViews extends StatelessWidget {
                         .toInt(),
                 unit: "Litri"),
             UserStatisticCounter(
-                type: "Co2\nAlberi", amount: stats.co2, unit: "Kg/Anno"),
+                type: "$co2String\nAlberi", amount: stats.co2, unit: "Kg/Anno"),
           ],
         ),
         const Divider(

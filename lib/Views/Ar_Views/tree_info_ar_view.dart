@@ -133,7 +133,7 @@ class TreeInfoSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Column(
                 children: [
-                  rowLabelValue('Co2', tree.co2, 'Kg/Anno'),
+                  rowLabelValue(co2String, tree.co2, 'Kg/Anno'),
                   rowLabelValue('Altezza', tree.height, 'metri'),
                 ],
               ),
@@ -163,7 +163,7 @@ class TreeInfoSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Column(
                 children: [
-                  rowLabelValue('Co2 Evitata', project.co2Saved, 'Kg'),
+                  rowLabelValue('$co2String Evitata', project.co2Saved, 'Kg'),
                   rowLabelValue('Carta risparmiata', project.paper, 'fogli A4'),
                   rowLabelValue(
                       'Litri di benzina',

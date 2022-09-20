@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const appName = "Boschetto AR";
+const co2String = "CO\u2082";
 //url to fetch project info
 const urlProjectInfo = '';
 
