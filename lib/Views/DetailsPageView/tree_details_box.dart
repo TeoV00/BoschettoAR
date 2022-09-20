@@ -1,5 +1,5 @@
 // import 'package:tree_ar/DataProvider/data_manager.dart';
-import 'package:tree_ar/Views/detailsPageView.dart/details_box_container.dart';
+import 'package:tree_ar/Views/DetailsPageView/details_box_container.dart';
 // import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
 // import 'package:provider/provider.dart';

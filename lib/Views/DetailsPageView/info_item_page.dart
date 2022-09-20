@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
 import 'package:tree_ar/Views/Utils/round_image.dart';
-import 'package:tree_ar/Views/detailsPageView.dart/ar_view_button.dart';
-import 'package:tree_ar/Views/detailsPageView.dart/details_box_container.dart';
-import 'package:tree_ar/Views/detailsPageView.dart/project_detail_box.dart';
-import 'package:tree_ar/Views/detailsPageView.dart/tree_details_box.dart';
+import 'package:tree_ar/Views/DetailsPageView/ar_view_button.dart';
+import 'package:tree_ar/Views/DetailsPageView/details_box_container.dart';
+import 'package:tree_ar/Views/DetailsPageView/project_detail_box.dart';
+import 'package:tree_ar/Views/DetailsPageView/tree_details_box.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
 
