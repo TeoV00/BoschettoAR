@@ -4,7 +4,7 @@ import 'package:tree_ar/constant_vars.dart';
 final linkRef = [
   "it.freepik.com - Icone dei Badge",
   "www.onlinewebfonts.com - Progress bar",
-  "Icone dei progetti create da Freepik - Flaticon"
+  "Icone dei progetti ed alberi create da Freepik - Flaticon"
 ];
 
 final infoSections = [
