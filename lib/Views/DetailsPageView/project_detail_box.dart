@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tree_ar/Database/data_model.dart';
 import 'package:tree_ar/Views/Utils/unit_converter.dart';
 import 'package:tree_ar/Views/DetailsPageView/details_box_container.dart';
+import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
 
 class ProjectDetailsBox extends StatelessWidget {
@@ -29,7 +30,7 @@ class ProjectDetailsBox extends StatelessWidget {
             childBox: Column(
               children: [
                 rowLabelValue('Carta risparmiata', proj.paper, 'Fogli A4'),
-                rowLabelValue('Co2 evitata', proj.co2Saved, 'Kg'),
+                rowLabelValue('$co2String evitata', proj.co2Saved, 'Kg'),
                 rowLabelValue(
                     'Litri di Benzina',
                     ValueConverter.fromCo2ToBenzinaLiter(proj.co2Saved),
