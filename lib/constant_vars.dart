@@ -5,7 +5,7 @@ const co2String = "CO\u2082";
 //url to fetch project info
 const urlProjectInfo = '';
 
-const mainColor = Color(0xFF96BB7C);
+const mainColor = Color.fromARGB(255, 161, 204, 130);
 const secondColor = Color(0xFFD6EFC7);
 const badgeColor = Color.fromARGB(255, 216, 238, 215);
 const grayColor = Color.fromARGB(255, 235, 235, 235);
