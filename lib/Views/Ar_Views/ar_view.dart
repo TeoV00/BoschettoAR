@@ -167,7 +167,7 @@ class _ARWidgetState extends State<ARWidget> {
         barrelShowed = true;
         _addNodesMatrixToARWorld(
           anchor,
-          null,
+          0.8,
           "assets/arModel/tanica/tanica.gltf",
           barrelAmount,
           0.50, //space between rows
