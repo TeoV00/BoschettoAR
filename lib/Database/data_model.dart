@@ -130,11 +130,11 @@ class Project implements ListItemInterface, ObjToMapI {
   }
 }
 
-class Badge implements ObjToMapI {
+class GoalBadge implements ObjToMapI {
   final int id;
   final String descr;
   final String imageName;
-  Badge({required this.id, required this.descr, required this.imageName});
+  GoalBadge({required this.id, required this.descr, required this.imageName});
 
   @override
   Map<String, dynamic> toMap() {
@@ -145,8 +145,8 @@ class Badge implements ObjToMapI {
     };
   }
 
-  factory Badge.fromMap(Map<String, dynamic> badgeDb) {
-    return Badge(
+  factory GoalBadge.fromMap(Map<String, dynamic> badgeDb) {
+    return GoalBadge(
       id: badgeDb['id'],
       descr: badgeDb['descr'],
       imageName: badgeDb['imageName'],

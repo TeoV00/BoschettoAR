@@ -78,37 +78,38 @@ List<String> creationQuery = [
 ];
 
 //List of badge
-List<Badge> appBadges = [
-  Badge(
+List<GoalBadge> appBadges = [
+  GoalBadge(
       id: 1,
       descr: "Il primo albero non si scorda mai!",
       imageName: "badge1.png"),
-  Badge(
+  GoalBadge(
       id: 2,
       descr: "Un piccolo passo per l'uomo un grande passo per l'ambiente",
       imageName: "badge2.png"),
-  Badge(id: 3, descr: "Non c'è due senza tre", imageName: "badge3.png"),
-  Badge(id: 4, descr: 'Medaglia "Eroe degli alberi"', imageName: "badge4.png"),
-  Badge(
+  GoalBadge(id: 3, descr: "Non c'è due senza tre", imageName: "badge3.png"),
+  GoalBadge(
+      id: 4, descr: 'Medaglia "Eroe degli alberi"', imageName: "badge4.png"),
+  GoalBadge(
       id: 5,
       descr: "Un piccolo gesto fa la differenza",
       imageName: "badge5.png"),
-  Badge(id: 6, descr: "Sei un boss", imageName: "badge6.png"),
-  Badge(id: 7, descr: "Non mollare, sei a metà!", imageName: "badge7.png"),
-  Badge(id: 8, descr: "Sei diventato un fan!", imageName: "badge8.png"),
-  Badge(
+  GoalBadge(id: 6, descr: "Sei un boss", imageName: "badge6.png"),
+  GoalBadge(id: 7, descr: "Non mollare, sei a metà!", imageName: "badge7.png"),
+  GoalBadge(id: 8, descr: "Sei diventato un fan!", imageName: "badge8.png"),
+  GoalBadge(
       id: 9,
       descr: 'Medaglia "Risparmiatore di carta"',
       imageName: "badge9.png"),
-  Badge(
+  GoalBadge(
       id: 10,
       descr: 'Medaglia "Amante della natura"',
       imageName: "badge10.png"),
-  Badge(
+  GoalBadge(
       id: 11,
       descr: "Grazie agli alberi si sta più freschi",
       imageName: "badge11.png"),
-  Badge(id: 12, descr: "Ora l'aria è più pulita", imageName: "badge12.png"),
-  Badge(id: 13, descr: "Quanti alberi!", imageName: "badge13.png"),
-  Badge(id: 14, descr: "Sei diventato un master", imageName: "badge14.png"),
+  GoalBadge(id: 12, descr: "Ora l'aria è più pulita", imageName: "badge12.png"),
+  GoalBadge(id: 13, descr: "Quanti alberi!", imageName: "badge13.png"),
+  GoalBadge(id: 14, descr: "Sei diventato un master", imageName: "badge14.png"),
 ];

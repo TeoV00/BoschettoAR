@@ -267,13 +267,13 @@ class DatabaseProvider {
     return userBadges;
   }
 
-  Future<List<Badge>> getAllBadges() async {
-    List<Badge> badges = List.empty(growable: true);
+  Future<List<GoalBadge>> getAllBadges() async {
+    List<GoalBadge> badges = List.empty(growable: true);
     var db = await database;
     var result = await db.query(
       badgeTable,
     );
-    badges = result.map((e) => Badge.fromMap(e)).toList();
+    badges = result.map((e) => GoalBadge.fromMap(e)).toList();
 
     return badges;
   }

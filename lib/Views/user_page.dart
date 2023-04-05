@@ -82,7 +82,7 @@ class _StatisticsAndBadgesState extends State<StatisticsAndBadges> {
 
 class UserDataViews extends StatelessWidget {
   final Statistics stats;
-  final Map<Badge, bool> badges;
+  final Map<GoalBadge, bool> badges;
 
   const UserDataViews({
     Key? key,

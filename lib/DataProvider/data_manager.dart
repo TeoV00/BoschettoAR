@@ -104,7 +104,7 @@ class DataManager extends ChangeNotifier {
 
     Statistics stats = await _calculateStats();
 
-    Map<Badge, bool> badges = {};
+    Map<GoalBadge, bool> badges = {};
     Set<int> userBadges = await dbProvider.getUserBadges(currentUserId);
 
     for (var domainBadge in appBadges) {

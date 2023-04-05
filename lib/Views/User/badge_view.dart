@@ -4,7 +4,7 @@ import 'package:tree_ar/constant_vars.dart';
 
 class BadgeContainer extends StatelessWidget {
   const BadgeContainer({Key? key, required this.badges}) : super(key: key);
-  final Map<Badge, bool> badges;
+  final Map<GoalBadge, bool> badges;
 
   @override
   Widget build(BuildContext context) {
