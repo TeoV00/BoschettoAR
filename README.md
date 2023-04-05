@@ -1,3 +1,3 @@
 # Boschetto AR
 
-Applicazione multipiattaforma (Android/iOS) per mostrare i vantaggi ecologici che ha raggiunto l'Università di Bologna riducendo l'utilizzo della carta nello svolgimento di attività amministrative e didattiche.
+Design e sviluppo di un sistema mobile (ibrido) di realtà aumentata e gamification per fornire informazioni sulla sostenibilità dell’Università di Bologna.
