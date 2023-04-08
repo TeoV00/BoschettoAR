@@ -32,6 +32,7 @@ class InfoItemPage extends StatelessWidget {
 
       itemDetailsView = ScrollableListOfDetailsBoxes(
         item: proj,
+        linkedItemName: tree.getTitle(),
         itemType: InfoType.project,
         childrenSections: [ProjectDetailsBox(proj: proj)],
       );
@@ -39,6 +40,7 @@ class InfoItemPage extends StatelessWidget {
       titlePage = tree.name;
       itemDetailsView = ScrollableListOfDetailsBoxes(
         item: tree,
+        linkedItemName: proj.getTitle(),
         itemType: InfoType.tree,
         childrenSections: [TreeDetailsBox(tree: tree)],
       );
@@ -75,6 +77,7 @@ class InfoItemPage extends StatelessWidget {
 
 class ScrollableListOfDetailsBoxes extends StatelessWidget {
   final ListItemInterface item;
+  final String linkedItemName;
   final InfoType itemType;
   final List<Widget> childrenSections;
 
@@ -82,7 +85,8 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
       {Key? key,
       required this.item,
       required this.itemType,
-      required this.childrenSections})
+      required this.childrenSections,
+      required this.linkedItemName})
       : super(key: key);
 
   @override
@@ -95,6 +99,18 @@ class ScrollableListOfDetailsBoxes extends StatelessWidget {
         defaultWidget: Image.asset(defaultItemImage[itemType]!),
         size: imageSizeDetailPage,
         urlOrAsset: item.getImageUrl(),
+      ),
+      DetailsBox(
+        headerTitle: itemType == InfoType.project
+            ? "Associato all'albero:"
+            : "Associato al progetto:",
+        childBox: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            linkedItemName,
+            style: const TextStyle(fontSize: 20),
+          ),
+        ),
       ),
       DetailsBox(
         childBox: Text(
