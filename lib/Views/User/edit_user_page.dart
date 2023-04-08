@@ -79,20 +79,10 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Stack(
-                children: [
-                  getUserImageWidget(formUser.userImageName),
-                  Container(
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle, color: mainColor),
-                    child: IconButton(
-                      iconSize: 30,
-                      icon: const Icon(Icons.edit),
-                      tooltip: 'Modifica immagine',
-                      onPressed: () => {_changeUserImage()},
-                    ),
-                  )
-                ],
+              getUserImageWidget(formUser.userImageName),
+              TextButton(
+                child: const Text("Modifica"),
+                onPressed: () => {_changeUserImage()},
               ),
               Form(
                 key: _formKey,
@@ -221,7 +211,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
   Widget fieldGroupForm(String title) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30),
+      padding: const EdgeInsets.only(top: 5),
       child: Text(
         title,
         style: const TextStyle(
