@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Database/data_model.dart';
+import 'package:tree_ar/Views/UploadProgress/share_progress.dart';
 import 'package:tree_ar/Views/Utils/unit_converter.dart';
 import 'package:tree_ar/Views/User/badge_view.dart';
 import 'package:tree_ar/Views/User/stats_counter.dart';
@@ -21,6 +22,18 @@ class UserPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: mainColor,
         title: const Text("Profilo"),
+        leading: IconButton(
+            onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return SharePorgressPage();
+                  }),
+                ),
+            icon: const Icon(
+              Icons.upload,
+              size: 25,
+              semanticLabel: "Carica progressi",
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.only(bottom: grassPaddingHeight),
