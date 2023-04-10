@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
+import 'package:tree_ar/Views/Utils/bullet_list.dart';
 import 'package:tree_ar/constant_vars.dart';
 
 const pageTitle = "Deposita progressi";
@@ -13,7 +14,13 @@ class SharePorgressPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
-        title: const Text(pageTitle),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(pageTitle),
+            SizedBox(width: 56),
+          ],
+        ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
@@ -23,31 +30,72 @@ class SharePorgressPage extends StatelessWidget {
           child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-                "In questa sezione potrai depositare i tuoi progressi e gareggiare contro gli altri."),
+              "In questa sezione potrai depositare i tuoi progressi per gareggiare contro gli altri e rendere il bosco virtuale rigoglioso!",
+              style: TextStyle(
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const Spacer(),
+            LayoutBuilder(
+              builder: (context, constraint) {
+                return Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromRGBO(255, 247, 180, 1),
+                      boxShadow: const [
+                        BoxShadow(
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                            color: Color.fromRGBO(0, 0, 0, 0.25))
+                      ]),
+                  width: constraint.maxWidth,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  child: Column(
+                    children: const [
+                      Text(
+                        "Dati condivisi",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 16),
+                      ),
+                      BulletList([
+                        "nickname",
+                        "numero dei badge",
+                        "percentuale progresso",
+                        "contatori risparmi (co2, carta, elettricità, benzina)"
+                      ]),
+                      Text("I dati saranno condivisi con il nickname:"),
+                      Text(
+                        nickname,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            const Spacer(),
             Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Column(
-                children: const [
-                  Text("I dati saranno condivisi sotto il nickname:"),
-                  Text(
-                    nickname,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                children: [
+                  Image.asset("assets/images/growing_trees.png"),
+                  const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      "Più alberi scannerizzi e badge acquisisci più il tuo albero sarà rigoglioso!!",
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),
-            ),
-            Container(
-              color: const Color.fromRGBO(255, 247, 180, 1),
-              padding: const EdgeInsets.all(8),
-              child: const Text("kkk"),
-            ),
-            Image.asset("assets/images/growing_trees.png"),
-            const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                  "Più alberi scannerizzi e badge acquisisci più il tuo albero sarà rigoglioso!!"),
             ),
             LayoutBuilder(builder: (context, constraint) {
               return MaterialButton(
@@ -63,7 +111,8 @@ class SharePorgressPage extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               );
-            })
+            }),
+            const Spacer(),
           ],
         ),
       )),
