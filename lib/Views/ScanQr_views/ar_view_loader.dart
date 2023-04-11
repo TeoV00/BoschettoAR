@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Views/Ar_Views/tree_info_ar_view.dart';
+import 'package:tree_ar/Views/ScanQr_views/scan_qr_view.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'package:tree_ar/utils.dart';
@@ -8,15 +9,11 @@ import 'package:tree_ar/utils.dart';
 const errorMessageInvalidQrCode =
     "Il QRcode non è valido\nalbero o progetto non trovato";
 
-class ArViewLoader extends StatefulWidget {
-  final String qrData;
-  const ArViewLoader({Key? key, required this.qrData}) : super(key: key);
+class ArViewLoader extends StatelessWidget implements QRScanData {
+  late final String qrData;
 
-  @override
-  State<StatefulWidget> createState() => _ArViewLoaderState();
-}
+  ArViewLoader({Key? key}) : super(key: key);
 
-class _ArViewLoaderState extends State<ArViewLoader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +22,7 @@ class _ArViewLoaderState extends State<ArViewLoader> {
           Consumer<DataManager>(
             builder: (context, dataManager, child) =>
                 FutureBuilder<Map<InfoType, dynamic>?>(
-              future: dataManager.isValidTreeCode(widget.qrData),
+              future: dataManager.isValidTreeCode(qrData),
               builder: (context, snapshot) {
                 Widget child = const ShowMessagePage(
                   message: "Errore nello sviluppo schermata !!",
@@ -59,6 +56,16 @@ class _ArViewLoaderState extends State<ArViewLoader> {
         ]),
       ),
     );
+  }
+
+  @override
+  Widget getWidget() {
+    return this;
+  }
+
+  @override
+  void setScannedData(String qrCodeData) {
+    qrData = qrCodeData;
   }
 }
 
