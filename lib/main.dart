@@ -12,7 +12,7 @@ import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'Views/user_page.dart';
 import 'constant_vars.dart';
 import 'Views/home_page.dart';
-import 'Views/ScanQr_views/scan_qr_page.dart';
+import 'Views/ScanQr_views/scan_tree_qr.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
