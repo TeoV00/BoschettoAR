@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tree_ar/Views/DetailsPageView/details_box_container.dart';
 import 'package:tree_ar/Views/ScanQr_views/scan_qr_view.dart';
 import 'package:tree_ar/Views/UploadProgress/common_widgets.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';

@@ -23,17 +23,18 @@ class UserPage extends StatelessWidget {
         backgroundColor: mainColor,
         title: const Text("Profilo"),
         leading: IconButton(
-            onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return const SharePorgressPage();
-                  }),
-                ),
-            icon: const Icon(
-              Icons.upload,
-              size: 25,
-              semanticLabel: "Carica progressi",
-            )),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return const SharePorgressPage();
+            }),
+          ),
+          icon: const Icon(
+            Icons.upload,
+            size: 25,
+            semanticLabel: "Carica progressi",
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(bottom: grassPaddingHeight),

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tree_ar/Views/HomePage/InfoPage/info_credit_page.dart';
 import 'package:tree_ar/Views/HomePage/home_list_item.dart';
 import 'package:tree_ar/Views/DetailsPageView/info_item_page.dart';
+import 'package:tree_ar/Views/UploadProgress/share_progress.dart';
 import 'package:tree_ar/utils.dart';
 
 import '../constant_vars.dart';
@@ -25,6 +26,19 @@ class _MainPage extends State<MainPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return const SharePorgressPage();
+              }),
+            ),
+            icon: const Icon(
+              Icons.upload,
+              size: 25,
+              semanticLabel: "Carica progressi",
+            ),
+          ),
           actions: [
             IconButton(
               onPressed: () => {
