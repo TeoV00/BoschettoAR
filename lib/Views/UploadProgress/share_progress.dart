@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tree_ar/Views/UploadProgress/common_widgets.dart';
+import 'package:tree_ar/Views/UploadProgress/scanqr_totem.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
 import 'package:tree_ar/Views/Utils/bullet_list.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -12,20 +14,7 @@ class SharePorgressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mainColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(pageTitle),
-            SizedBox(width: 56),
-          ],
-        ),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
-        ),
-      ),
+      appBar: getAppBar("Deposita progressi", context),
       body: BottomGrass(
           child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -105,7 +94,12 @@ class SharePorgressPage extends StatelessWidget {
                 height: 50,
                 textColor: Colors.white,
                 color: mainColor,
-                onPressed: () {},
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return const ScanTotemQR();
+                  }),
+                ),
                 child: const Text(
                   "Procedi",
                   style: TextStyle(fontWeight: FontWeight.bold),
