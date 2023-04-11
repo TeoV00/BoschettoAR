@@ -4,7 +4,8 @@ import 'package:tree_ar/constant_vars.dart';
 
 class BottomGrass extends StatelessWidget {
   final Widget child;
-  const BottomGrass({super.key, required this.child});
+  final Widget? childOnGrass;
+  const BottomGrass({super.key, required this.child, this.childOnGrass});
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +19,22 @@ class BottomGrass extends StatelessWidget {
               Expanded(child: child),
             ],
           ),
-          LayoutBuilder(builder: ((context, constraints) {
-            var parentWidth = constraints.maxWidth;
-            return SizedBox(
-              width: parentWidth,
-              height: grassHeight,
-              child: SvgPicture.asset(
-                '$imagePath/grass.svg',
-                color: mainColor,
-                excludeFromSemantics: true,
-                fit: BoxFit.fill,
-              ),
-            );
-          }))
+          LayoutBuilder(
+            builder: ((context, constraints) {
+              var parentWidth = constraints.maxWidth;
+              return SizedBox(
+                width: parentWidth,
+                height: grassHeight,
+                child: SvgPicture.asset(
+                  '$imagePath/grass.svg',
+                  color: mainColor,
+                  excludeFromSemantics: true,
+                  fit: BoxFit.fill,
+                ),
+              );
+            }),
+          ),
+          if (childOnGrass != null) ...[childOnGrass!],
         ],
       ),
     );
