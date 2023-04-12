@@ -16,26 +16,27 @@ import 'package:collection/collection.dart' as coll;
 const double weightPaperKg = 0.005;
 
 class DataManager extends ChangeNotifier {
-  DatabaseProvider dbProvider = DatabaseProvider.dbp;
-  FirebaseProvider firebaseProvider = FirebaseProvider();
+  final DatabaseProvider _dbProvider = DatabaseProvider.dbp;
+  final FirebaseProvider _firebaseProvider = FirebaseProvider();
   int currentUserId = defaultUserId; //next feature could be multiuser in app
 
   ///Download and get from web or cloud db data used by the app
   Future<void> fetchOnlineData() async {
     //get project data json from existing web service
-    List<Tree>? trees = await firebaseProvider.getTrees();
+    List<Tree>? trees = await _firebaseProvider.getTrees();
     if (trees != null) {
-      dbProvider.insertBatchTrees(trees);
+      _dbProvider.insertBatchTrees(trees);
     }
     List<Project>? projs = await _fetchProjects();
     if (projs != null) {
-      dbProvider.insertBatchProjects(projs);
+      _dbProvider.insertBatchProjects(projs);
     }
   }
 
+  /// Fetch projects online data and save in local db computing missing info
   Future<List<Project>?> _fetchProjects() async {
     Map<String, int>? treeIdByProjName =
-        await firebaseProvider.getRelationshipProjAndTree();
+        await _firebaseProvider.getRelationshipProjAndTree();
 
     List<Map<String, dynamic>>? projWeb = await _fetchProjectsFromWeb();
     List<Project> projs = [];
@@ -70,6 +71,8 @@ class DataManager extends ChangeNotifier {
     return projs.isEmpty ? null : projs;
   }
 
+  /// Get projects data from web (json)
+  /// [return] list of map
   Future<List<Map<String, dynamic>>?> _fetchProjectsFromWeb() async {
     log("Fetch dati progetti");
     List<Map<String, dynamic>>? projFromWeb;
@@ -95,17 +98,17 @@ class DataManager extends ChangeNotifier {
 //   minTemp,
 //   water;
 
-    return dbProvider.getBoundariesTreeValues();
+    return _dbProvider.getBoundariesTreeValues();
   }
 
-  ///get user info then when received, cache data to var then notify listeners
+  /// Get user statistics and badges
   Future<Map<UserData, dynamic>> getUserData() async {
     log("getUser data");
 
     Statistics stats = await _calculateStats();
 
     Map<GoalBadge, bool> badges = {};
-    Set<int> userBadges = await dbProvider.getUserBadges(currentUserId);
+    Set<int> userBadges = await _dbProvider.getUserBadges(currentUserId);
 
     for (var domainBadge in appBadges) {
       badges.putIfAbsent(
@@ -131,9 +134,10 @@ class DataManager extends ChangeNotifier {
     return total;
   }
 
+  /// Compute statistics values (co2 trees, savedCo2, total height, papers, progress perc)
   Future<Statistics> _calculateStats() async {
-    List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
-    List<Project> proj = await dbProvider.getUserProjects(currentUserId);
+    List<Tree> trees = await _dbProvider.getUserTrees(currentUserId);
+    List<Project> proj = await _dbProvider.getUserProjects(currentUserId);
 
     int totCo2Tree = _getTotalOn((e) => (e as Tree).co2, trees).toInt();
     int totalHeight = _getTotalOn((e) => (e as Tree).height, trees).toInt();
@@ -141,12 +145,12 @@ class DataManager extends ChangeNotifier {
     int totSavedCo2Proj =
         _getTotalOn((e) => (e as Project).co2Saved, proj).toInt();
 
-    var userProject = await dbProvider.getUserProjects(currentUserId);
+    var userProject = await _dbProvider.getUserProjects(currentUserId);
     int papers = userProject.isNotEmpty
         ? userProject.map((e) => e.paper).reduce((val, e) => val += e).toInt()
         : 0;
 
-    var unlockedBadge = await dbProvider.getUserBadges(currentUserId);
+    var unlockedBadge = await _dbProvider.getUserBadges(currentUserId);
 
     double progressPerc = unlockedBadge.isNotEmpty
         ? double.parse(((unlockedBadge.length / appBadges.length) * 100)
@@ -167,7 +171,7 @@ class DataManager extends ChangeNotifier {
   ///return true if any edit has been done, false if anything was not updated
   /// or there was any problem
   Future<bool> updateCurrentUserInfo(User user) async {
-    var res = await dbProvider.updateUserInfo(
+    var res = await _dbProvider.updateUserInfo(
       currentUserId,
       user.name,
       user.surname,
@@ -182,14 +186,14 @@ class DataManager extends ChangeNotifier {
   ///Update snapshot of userInfo from db
   ///return true if data are on db and snapshot is updated
   Future<User> getUserInfo() async {
-    var user = await dbProvider.getUserInfo(currentUserId);
+    var user = await _dbProvider.getUserInfo(currentUserId);
     return user ?? defaultUser;
   }
 
   Future<Map<InfoType, List<dynamic>>> getUserTreesProject() async {
     //retrieve data saved in database - local memory
-    List<Tree> trees = await dbProvider.getUserTrees(currentUserId);
-    List<Project> projc = await dbProvider.getUserProjects(currentUserId);
+    List<Tree> trees = await _dbProvider.getUserTrees(currentUserId);
+    List<Project> projc = await _dbProvider.getUserProjects(currentUserId);
 
     var userTreeAndProj = {
       InfoType.tree: trees,
@@ -200,16 +204,16 @@ class DataManager extends ChangeNotifier {
   }
 
   //SETTER methods
-  void addUserTree(int treeId) async {
-    await dbProvider.addUserTree(currentUserId, treeId);
+  void _addUserTree(int treeId) async {
+    await _dbProvider.addUserTree(currentUserId, treeId);
   }
 
   void unlockUserBadge() async {
-    Set<int> userBadges = await dbProvider.getUserBadges(currentUserId);
+    Set<int> userBadges = await _dbProvider.getUserBadges(currentUserId);
 
     if (userBadges.isEmpty) {
       //add first badge (idBadge = 1)
-      dbProvider.addUserBadge(currentUserId, 1);
+      _dbProvider.addUserBadge(currentUserId, 1);
       log("Added fisrt badge");
     } else {
       log("more badges unlocked");
@@ -217,7 +221,7 @@ class DataManager extends ChangeNotifier {
       //appBadges are defined in database_constant file, is better than get badges from db
       if (maxBadgeId + 1 < appBadges.length) {
         log("unlock badge num. ${maxBadgeId + 1}");
-        dbProvider.addUserBadge(currentUserId, maxBadgeId + 1);
+        _dbProvider.addUserBadge(currentUserId, maxBadgeId + 1);
       } else {
         log("All badge unlocked");
       }
@@ -229,9 +233,9 @@ class DataManager extends ChangeNotifier {
     log("isValidtreeCode Called");
     var treeId = int.parse(qrData);
 
-    Tree? tree = await dbProvider.getTree(treeId);
-    Project? proj = await dbProvider.getProject(treeId);
-    List<Tree> userTrees = await dbProvider.getUserTrees(currentUserId);
+    Tree? tree = await _dbProvider.getTree(treeId);
+    Project? proj = await _dbProvider.getProject(treeId);
+    List<Tree> userTrees = await _dbProvider.getUserTrees(currentUserId);
     bool isNewTree = userTrees.where((tree) => tree.treeId == treeId).isEmpty;
     log("Albero: ${tree == null ? 'Null' : 'presente'}");
     log("Progetto: ${proj == null ? 'Null' : 'presente'}");
@@ -241,7 +245,7 @@ class DataManager extends ChangeNotifier {
     if (tree != null && proj != null) {
       if (isNewTree) {
         unlockUserBadge();
-        addUserTree(treeId);
+        _addUserTree(treeId);
       }
       return {
         InfoType.tree: tree,
@@ -252,5 +256,10 @@ class DataManager extends ChangeNotifier {
       //no data available and code is not valid
       return null;
     }
+  }
+
+  /// Upload user data to specific totem
+  Future<bool> uploadUserData(String ) {
+
   }
 }
