@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'package:tree_ar/Views/ScanQr_views/scan_qr_view.dart';
 import 'package:tree_ar/Views/UploadProgress/common_widgets.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
@@ -36,7 +38,22 @@ class SucessfullDataLoaded implements QRScanData {
   @override
   Widget getWidget() {
     return Scaffold(
-      body: Text(data ?? "No data"),
+      body: SafeArea(
+        child: BottomGrass(
+            child: Consumer<DataManager>(
+          builder: (context, dataManager, child) => FutureBuilder<bool>(
+            future: dataManager.uploadUserData(data),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data != null) {
+                  Text(snapshot.data! ? "caricati" : "non caricati");
+                }
+              }
+              return Text("data");
+            },
+          ),
+        )),
+      ),
     );
   }
 

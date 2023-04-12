@@ -11,7 +11,7 @@ const errorMessageInvalidQrCode =
 
 class ArViewLoader extends StatelessWidget implements QRScanData {
   late final String qrData;
-
+//TODO: fix that
   ArViewLoader({Key? key}) : super(key: key);
 
   @override
