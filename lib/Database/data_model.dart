@@ -1,6 +1,16 @@
 import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/constant_vars.dart';
 
+abstract class ListItemInterface {
+  String getTitle();
+  String getDescr();
+  String? getImageUrl();
+}
+
+abstract class ObjToMapI {
+  Map<String, dynamic> toMap();
+}
+
 class Tree implements ListItemInterface, ObjToMapI {
   final int treeId;
   final String name;
@@ -258,12 +268,51 @@ class UserBadge implements ObjToMapI {
   }
 }
 
-abstract class ListItemInterface {
-  String getTitle();
-  String getDescr();
-  String? getImageUrl();
+class TotemInfo implements ObjToMapI {
+  final String place;
+  final String project;
+
+  TotemInfo({required this.place, required this.project});
+
+  factory TotemInfo.fromMap(Map<String, dynamic> totemInfo) {
+    return TotemInfo(
+      place: totemInfo['place'],
+      project: totemInfo['project'],
+    );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'place': place,
+      'project': project,
+    };
+  }
 }
 
-abstract class ObjToMapI {
-  Map<String, dynamic> toMap();
+class SharedData implements ObjToMapI {
+  final int badgeCount;
+  final int co2;
+  final int level;
+  final int paper;
+  final int treesCount;
+
+  SharedData({
+    required this.badgeCount,
+    required this.co2,
+    required this.level,
+    required this.paper,
+    required this.treesCount,
+  });
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'badgeCount': badgeCount,
+      'co2': co2,
+      'level': level,
+      'paper': paper,
+      'treesCount': treesCount,
+    };
+  }
 }
