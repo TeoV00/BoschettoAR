@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/Views/Ar_Views/tree_info_ar_view.dart';
 import 'package:tree_ar/Views/ScanQr_views/scan_qr_view.dart';
+import 'package:tree_ar/Views/Utils/error_view.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'package:tree_ar/utils.dart';
@@ -24,9 +25,8 @@ class ArViewLoader extends StatelessWidget implements QRScanData {
                 FutureBuilder<Map<InfoType, dynamic>?>(
               future: dataManager.isValidTreeCode(qrData),
               builder: (context, snapshot) {
-                Widget child = const ShowMessagePage(
-                  message: "Errore nello sviluppo schermata !!",
-                );
+                Widget child = const ErrorView(
+                    message: "Errore nello sviluppo schermata !!");
 
                 //log("hasData: ${snapshot.hasData} \n data: ${snapshot.data ?? "null"}");
                 if (snapshot.hasData) {
@@ -40,8 +40,7 @@ class ArViewLoader extends StatelessWidget implements QRScanData {
                   );
                 } else if (!snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
-                  child =
-                      const ShowMessagePage(message: errorMessageInvalidQrCode);
+                  child = const ErrorView(message: errorMessageInvalidQrCode);
                 } else {
                   child = const CenteredWidget(
                     widgetToCenter: CircularProgressIndicator(
@@ -66,34 +65,5 @@ class ArViewLoader extends StatelessWidget implements QRScanData {
   @override
   void setScannedData(String qrCodeData) {
     qrData = qrCodeData;
-  }
-}
-
-class ShowMessagePage extends StatelessWidget {
-  final String message;
-  const ShowMessagePage({Key? key, required this.message}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Color textColor = Colors.black;
-    return Container(
-      color: secondColor,
-      child: CenteredWidget(
-        widgetToCenter: Column(children: [
-          Icon(Icons.error, size: 100, color: textColor),
-          Text(
-            message,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 17,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Torna in Home")),
-        ]),
-      ),
-    );
   }
 }
