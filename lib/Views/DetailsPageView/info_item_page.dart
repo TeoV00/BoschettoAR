@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tree_ar/Database/data_model.dart';
+import 'package:tree_ar/DataModel/data_model.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
 import 'package:tree_ar/Views/Utils/round_image.dart';
 import 'package:tree_ar/Views/DetailsPageView/ar_view_button.dart';

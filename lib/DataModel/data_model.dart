@@ -1,3 +1,4 @@
+import 'package:tree_ar/DataModel/obj2map.dart';
 import 'package:tree_ar/Database/database_constant.dart';
 import 'package:tree_ar/constant_vars.dart';
 
@@ -5,10 +6,6 @@ abstract class ListItemInterface {
   String getTitle();
   String getDescr();
   String? getImageUrl();
-}
-
-abstract class ObjToMapI {
-  Map<String, dynamic> toMap();
 }
 
 class Tree implements ListItemInterface, ObjToMapI {
@@ -286,33 +283,6 @@ class TotemInfo implements ObjToMapI {
     return {
       'place': place,
       'project': project,
-    };
-  }
-}
-
-class SharedData implements ObjToMapI {
-  final int badgeCount;
-  final int co2;
-  final int level;
-  final int paper;
-  final int treesCount;
-
-  SharedData({
-    required this.badgeCount,
-    required this.co2,
-    required this.level,
-    required this.paper,
-    required this.treesCount,
-  });
-
-  @override
-  Map<String, dynamic> toMap() {
-    return {
-      'badgeCount': badgeCount,
-      'co2': co2,
-      'level': level,
-      'paper': paper,
-      'treesCount': treesCount,
     };
   }
 }

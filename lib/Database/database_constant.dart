@@ -1,7 +1,7 @@
 //database constants
 import 'package:tree_ar/constant_vars.dart';
 
-import 'data_model.dart';
+import '../DataModel/data_model.dart';
 
 const int defaultUserId = 0;
 const String databaseDDLfile = "assets/TreeAR.ddl";

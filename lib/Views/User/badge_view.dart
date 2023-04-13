@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tree_ar/Database/data_model.dart';
+import 'package:tree_ar/DataModel/data_model.dart';
 import 'package:tree_ar/constant_vars.dart';
 
 class BadgeContainer extends StatelessWidget {

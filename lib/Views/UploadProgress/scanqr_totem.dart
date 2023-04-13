@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/DataProvider/data_manager.dart';
+import 'package:tree_ar/DataModel/data_model.dart';
 import 'package:tree_ar/Views/ScanQr_views/scan_qr_view.dart';
 import 'package:tree_ar/Views/UploadProgress/common_widgets.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
@@ -37,24 +38,32 @@ class SucessfullDataLoaded implements QRScanData {
 
   @override
   Widget getWidget() {
-    return Scaffold(
-      body: SafeArea(
-        child: BottomGrass(
-            child: Consumer<DataManager>(
-          builder: (context, dataManager, child) => FutureBuilder<bool>(
-            future: dataManager.uploadUserData(data),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data != null) {
-                  Text(snapshot.data! ? "caricati" : "non caricati");
+    if (data != null) {
+      return Scaffold(
+        body: SafeArea(
+          child: BottomGrass(
+              child: Consumer<DataManager>(
+            builder: (context, dataManager, child) =>
+                FutureBuilder<List<TotemInfo>?>(
+              future: dataManager.uploadUserData(data!),
+              builder: (context, snapshot) {
+                String res = snapshot.hasData.toString();
+                if (snapshot.hasData) {
+                  if (snapshot.data != null) {
+                    res = data!.length.toString();
+                  }
                 }
-              }
-              return Text("data");
-            },
-          ),
-        )),
-      ),
-    );
+                return Text(res);
+              },
+            ),
+          )),
+        ),
+      );
+    } else {
+      return const Center(
+        child: Text("si è verificato un errore, nessun dato nel qr"),
+      );
+    }
   }
 
   @override

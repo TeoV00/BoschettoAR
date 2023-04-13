@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/DataProvider/firebase_provider.dart';
-import '../Database/data_model.dart';
+import '../DataModel/data_model.dart';
 import '../Database/database_constant.dart';
 import '../utils.dart';
 import 'package:collection/collection.dart' as coll;
@@ -258,8 +258,12 @@ class DataManager extends ChangeNotifier {
     }
   }
 
+  /**
+   * TOTEM and USER DATA
+   */
   /// Upload user data to specific totem
-  Future<bool> uploadUserData(String ) {
-
+  Future<List<TotemInfo>?> uploadUserData(String totemIdName) async {
+    var totemList = await _firebaseProvider.getTotems();
+    return [TotemInfo(place: "place", project: "")];
   }
 }

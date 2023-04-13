@@ -1,12 +1,12 @@
 import 'package:firebase_database/firebase_database.dart';
-import '../Database/data_model.dart';
+import 'package:tree_ar/DataModel/data_model.dart';
 
 class FirebaseProvider {
   DatabaseReference ref = FirebaseDatabase.instance.ref();
 
   Future<List<Tree>?> getTrees() async {
     List<Tree>? treeList;
-    DataSnapshot snap = await ref.child('trees').get();
+    DataSnapshot snap = await _getSnapshotOf('trees');
     if (snap.exists) {
       treeList = snap.children
           .map((snap) =>
@@ -18,7 +18,7 @@ class FirebaseProvider {
 
   Future<Map<String, int>?> getRelationshipProjAndTree() async {
     Map<String, int>? relationships = {};
-    DataSnapshot snap = await ref.child('projOfTree').get();
+    DataSnapshot snap = await _getSnapshotOf('projOfTree');
 
     if (snap.exists) {
       snap.children.map((snap) => snap.value as Map).forEach((elemMap) {
@@ -27,5 +27,24 @@ class FirebaseProvider {
     }
 
     return relationships.isEmpty ? null : relationships;
+  }
+
+  Future<List<TotemInfo>?> getTotems() async {
+    List<TotemInfo>? totemsInfo;
+    DataSnapshot snap = await _getSnapshotOf("totemInfo");
+    if (snap.exists) {
+      totemsInfo = snap.children
+          .map((e) =>
+              TotemInfo.fromMap(Map<String, dynamic>.from(snap.value as Map)))
+          .toList();
+    }
+    return totemsInfo;
+  }
+
+  //TODO: metodo che carica i dati della app sul firebase
+  // https://boschetto-unibo-cesena-default-rtdb.europe-west1.firebasedatabase.app/totems/ces_remade
+
+  Future<DataSnapshot> _getSnapshotOf(final String location) async {
+    return ref.child(location).get();
   }
 }
