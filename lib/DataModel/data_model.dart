@@ -266,21 +266,31 @@ class UserBadge implements ObjToMapI {
 }
 
 class TotemInfo implements ObjToMapI {
+  final String totemId;
   final String place;
   final String project;
 
-  TotemInfo({required this.place, required this.project});
+  TotemInfo({
+    required this.totemId,
+    required this.place,
+    required this.project,
+  });
 
-  factory TotemInfo.fromMap(Map<String, dynamic> totemInfo) {
+  factory TotemInfo.fromMap({
+    required String totemId,
+    required Map<String, dynamic> totemData,
+  }) {
     return TotemInfo(
-      place: totemInfo['place'],
-      project: totemInfo['project'],
+      totemId: totemId,
+      place: totemData['place'],
+      project: totemData['project'],
     );
   }
 
   @override
   Map<String, dynamic> toMap() {
     return {
+      'totemId': totemId,
       'place': place,
       'project': project,
     };

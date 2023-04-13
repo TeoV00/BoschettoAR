@@ -30,15 +30,17 @@ class FirebaseProvider {
   }
 
   Future<List<TotemInfo>?> getTotems() async {
-    List<TotemInfo>? totemsInfo;
-    DataSnapshot snap = await _getSnapshotOf("totemInfo");
+    List<TotemInfo>? totems;
+    DataSnapshot snap = await _getSnapshotOf('totemInfo');
     if (snap.exists) {
-      totemsInfo = snap.children
-          .map((e) =>
-              TotemInfo.fromMap(Map<String, dynamic>.from(snap.value as Map)))
+      totems = snap.children
+          .map((snap) => TotemInfo.fromMap(
+                totemId: snap.key!,
+                totemData: Map<String, dynamic>.from(snap.value as Map),
+              ))
           .toList();
     }
-    return totemsInfo;
+    return totems;
   }
 
   //TODO: metodo che carica i dati della app sul firebase
