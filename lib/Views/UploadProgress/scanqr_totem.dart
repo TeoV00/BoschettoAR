@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tree_ar/DataProvider/data_manager.dart';
-import 'package:tree_ar/DataModel/data_model.dart';
 import 'package:tree_ar/Views/ScanQr_views/scan_qr_view.dart';
 import 'package:tree_ar/Views/UploadProgress/common_widgets.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
+import 'package:tree_ar/Views/Utils/error_view.dart';
 import 'package:tree_ar/constant_vars.dart';
 
 const String helpGuide =
@@ -39,21 +39,26 @@ class SucessfullDataLoaded implements QRScanData {
   @override
   Widget getWidget() {
     if (data != null) {
+      String totemId = data!;
       return Scaffold(
         body: SafeArea(
           child: BottomGrass(
               child: Consumer<DataManager>(
-            builder: (context, dataManager, child) =>
-                FutureBuilder<List<TotemInfo>?>(
-              future: dataManager.uploadUserData(data!),
-              builder: (context, snapshot) {
-                String res = snapshot.hasData.toString();
-                if (snapshot.hasData) {
-                  if (snapshot.data != null) {
-                    res = data!.length.toString();
-                  }
+            builder: (context, dataManager, child) => FutureBuilder<bool>(
+              future: dataManager.uploadUserData(totemId),
+              builder: (context, snap) {
+                ConnectionState conState = snap.connectionState;
+                bool uploadDone = snap.hasData ? snap.data! : false;
+
+                if (conState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (conState == ConnectionState.done) {
+                  return ErrorView(
+                      message: "inviati correttamente $uploadDone");
+                } else {
+                  return const ErrorView(
+                      message: "Si è verificato un problema");
                 }
-                return Text(res);
               },
             ),
           )),
