@@ -262,8 +262,16 @@ class DataManager extends ChangeNotifier {
    * TOTEM and USER DATA
    */
   /// Upload user data to specific totem
-  Future<List<TotemInfo>> uploadUserData(String totemIdName) async {
+  Future<bool> uploadUserData(String totemIdName) async {
     List<TotemInfo>? totems = await _firebaseProvider.getTotems();
-    return totems ?? [];
+
+    bool totemExist =
+        totems != null ? totems.any((t) => t.totemId == totemIdName) : false;
+    if (totemExist) {
+      return true;
+    } else {
+      log("Scanned qr correspond to any totem");
+      return false;
+    }
   }
 }
