@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tree_ar/DataModel/share_data_model.dart';
 import 'package:tree_ar/Database/database.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/DataProvider/firebase_provider.dart';
@@ -268,10 +269,27 @@ class DataManager extends ChangeNotifier {
     bool totemExist =
         totems != null ? totems.any((t) => t.totemId == totemIdName) : false;
     if (totemExist) {
+      SharedData dataToUpload = await _getDataToUpload();
+      log(dataToUpload.toString());
       return true;
     } else {
       log("Scanned qr correspond to any totem");
       return false;
     }
+  }
+
+  Future<SharedData> _getDataToUpload() async {
+    Map<UserData, dynamic> usrData = await getUserData();
+    Statistics stats = usrData[UserData.stats];
+    int badgeCount = (usrData[UserData.badge] as Map<GoalBadge, bool>).length;
+    int treesCount = (await _dbProvider.getUserTrees(currentUserId)).length;
+
+    return SharedData(
+        nickname: "h", //TODO: get nickname from sharedPreferences
+        badgeCount: badgeCount,
+        co2: stats.co2,
+        level: stats.progressPerc.toInt(),
+        paper: stats.papers,
+        treesCount: treesCount);
   }
 }
