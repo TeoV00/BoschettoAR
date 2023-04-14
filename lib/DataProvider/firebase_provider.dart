@@ -1,8 +1,13 @@
+import 'dart:developer';
+
+import 'package:collection/collection.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:tree_ar/DataModel/data_model.dart';
+import 'package:tree_ar/DataModel/share_data_model.dart';
+import 'package:tree_ar/Views/UploadProgress/share_progress.dart';
 
 class FirebaseProvider {
-  DatabaseReference ref = FirebaseDatabase.instance.ref();
+  final DatabaseReference ref = FirebaseDatabase.instance.ref();
 
   Future<List<Tree>?> getTrees() async {
     List<Tree>? treeList;
@@ -43,10 +48,27 @@ class FirebaseProvider {
     return totems;
   }
 
-  //TODO: metodo che carica i dati della app sul firebase
-  // https://boschetto-unibo-cesena-default-rtdb.europe-west1.firebasedatabase.app/totems/ces_remade
+  Future<void> uploadUserData({
+    required String totemId,
+    required SharedData data,
+  }) async {
+    var totemData = await _getTotemData(totemId: totemId);
+    int lastIndex = totemData.length;
+    int usrIdx = totemData.indexWhere((e) => e.nickname == nickname);
+    int uploadIdx = usrIdx >= 0 ? usrIdx : lastIndex;
+    await ref.child('totems/$totemId/$uploadIdx').update(data.toMap());
+  }
 
   Future<DataSnapshot> _getSnapshotOf(final String location) async {
     return ref.child(location).get();
+  }
+
+  Future<List<SharedData>> _getTotemData({required String totemId}) async {
+    var totemSnap = await ref.child('totems/$totemId/').get();
+
+    return totemSnap.children
+        .map((child) =>
+            SharedData.fromMap(data: Map<String, dynamic>.from(child as Map)))
+        .toList();
   }
 }

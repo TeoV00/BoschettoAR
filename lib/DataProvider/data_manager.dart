@@ -265,11 +265,18 @@ class DataManager extends ChangeNotifier {
   /// Upload user data to specific totem
   Future<bool> uploadUserData(String totemIdName) async {
     List<TotemInfo>? totems = await _firebaseProvider.getTotems();
-
+    log("Scanned: $totemIdName");
     bool totemExist =
         totems != null ? totems.any((t) => t.totemId == totemIdName) : false;
+    log("Totem exist: $totemExist");
     if (totemExist) {
       SharedData dataToUpload = await _getDataToUpload();
+
+      _firebaseProvider.uploadUserData(
+        totemId: totemIdName,
+        data: dataToUpload,
+      );
+
       log(dataToUpload.toString());
       return true;
     } else {
@@ -281,13 +288,13 @@ class DataManager extends ChangeNotifier {
   Future<SharedData> _getDataToUpload() async {
     Map<UserData, dynamic> usrData = await getUserData();
     Statistics stats = usrData[UserData.stats];
-    int badgeCount = (usrData[UserData.badge] as Map<GoalBadge, bool>).length;
+    List<GoalBadge> badgeCount = usrData[UserData.badge];
     int treesCount = (await _dbProvider.getUserTrees(currentUserId)).length;
 
     return SharedData(
-        nickname: "h", //TODO: get nickname from sharedPreferences
-        badgeCount: badgeCount,
-        co2: stats.co2,
+        nickname: "TeoV00", //TODO: get nickname from sharedPreferences
+        badgeCount: badgeCount.length,
+        co2: stats.totSavedCo2Proj,
         level: stats.progressPerc.toInt(),
         paper: stats.papers,
         treesCount: treesCount);
