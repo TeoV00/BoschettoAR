@@ -43,25 +43,28 @@ class SucessfullDataLoaded implements QRScanData {
       return Scaffold(
         body: SafeArea(
           child: BottomGrass(
-              child: Consumer<DataManager>(
-            builder: (context, dataManager, child) => FutureBuilder<bool>(
-              future: dataManager.uploadUserData(totemId),
-              builder: (context, snap) {
-                ConnectionState conState = snap.connectionState;
-                bool uploadDone = snap.hasData ? snap.data! : false;
+            child: Consumer<DataManager>(
+              builder: (context, dataManager, child) => FutureBuilder<bool>(
+                future: dataManager
+                    .uploadUserData(totemId)
+                    .timeout(const Duration(seconds: 5)),
+                builder: (context, snap) {
+                  ConnectionState conState = snap.connectionState;
+                  bool uploadDone = snap.hasData ? snap.data! : false;
 
-                if (conState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (conState == ConnectionState.done) {
-                  return ErrorView(
-                      message: "inviati correttamente $uploadDone");
-                } else {
-                  return const ErrorView(
-                      message: "Si è verificato un problema");
-                }
-              },
+                  if (conState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (conState == ConnectionState.done) {
+                    return ErrorView(
+                        message: "inviati correttamente $uploadDone");
+                  } else {
+                    return const ErrorView(
+                        message: "Si è verificato un problema");
+                  }
+                },
+              ),
             ),
-          )),
+          ),
         ),
       );
     } else {
