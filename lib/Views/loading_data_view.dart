@@ -9,28 +9,29 @@ class LoadingAppScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CenteredWidget(
-          widgetToCenter: Column(
-        children: [
-          SizedBox(
-            width: 80,
-            child: Image.asset('$imagePath/forest.png'),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              appName,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        widgetToCenter: Column(
+          children: [
+            SizedBox(
+              width: 80,
+              child: Image.asset('$imagePath/forest.png'),
             ),
-          ),
-          const CircularProgressIndicator(
-            color: mainColor,
-          ),
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: Text('Aggiornamento dati locali'),
-          )
-        ],
-      )),
+            const Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                appName,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+            ),
+            const CircularProgressIndicator(
+              color: mainColor,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10),
+              child: Text('Aggiornamento dati locali'),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
