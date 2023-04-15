@@ -17,7 +17,7 @@ class CompletedUploadView extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.all(10),
             child: Text(
-              "Invio dati sul totem",
+              "Caricamento completato!!",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
