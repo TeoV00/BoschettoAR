@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:tree_ar/DataProvider/data_manager.dart';
 import 'package:tree_ar/Views/ScanQr_views/scan_qr_view.dart';
 import 'package:tree_ar/Views/UploadProgress/common_widgets.dart';
+import 'package:tree_ar/Views/UploadProgress/upload_completed.dart';
+import 'package:tree_ar/Views/UploadProgress/uploading_data_view.dart';
 import 'package:tree_ar/Views/Utils/bottom_grass.dart';
 import 'package:tree_ar/Views/Utils/error_view.dart';
 import 'package:tree_ar/constant_vars.dart';
@@ -47,16 +49,20 @@ class SucessfullDataLoaded implements QRScanData {
               builder: (context, dataManager, child) => FutureBuilder<bool>(
                 future: dataManager
                     .uploadUserData(totemId)
-                    .timeout(const Duration(seconds: 5)),
+                    .timeout(const Duration(seconds: 8)),
                 builder: (context, snap) {
                   ConnectionState conState = snap.connectionState;
                   bool uploadDone = snap.hasData ? snap.data! : false;
 
                   if (conState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
+                    return const UploadingDataView();
                   } else if (conState == ConnectionState.done) {
-                    return ErrorView(
-                        message: "inviati correttamente $uploadDone");
+                    if (uploadDone) {
+                      return const CompletedUploadView();
+                    } else {
+                      return ErrorView(
+                          message: "errore invio dati $uploadDone");
+                    }
                   } else {
                     return const ErrorView(
                         message: "Si è verificato un problema");
