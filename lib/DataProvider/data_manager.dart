@@ -301,7 +301,7 @@ class DataManager extends ChangeNotifier {
     int treesCount = (await _dbProvider.getUserTrees(currentUserId)).length;
     log("return SharedData");
     return SharedData(
-      nickname: "TeoV00", //TODO: get nickname from sharedPreferences
+      nickname: "pino", //TODO: get nickname from sharedPreferences
       badgeCount: badgeCount,
       co2: stats.totSavedCo2Proj,
       level: stats.progressPerc.toInt(), //TODO: map level to 0-6

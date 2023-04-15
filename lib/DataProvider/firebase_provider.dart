@@ -1,10 +1,8 @@
 import 'dart:developer';
 
-import 'package:collection/collection.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:tree_ar/DataModel/data_model.dart';
 import 'package:tree_ar/DataModel/share_data_model.dart';
-import 'package:tree_ar/Views/UploadProgress/share_progress.dart';
 
 class FirebaseProvider {
   final DatabaseReference ref = FirebaseDatabase.instance.ref();
@@ -54,7 +52,7 @@ class FirebaseProvider {
   }) async {
     var totemData = await _getTotemData(totemId: totemId);
     int lastIndex = totemData.length;
-    int usrIdx = totemData.indexWhere((e) => e.nickname == nickname);
+    int usrIdx = totemData.indexWhere((e) => e.nickname == data.nickname);
     int uploadIdx = usrIdx >= 0 ? usrIdx : lastIndex;
 
     log("lastIdx: $lastIndex\nusrIdx: $usrIdx\nuploadIds: $uploadIdx");
