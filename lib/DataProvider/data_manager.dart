@@ -274,7 +274,10 @@ class DataManager extends ChangeNotifier {
 
       _firebaseProvider
           .uploadUserData(totemId: totemIdName, data: dataToUpload)
-          .onError((error, stackTrace) => {uploadIsDone = false})
+          .onError((error, stackTrace) => {
+                log("ERROR: $error"),
+                uploadIsDone = false,
+              })
           .then((value) {
         uploadIsDone = true;
       });
