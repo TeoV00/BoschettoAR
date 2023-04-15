@@ -264,6 +264,7 @@ class DataManager extends ChangeNotifier {
    */
   /// Upload user data to specific totem
   Future<bool> uploadUserData(String totemIdName) async {
+    bool uploadIsDone = false;
     List<TotemInfo>? totems = await _firebaseProvider.getTotems();
     bool totemExist =
         totems != null ? totems.any((t) => t.totemId == totemIdName) : false;
@@ -271,11 +272,16 @@ class DataManager extends ChangeNotifier {
     if (totemExist == true) {
       SharedData dataToUpload = await _getDataToUpload();
 
-      _firebaseProvider.uploadUserData(
-        totemId: totemIdName,
-        data: dataToUpload,
-      );
-      return true;
+      _firebaseProvider
+          .uploadUserData(totemId: totemIdName, data: dataToUpload)
+          .onError((error, stackTrace) => {uploadIsDone = false})
+          .then((value) {
+        uploadIsDone = true;
+      });
+
+      log("uploadIsDone : $uploadIsDone");
+
+      return uploadIsDone;
     } else {
       log("Scanned qr correspond to any totem");
       return false;
