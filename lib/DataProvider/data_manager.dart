@@ -264,7 +264,7 @@ class DataManager extends ChangeNotifier {
    */
   /// Upload user data to specific totem
   Future<bool> uploadUserData(String totemIdName) async {
-    bool uploadIsDone = false;
+    bool? uploadIsDone;
     List<TotemInfo>? totems = await _firebaseProvider.getTotems();
     bool totemExist =
         totems != null ? totems.any((t) => t.totemId == totemIdName) : false;
@@ -272,7 +272,7 @@ class DataManager extends ChangeNotifier {
     if (totemExist == true) {
       SharedData dataToUpload = await _getDataToUpload();
 
-      _firebaseProvider
+      await _firebaseProvider
           .uploadUserData(totemId: totemIdName, data: dataToUpload)
           .onError((error, stackTrace) => {
                 log("ERROR: $error"),
@@ -284,7 +284,7 @@ class DataManager extends ChangeNotifier {
 
       log("uploadIsDone : $uploadIsDone");
 
-      return uploadIsDone;
+      return uploadIsDone ?? false;
     } else {
       log("Scanned qr correspond to any totem");
       return false;
@@ -304,7 +304,7 @@ class DataManager extends ChangeNotifier {
       nickname: "TeoV00", //TODO: get nickname from sharedPreferences
       badgeCount: badgeCount,
       co2: stats.totSavedCo2Proj,
-      level: stats.progressPerc.toInt(),
+      level: stats.progressPerc.toInt(), //TODO: map level to 0-6
       paper: stats.papers,
       treesCount: treesCount,
     );
