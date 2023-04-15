@@ -265,19 +265,16 @@ class DataManager extends ChangeNotifier {
   /// Upload user data to specific totem
   Future<bool> uploadUserData(String totemIdName) async {
     List<TotemInfo>? totems = await _firebaseProvider.getTotems();
-    log("Scanned: $totemIdName");
     bool totemExist =
         totems != null ? totems.any((t) => t.totemId == totemIdName) : false;
     log("Totem exist: $totemExist");
-    if (totemExist) {
+    if (totemExist == true) {
       SharedData dataToUpload = await _getDataToUpload();
 
       _firebaseProvider.uploadUserData(
         totemId: totemIdName,
         data: dataToUpload,
       );
-
-      log(dataToUpload.toString());
       return true;
     } else {
       log("Scanned qr correspond to any totem");
@@ -287,16 +284,20 @@ class DataManager extends ChangeNotifier {
 
   Future<SharedData> _getDataToUpload() async {
     Map<UserData, dynamic> usrData = await getUserData();
-    Statistics stats = usrData[UserData.stats];
-    List<GoalBadge> badgeCount = usrData[UserData.badge];
-    int treesCount = (await _dbProvider.getUserTrees(currentUserId)).length;
 
+    Statistics stats = usrData[UserData.stats];
+    Map<GoalBadge, bool> badges = usrData[UserData.badge];
+    int badgeCount = badges.values.where((badge) => badge).length;
+
+    int treesCount = (await _dbProvider.getUserTrees(currentUserId)).length;
+    log("return SharedData");
     return SharedData(
-        nickname: "TeoV00", //TODO: get nickname from sharedPreferences
-        badgeCount: badgeCount.length,
-        co2: stats.totSavedCo2Proj,
-        level: stats.progressPerc.toInt(),
-        paper: stats.papers,
-        treesCount: treesCount);
+      nickname: "TeoV00", //TODO: get nickname from sharedPreferences
+      badgeCount: badgeCount,
+      co2: stats.totSavedCo2Proj,
+      level: stats.progressPerc.toInt(),
+      paper: stats.papers,
+      treesCount: treesCount,
+    );
   }
 }
