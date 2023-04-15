@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:tree_ar/constant_vars.dart';
 import 'package:tree_ar/utils.dart';
 
@@ -13,7 +12,7 @@ class UploadingDataView extends StatelessWidget {
         children: [
           SizedBox(
             height: 80,
-            child: SvgPicture.asset('$imagePath/forest.png'),
+            child: Image.asset('$imagePath/forest.png'),
           ),
           const Padding(
             padding: EdgeInsets.all(10),
