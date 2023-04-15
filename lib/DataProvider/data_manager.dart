@@ -262,7 +262,7 @@ class DataManager extends ChangeNotifier {
   /**
    * TOTEM and USER DATA
    */
-  /// Upload user data to specific totem
+  /// Upload data of current User to specific totem
   Future<bool> uploadUserData(String totemIdName) async {
     bool? uploadIsDone;
     List<TotemInfo>? totems = await _firebaseProvider.getTotems();

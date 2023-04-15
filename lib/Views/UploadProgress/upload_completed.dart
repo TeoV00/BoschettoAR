@@ -10,10 +10,7 @@ class CompletedUploadView extends StatelessWidget {
     return CenteredWidget(
       widgetToCenter: Column(
         children: [
-          SizedBox(
-            height: 80,
-            child: Image.asset('$imagePath/treeVase/5.png'),
-          ),
+          Image.asset('$imagePath/forest.png', width: 80),
           const Padding(
             padding: EdgeInsets.all(10),
             child: Text(
