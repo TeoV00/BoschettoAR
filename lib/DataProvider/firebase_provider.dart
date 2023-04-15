@@ -56,7 +56,9 @@ class FirebaseProvider {
     int lastIndex = totemData.length;
     int usrIdx = totemData.indexWhere((e) => e.nickname == nickname);
     int uploadIdx = usrIdx >= 0 ? usrIdx : lastIndex;
-    await ref.child('totems/$totemId/$uploadIdx').update(data.toMap());
+
+    log("lastIdx: $lastIndex\nusrIdx: $usrIdx\nuploadIds: $uploadIdx");
+    return await ref.child('totems/$totemId/$uploadIdx').update(data.toMap());
   }
 
   Future<DataSnapshot> _getSnapshotOf(final String location) async {
@@ -67,8 +69,8 @@ class FirebaseProvider {
     var totemSnap = await ref.child('totems/$totemId/').get();
 
     return totemSnap.children
-        .map((child) =>
-            SharedData.fromMap(data: Map<String, dynamic>.from(child as Map)))
+        .map((child) => SharedData.fromMap(
+            data: Map<String, dynamic>.from(child.value as Map)))
         .toList();
   }
 }
