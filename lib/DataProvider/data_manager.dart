@@ -270,17 +270,23 @@ class DataManager extends ChangeNotifier {
         totems != null ? totems.any((t) => t.totemId == totemIdName) : false;
     log("Totem exist: $totemExist");
     if (totemExist == true) {
-      SharedData dataToUpload = await _getDataToUpload();
+      SharedData? dataToUpload = await _getDataToUpload();
 
-      await _firebaseProvider
-          .uploadUserData(totemId: totemIdName, data: dataToUpload)
-          .onError((error, stackTrace) => {
-                log("ERROR: $error"),
-                uploadIsDone = false,
-              })
-          .then((value) {
-        uploadIsDone = uploadIsDone != null ? false : true;
-      });
+      if (dataToUpload != null) {
+        await _firebaseProvider
+            .uploadUserData(totemId: totemIdName, data: dataToUpload)
+            .onError((error, stackTrace) => {
+                  log("ERROR: $error"),
+                  uploadIsDone = false,
+                })
+            .then((value) {
+          uploadIsDone = uploadIsDone != null ? false : true;
+        });
+      } else {
+        // false because is needed nickname
+        log("ERROR: nickname not set");
+        uploadIsDone = false;
+      }
 
       log("uploadIsDone : $uploadIsDone");
 
@@ -291,8 +297,8 @@ class DataManager extends ChangeNotifier {
     }
   }
 
-  Future<SharedData> _getDataToUpload() async {
-    String nickname = ""; // TODO: this.getUserInfo();
+  Future<SharedData?> _getDataToUpload() async {
+    String? nickname = (await getUserInfo()).nickname;
     Map<UserData, dynamic> usrData = await getUserData();
 
     Statistics stats = usrData[UserData.stats];
@@ -301,13 +307,15 @@ class DataManager extends ChangeNotifier {
 
     int treesCount = (await _dbProvider.getUserTrees(currentUserId)).length;
     log("return SharedData");
-    return SharedData(
-      nickname: nickname, //TODO: get nickname from sharedPreferences
-      badgeCount: badgeCount,
-      co2: stats.totSavedCo2Proj,
-      level: stats.progressPerc.toInt(), //TODO: map level to 0-6
-      paper: stats.papers,
-      treesCount: treesCount,
-    );
+    return nickname == null
+        ? null
+        : SharedData(
+            nickname: nickname, //TODO: get nickname from sharedPreferences
+            badgeCount: badgeCount,
+            co2: stats.totSavedCo2Proj,
+            level: stats.progressPerc.toInt(), //TODO: map level to 0-6
+            paper: stats.papers,
+            treesCount: treesCount,
+          );
   }
 }
