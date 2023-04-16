@@ -112,13 +112,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       onChanged: (value) {
                         formUser.name = value;
                       },
-                      decoration: const InputDecoration(
-                        labelStyle: labelStyle,
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: mainColor)),
-                        hintText: 'Nome',
-                        label: Text('Nome'),
-                      ),
+                      decoration: _fieldBoxDecoration('Nome'),
                     ),
                     TextFormField(
                       maxLines: 1,
@@ -128,13 +122,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       onChanged: (newVal) {
                         formUser.surname = newVal;
                       },
-                      decoration: const InputDecoration(
-                        labelStyle: labelStyle,
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: mainColor)),
-                        hintText: 'Cognome',
-                        label: Text('Cognome'),
-                      ),
+                      decoration: _fieldBoxDecoration('Cognome'),
                     ),
                     TextFormField(
                       textInputAction: TextInputAction.next,
@@ -144,12 +132,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       onChanged: (newVal) {
                         formUser.dateBirth = newVal;
                       },
-                      decoration: const InputDecoration(
-                        labelStyle: labelStyle,
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: mainColor)),
-                        label: Text("Data Nascita"),
-                      ),
+                      decoration: _fieldBoxDecoration('Data Nascita'),
                       onTap: () => _showDialog(
                         CupertinoDatePicker(
                           dateOrder: DatePickerDateOrder.dmy,
@@ -177,13 +160,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       onChanged: (newVal) {
                         formUser.course = newVal;
                       },
-                      decoration: const InputDecoration(
-                        labelStyle: labelStyle,
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: mainColor)),
-                        hintText: 'Corso Universitario',
-                        labelText: 'Corso Universitario',
-                      ),
+                      decoration: _fieldBoxDecoration("Corso Universitario"),
                     ),
                     TextFormField(
                       textInputAction: TextInputAction.done,
@@ -195,13 +172,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       keyboardType: TextInputType.number,
                       maxLines: 1,
                       maxLength: 4,
-                      decoration: const InputDecoration(
-                        labelStyle: labelStyle,
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: mainColor)),
-                        hintText: 'Anno Immatricolazione',
-                        labelText: 'Anno Immatricolazione',
-                      ),
+                      decoration: _fieldBoxDecoration('Anno Immatricolazione'),
                     ),
                     Consumer<DataManager>(
                       builder: (context, dataManager, child) => ElevatedButton(
@@ -220,6 +191,16 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
           ),
         ),
       ),
+    );
+  }
+
+  InputDecoration _fieldBoxDecoration(String labelHint) {
+    return InputDecoration(
+      labelStyle: labelStyle,
+      focusedBorder:
+          const UnderlineInputBorder(borderSide: BorderSide(color: mainColor)),
+      hintText: labelHint,
+      label: Text(labelHint),
     );
   }
 
