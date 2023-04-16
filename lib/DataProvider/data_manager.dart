@@ -173,6 +173,7 @@ class DataManager extends ChangeNotifier {
   Future<bool> updateCurrentUserInfo(User user) async {
     var res = await _dbProvider.updateUserInfo(
       currentUserId,
+      user.nickname,
       user.name,
       user.surname,
       user.dateBirth,

@@ -102,6 +102,7 @@ class DatabaseProvider {
   //else nothing has been changed
   Future<bool> updateUserInfo(
     int userId,
+    String? nickname,
     String? name,
     String? surname,
     String? dateBirth,
@@ -114,10 +115,17 @@ class DatabaseProvider {
 
     if (usr != null) {
       var db = await database;
+      String? newNickname;
+      if (isNull(usr.nickname) && !isNull(nickname)) {
+        newNickname = nickname;
+      } else if (!isNull(usr.nickname)) {
+        newNickname = usr.nickname;
+      }
       result = await db.update(
           userTable,
           User(
             userId: userId,
+            nickname: newNickname,
             name: isNull(name) ? usr.name : name!,
             surname: isNull(surname) ? usr.surname : surname!,
             dateBirth: isNull(dateBirth) ? usr.dateBirth : dateBirth!,
