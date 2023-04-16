@@ -34,6 +34,7 @@ List<String> creationQuery = [
   //0
   '''CREATE TABLE UserProfile (
      userId INTEGER PRIMARY KEY,
+     nickname TEXT,
      name TEXT,
      surname TEXT,
      dateBirth TEXT ,
