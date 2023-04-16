@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tree_ar/DataModel/share_data_model.dart';
@@ -279,7 +278,7 @@ class DataManager extends ChangeNotifier {
                 uploadIsDone = false,
               })
           .then((value) {
-        uploadIsDone = true;
+        uploadIsDone = uploadIsDone != null ? false : true;
       });
 
       log("uploadIsDone : $uploadIsDone");
@@ -292,6 +291,7 @@ class DataManager extends ChangeNotifier {
   }
 
   Future<SharedData> _getDataToUpload() async {
+    String nickname = ""; // TODO: this.getUserInfo();
     Map<UserData, dynamic> usrData = await getUserData();
 
     Statistics stats = usrData[UserData.stats];
@@ -301,7 +301,7 @@ class DataManager extends ChangeNotifier {
     int treesCount = (await _dbProvider.getUserTrees(currentUserId)).length;
     log("return SharedData");
     return SharedData(
-      nickname: "pino", //TODO: get nickname from sharedPreferences
+      nickname: nickname, //TODO: get nickname from sharedPreferences
       badgeCount: badgeCount,
       co2: stats.totSavedCo2Proj,
       level: stats.progressPerc.toInt(), //TODO: map level to 0-6

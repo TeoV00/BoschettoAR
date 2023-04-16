@@ -9,9 +9,6 @@ import 'package:tree_ar/Views/Utils/bottom_grass.dart';
 import 'package:tree_ar/Views/Utils/error_view.dart';
 import 'package:tree_ar/constant_vars.dart';
 
-const String helpGuide =
-    "Recati nel totem più vicino, clicca sul pulsante “Deposita Progressi APP” e scansiona il Qr code";
-
 class ScanTotemQR extends StatefulWidget {
   const ScanTotemQR({super.key});
 
