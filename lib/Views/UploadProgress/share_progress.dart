@@ -59,62 +59,42 @@ class SharePorgressPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 20),
                     child: Column(
-                      children: [
-                        const Text(
+                      children: const [
+                        Text(
                           "Dati condivisi",
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 16),
                         ),
-                        const BulletList([
-                          "nickname",
-                          "numero dei badge",
-                          "percentuale progresso",
-                          "contatori risparmi (co2, carta, elettricità, benzina)"
+                        BulletList([
+                          "Nickname",
+                          "Conteggio dei badge",
+                          "Livello utente",
+                          "Contatori risparmi (co2, carta, elettricità, benzina)"
                         ]),
-                        const Text("I dati saranno condivisi con il nickname:"),
-                        Consumer<DataManager>(
-                            builder: (context, dataManager, child) {
-                          return FutureBuilder<User>(
-                            future: dataManager.getUserInfo(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData &&
-                                  snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                return Text(
-                                  snapshot.data!.nickname ?? 'not set',
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                );
-                              } else {
-                                return const CircularProgressIndicator();
-                              }
-                            },
-                          );
-                        }),
+                        Text(
+                            "I dati saranno condivisi con il nickname che hai impostato nel profilo"),
                       ],
                     ),
                   );
                 },
               ),
-              // const Spacer(),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(vertical: 20.0),
-              //   child: Column(
-              //     children: [
-              //       Image.asset("assets/images/growing_trees.png"),
-              //       const Padding(
-              //         padding: EdgeInsets.all(10.0),
-              //         child: Text(
-              //           "Più alberi scannerizzi e badge acquisisci più il tuo albero sarà rigoglioso!!",
-              //           style: TextStyle(fontSize: 16),
-              //           textAlign: TextAlign.center,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Column(
+                  children: [
+                    Image.asset("assets/images/growing_trees.png"),
+                    const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        "Più alberi scannerizzi e badge acquisisci più il tuo albero sarà rigoglioso!!",
+                        style: TextStyle(fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               const Spacer(),
               LayoutBuilder(builder: (context, constraint) {
                 return MaterialButton(
