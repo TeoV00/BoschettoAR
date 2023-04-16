@@ -101,6 +101,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       onChanged: (value) {
                         formUser.nickname = value;
                       },
+                      decoration: _fieldBoxDecoration("Nickname"),
                     ),
                     fieldGroupForm("Dati Anagrafici"),
                     TextFormField(
