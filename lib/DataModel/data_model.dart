@@ -163,6 +163,7 @@ class GoalBadge implements ObjToMapI {
 
 class User implements ObjToMapI {
   final int userId;
+  final String? nickname;
   String? name;
   String? surname;
   String? dateBirth;
@@ -172,6 +173,7 @@ class User implements ObjToMapI {
 
   User(
       {required this.userId,
+      this.nickname,
       this.name,
       this.surname,
       this.dateBirth,
@@ -183,6 +185,7 @@ class User implements ObjToMapI {
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
+      'nickname': nickname,
       'name': name,
       'surname': surname,
       'dateBirth': dateBirth,
@@ -195,6 +198,7 @@ class User implements ObjToMapI {
   factory User.fromMap(Map<String, dynamic> userDb) {
     return User(
         userId: userDb['userId'],
+        nickname: userDb['nickname'],
         name: userDb['name'],
         surname: userDb['surname'],
         dateBirth: userDb['dateBirth'],
@@ -211,7 +215,7 @@ class User implements ObjToMapI {
 
   @override
   String toString() {
-    return "$name $surname $course $dateBirth $registrationDate $userImageName";
+    return "$nickname $name $surname $course $dateBirth $registrationDate $userImageName";
   }
 }
 
