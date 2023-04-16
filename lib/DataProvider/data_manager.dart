@@ -310,7 +310,7 @@ class DataManager extends ChangeNotifier {
     return nickname == null
         ? null
         : SharedData(
-            nickname: nickname, //TODO: get nickname from sharedPreferences
+            nickname: nickname,
             badgeCount: badgeCount,
             co2: stats.totSavedCo2Proj,
             level: stats.progressPerc.toInt(), //TODO: map level to 0-6
