@@ -18,6 +18,12 @@ class CompletedUploadView extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); //Until(context, (route) => route);
+            },
+            child: const Text("CHIUDI"),
+          ),
         ],
       ),
     );
