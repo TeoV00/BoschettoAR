@@ -163,7 +163,7 @@ class GoalBadge implements ObjToMapI {
 
 class User implements ObjToMapI {
   final int userId;
-  final String? nickname;
+  String? nickname;
   String? name;
   String? surname;
   String? dateBirth;

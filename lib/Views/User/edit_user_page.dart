@@ -28,6 +28,7 @@ class EditUserInfoPage extends StatefulWidget {
 class _EditUserInfoPageState extends State<EditUserInfoPage> {
   final _formKey = GlobalKey<FormState>();
 
+  late final TextEditingController nicknameContr;
   late final TextEditingController nameContr;
   late final TextEditingController surnameContr;
   late final TextEditingController dateBirthContr;
@@ -38,6 +39,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   //if field is null -> not edited
   User formUser = User(
       userId: defaultUserId,
+      nickname: null,
       name: null,
       surname: null,
       dateBirth: null,
@@ -49,6 +51,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   void initState() {
     super.initState();
     usr = widget.user;
+    nicknameContr = TextEditingController(text: usr.nickname);
     nameContr = TextEditingController(text: usr.name);
     surnameContr = TextEditingController(text: usr.surname);
     dateBirthContr = TextEditingController(text: usr.dateBirth);
@@ -88,6 +91,17 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    TextFormField(
+                      enabled: usr.nickname == null,
+                      autofocus: true,
+                      textInputAction: TextInputAction.next,
+                      controller: nicknameContr,
+                      maxLines: 1,
+                      onTap: () => nicknameContr.clear(),
+                      onChanged: (value) {
+                        formUser.nickname = value;
+                      },
+                    ),
                     fieldGroupForm("Dati Anagrafici"),
                     TextFormField(
                       autofocus: true,
