@@ -306,6 +306,12 @@ class DataManager extends ChangeNotifier {
     int badgeCount = badges.values.where((badge) => badge).length;
 
     int treesCount = (await _dbProvider.getUserTrees(currentUserId)).length;
+
+    int level = mapProgressToLevel(
+      value: stats.progressPerc,
+      maxFrom: 100.0,
+      maxTo: 5,
+    );
     log("return SharedData");
     return nickname == null
         ? null
@@ -313,9 +319,17 @@ class DataManager extends ChangeNotifier {
             nickname: nickname,
             badgeCount: badgeCount,
             co2: stats.totSavedCo2Proj,
-            level: stats.progressPerc.toInt(), //TODO: map level to 0-6
+            level: level,
             paper: stats.papers,
             treesCount: treesCount,
           );
+  }
+
+  int mapProgressToLevel({
+    required num value,
+    required num maxFrom,
+    required num maxTo,
+  }) {
+    return (value * maxTo / maxFrom).round();
   }
 }

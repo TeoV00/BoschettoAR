@@ -95,7 +95,6 @@ class SharePorgressPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const Spacer(),
               LayoutBuilder(builder: (context, constraint) {
                 return MaterialButton(
                   //TODO: disable press action if nickname not set
